@@ -116,7 +116,11 @@ TextStyle themeSubTitleMedium(BuildContext context) {
       fontSize: 14, textStyle: Theme.of(context).textTheme.headlineMedium);
 }
 
-TextStyle themeSubTitleSmall(BuildContext context) {
+TextStyle themeSubTitleSmall(BuildContext context, {bool isLocalDark = false}) {
   return GoogleFonts.poppins(
-      fontSize: 12, textStyle: Theme.of(context).textTheme.headlineSmall);
+      fontSize: 12,
+      textStyle: Theme.of(context).textTheme.headlineSmall,
+      color: isLocalDark
+          ? Theme.of(context).colorScheme.background
+          : Theme.of(context).colorScheme.primary);
 }

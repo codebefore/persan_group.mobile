@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/auth/login/login_secreen.dart';
+import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
+import 'package:persangroup_mobile/core/constant/languages.dart';
+import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'core/constant/color_schemes.dart';
 
 void main() {
@@ -17,15 +19,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    sizeConfig(context);
     return GetMaterialApp(
         // localizationsDelegates: context.localizationDelegates,
         // supportedLocales: context.supportedLocales,
-        // locale: context.locale,
+        translations: Languages(),
+        locale: Get.deviceLocale,
+        fallbackLocale: const Locale('en', 'US'),
         title: 'Pestomat',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        theme: ThemeData(useMaterial3: false, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: false, colorScheme: darkColorScheme),
         themeMode: ThemeMode.light,
-        home: const LoginScreen(),
+        home: const StartScreen(),
         debugShowCheckedModeBanner: false);
   }
 }

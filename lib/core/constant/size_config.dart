@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 double screenWidth = 0;
 double screenHeight = 0;
@@ -15,7 +16,8 @@ double marginRight = 0;
 double paddingVertical = 0;
 double paddingHorizontal = 0;
 
-double buttonTextSize = screenWidth * 0.025;
+double buttonTextSize = 0;
+double buttonWidth = 0;
 
 double rate = 0;
 double factor = 0;
@@ -24,9 +26,12 @@ double iconSize = 0;
 double leadingWidth = 0;
 
 void sizeConfig(BuildContext context) {
-  final MediaQueryData mediaQueryData = MediaQuery.of(context);
-  screenWidth = mediaQueryData.size.width;
-  screenHeight = mediaQueryData.size.height;
+  // final MediaQueryData mediaQueryData = MediaQuery.of(context);
+  // screenWidth = mediaQueryData.size.width;
+  // screenHeight = mediaQueryData.size.height;
+
+  screenWidth = Get.width;
+  screenHeight = Get.height;
 
   rate = (screenWidth / screenHeight + 1) / 2;
 
@@ -43,4 +48,5 @@ void sizeConfig(BuildContext context) {
   marginRight = screenWidth * 0.2;
   paddingVertical = screenWidth * 0.25;
   paddingHorizontal = screenWidth * 0.25;
+  buttonWidth = screenWidth * 0.42;
 }
