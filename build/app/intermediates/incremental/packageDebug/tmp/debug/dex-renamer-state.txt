@@ -1,0 +1,4 @@
+#Sun Mar 26 19:03:17 TRT 2023
+base.0=/Users/codebefore/Repos/codebefore/persangroup_mobile/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
