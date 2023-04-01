@@ -32,6 +32,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "country_picker",
+      "rootUri": "file:///Users/codebefore/.pub-cache/hosted/pub.dev/country_picker-2.0.20",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///Users/codebefore/.pub-cache/hosted/pub.dev/crypto-3.0.2",
       "packageUri": "lib/",
@@ -272,7 +278,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-03-31T11:50:04.103468Z",
+  "generated": "2023-04-01T22:42:20.542480Z",
   "generator": "pub",
   "generatorVersion": "2.19.5"
 }

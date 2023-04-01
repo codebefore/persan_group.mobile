@@ -11,6 +11,7 @@ class BaseButton extends StatelessWidget {
     required this.text,
     required this.onTap,
     this.width,
+    this.height,
     this.bgColor,
     this.textColor,
     this.isInScrollView,
@@ -20,6 +21,7 @@ class BaseButton extends StatelessWidget {
   final Color? bgColor;
   final Color? textColor;
   final double? width;
+  final double? height;
   final String text;
   final Function onTap;
   final bool? isInScrollView;
@@ -29,7 +31,7 @@ class BaseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle currentTextStyles = style ?? themeTitleSmall(context);
     currentTextStyles = currentTextStyles
-        .merge(new TextStyle(color: Theme.of(context).colorScheme.background));
+        .merge(TextStyle(color: Theme.of(context).colorScheme.background));
     if (textColor != null) {
       TextStyle newTextStyles = TextStyle(color: textColor);
       currentTextStyles = currentTextStyles.merge(newTextStyles);
@@ -37,6 +39,7 @@ class BaseButton extends StatelessWidget {
 
     return Container(
       width: width ?? buttonWidth,
+      height: height ?? buttonHeight,
       decoration: BoxDecoration(
           borderRadius: ThemeParameters.borderRadius, border: border),
       child: Material(
@@ -48,7 +51,7 @@ class BaseButton extends StatelessWidget {
             onTap.call();
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01),
+            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.016),
             child: BaseText(text,
                 textAlign: TextAlign.center, style: currentTextStyles),
           ),

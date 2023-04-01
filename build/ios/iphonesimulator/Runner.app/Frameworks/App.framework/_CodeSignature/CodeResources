@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		zg1ktt+3Ws4gB4lZe5XfNaq733w=
+		f/uVa02scDrL5cNZnkLhow6M6kk=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES.Z</key>
 		<data>
-		JhpHOh1+79fEQJpu3BFsL85Ww88=
+		hEr3109Ec4CF8eY354ebXfrCvlA=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -30,11 +30,19 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		aq0b++cM60y5DsE6u0QwfmuML9I=
+		KMSDcesLsdoncR6Ywf4obGQyrkw=
 		</data>
 		<key>flutter_assets/lib/assets/images/.DS_Store</key>
 		<data>
-		sXjBVD8RqjOyXlNc0gpwos1ymoI=
+		EoTogR80b3eavvdsDnVV6l6npAs=
+		</data>
+		<key>flutter_assets/lib/assets/images/app-icon.png</key>
+		<data>
+		DmxUUjGIZdR+3R6bLe10SbOxk8Y=
+		</data>
+		<key>flutter_assets/lib/assets/images/persanlogo.png</key>
+		<data>
+		Jhqb6WCMqrb1LO6YbipdLnrbtsI=
 		</data>
 		<key>flutter_assets/lib/assets/images/start_background.png</key>
 		<data>
@@ -59,7 +67,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Q1tvmfwO/szIwKtSRvTW2IFzyk4SYTLV+7hMGOizF60=
+			unQMzZUT5+nEzZ6qn56k66QqbT8hEFigGpP01+aqUXw=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -73,7 +81,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+w+l/KXPg3yPEPO3jOBIia+3FWekuPtayb9naS/WBqk=
+			nY48REh7G5JlVdrbZEZtYh+wKb0KBkSro45QIJred6c=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -94,7 +102,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			V/Nz2RZo+C2QMlx45i7CQs+p9LWv1PNNwddNice1/as=
+			YE/cgvKqcVyuB12k5yV8sEoJA9pl/WKnN63SF6i1xfg=
+			</data>
+		</dict>
+		<key>flutter_assets/lib/assets/images/app-icon.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			O8GzFx1bqEQupcQz3Meb+ps0Hc+FwZkCkwkqvTi13Ek=
+			</data>
+		</dict>
+		<key>flutter_assets/lib/assets/images/persanlogo.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			+yLueCLVlgWchwZNQxt+oo4Vb++/b438GJc5rTolgJ0=
 			</data>
 		</dict>
 		<key>flutter_assets/lib/assets/images/start_background.png</key>

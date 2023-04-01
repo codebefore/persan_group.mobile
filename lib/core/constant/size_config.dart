@@ -18,6 +18,7 @@ double paddingHorizontal = 0;
 
 double buttonTextSize = 0;
 double buttonWidth = 0;
+double buttonHeight = 0;
 
 double rate = 0;
 double factor = 0;
@@ -49,4 +50,5 @@ void sizeConfig(BuildContext context) {
   paddingVertical = screenWidth * 0.25;
   paddingHorizontal = screenWidth * 0.25;
   buttonWidth = screenWidth * 0.42;
+  buttonHeight = screenHeight * 0.065;
 }

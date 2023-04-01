@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:persangroup_mobile/app/auth/login/home_screen.dart';
-import 'package:persangroup_mobile/app/auth/login/splash_screen.dart';
+import 'package:persangroup_mobile/app/auth/login/login_screen.dart';
+import 'package:persangroup_mobile/app/auth/signup/signup_screen.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/constant/color_schemes.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -72,16 +72,16 @@ class _StartScreenState extends State<StartScreen> {
               textColor: darkColorScheme.background,
               text: "signup".tr,
               onTap: () => {
-                Get.to(HomeScreen())
+                Get.to(const SignUpScreen())
                 // Get.changeTheme(ThemeData.from(colorScheme: lightColorScheme))
               },
             ),
             BaseButton(
-              text: "Login",
+              text: "login".tr,
               onTap: () => {
                 // Get.bottomSheet(Container(
                 //   color: Colors.red,
-                // ))
+                // )),
                 // if (isTurk == true)
                 //   {
                 //     Get.updateLocale(const Locale('en', 'EN')),
@@ -92,8 +92,9 @@ class _StartScreenState extends State<StartScreen> {
                 //     Get.updateLocale(const Locale('tr', 'TR')),
                 //     changeLanguage(true)
                 //   }
-                // Get.to(SplashScreen())
+                Get.to(const LoginScreen())
                 // Get.changeTheme(ThemeData.from(colorScheme: darkColorScheme))
+                // Get
               },
               bgColor: Colors.transparent,
               textColor: darkColorScheme.primary,
@@ -142,7 +143,7 @@ class _StartScreenState extends State<StartScreen> {
         style: TextStyle(
             color: darkColorScheme.primary,
             fontSize: 25,
-            letterSpacing: 3,
+            letterSpacing: 2,
             fontWeight: FontWeight.w200));
   }
 }
