@@ -41,20 +41,18 @@ class BaseButton extends StatelessWidget {
       width: width ?? buttonWidth,
       height: height ?? buttonHeight,
       decoration: BoxDecoration(
-          borderRadius: ThemeParameters.borderRadius, border: border),
-      child: Material(
-        borderRadius: ThemeParameters.borderRadius,
-        color: bgColor ?? Theme.of(context).colorScheme.primary,
-        child: InkWell(
-          borderRadius: const BorderRadius.all(ThemeParameters.radiusCircular),
-          onTap: () {
-            onTap.call();
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.016),
-            child: BaseText(text,
-                textAlign: TextAlign.center, style: currentTextStyles),
-          ),
+          color: bgColor ?? Theme.of(context).colorScheme.primary,
+          borderRadius: ThemeParameters.borderRadius,
+          border: border),
+      child: InkWell(
+        borderRadius: const BorderRadius.all(ThemeParameters.radiusCircular),
+        onTap: () {
+          onTap.call();
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.016),
+          child: BaseText(text,
+              textAlign: TextAlign.center, style: currentTextStyles),
         ),
       ),
     );
