@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persangroup_mobile/app/auth/denemeFaruk/faruk_screen.dart';
 import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
 import 'package:persangroup_mobile/core/constant/languages.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
         darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         themeMode: ThemeMode.light,
-        home: const StartScreen(),
+        home: const farukscreen(),
         debugShowCheckedModeBanner: false);
   }
 }
