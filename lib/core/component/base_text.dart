@@ -26,12 +26,14 @@ class BaseText extends StatelessWidget {
       TextStyle newTextStyles = TextStyle(color: textColor);
       currentTextStyles = currentTextStyles.merge(newTextStyles);
     }
-    return Text(
-      text ?? '',
-      style: currentTextStyles,
-      textAlign: textAlign,
-      overflow: overflow,
-      maxLines: maxLines,
+    return Center(
+      child: Text(
+        text ?? '',
+        style: currentTextStyles,
+        textAlign: textAlign,
+        overflow: overflow,
+        maxLines: maxLines,
+      ),
     );
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/auth/signup/signup_screen.dart';
+import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
+import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
-import '../../../core/component/base_screen.dart';
+import 'package:persangroup_mobile/core/route/routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,56 +20,70 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
-  // String email = "";
-  // final dio = Dio();
   @override
   void initState() {
     super.initState();
   }
 
-  // void changeEmail(text) {
-  //   setState(() {
-  //     email = text;
-  //   });
-  // }
-
-  // void getHttp() async {
-  //   await dio.get('https://jsonplaceholder.typicode.com/posts/1');
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text("Login"),
-        // ),
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.red,
-        body: baseScreen(
-          context: context,
-          child: Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              logo(),
-              Column(
-                children: [
-                  phoneArea(context),
-                  blank(),
-                  passwordArea(context),
-                  blank(),
-                ],
-              ),
-              loginButton(),
-              BaseButton(
-                text: "signup".tr,
-                onTap: () => {Get.to(const SignUpScreen())},
-                bgColor: Colors.transparent,
-                textColor: Theme.of(context).colorScheme.primary,
-              )
-            ],
+    return GetBuilder<AuthController>(builder: (authcontroller) {
+      return ScaffoldWidget(
+          body: Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          logo(),
+          emailArea(authcontroller, context),
+          blank(),
+          passwordArea(
+            authcontroller,
+            context,
           ),
-        ));
+          blank(),
+          loginButton(),
+          signUpButton(context, authcontroller)
+        ],
+      ));
+    });
+  }
+
+  BaseButton signUpButton(BuildContext context, AuthController controller) {
+    return BaseButton(
+      text: "signup".tr,
+      onTap: () => {Get.toNamed(Routes.signup)},
+      bgColor: Colors.transparent,
+      textColor: Theme.of(context).colorScheme.primary,
+    );
+  }
+
+  Column emailArea(AuthController controller, BuildContext context) {
+    return Column(
+      children: [
+        BaseInput(
+          focusNode: emailFocus,
+          decoration: InputDecoration(
+            border:
+                OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
+            labelText: 'email'.tr,
+            hintText: 'enter_email'.tr,
+            prefixIcon: Icon(Icons.person,
+                size: iconSize, color: Theme.of(context).primaryColor),
+          ),
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
+          textFormatters: const [],
+          onEditingComplete: () {
+            emailFocus.unfocus();
+            FocusScope.of(context).requestFocus(passwordFocus);
+          },
+          onChanged: (String value) {
+            controller.loginModel.phone;
+          },
+          validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
+        ),
+      ],
+    );
   }
 
   BaseButton loginButton() {
@@ -79,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  BaseInput passwordArea(BuildContext context) {
+  BaseInput passwordArea(AuthController controller, BuildContext context) {
     return BaseInput(
       focusNode: passwordFocus,
       obsecure: obsecurePassword,
@@ -113,32 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
       onEditingComplete: () {
         passwordFocus.unfocus();
       },
-      onChanged: (String value) {},
-      validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
-    );
-  }
-
-  BaseInput phoneArea(BuildContext context) {
-    return BaseInput(
-      // controller: emailController,
-      // containerWidth: screenWidth,
-      focusNode: emailFocus,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-        labelText: 'email'.tr,
-        hintText: 'enter_email'.tr,
-        prefixIcon: Icon(Icons.person,
-            size: iconSize, color: Theme.of(context).primaryColor),
-      ),
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-      textFormatters: const [],
-      onEditingComplete: () {
-        emailFocus.unfocus();
-        FocusScope.of(context).requestFocus(passwordFocus);
-      },
       onChanged: (String value) {
-        // authBloc.add(LoginInputChanged(email: value));
+        controller.loginModel.password = value;
+        controller.setLoginModel(controller.loginModel);
       },
       validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
     );
@@ -146,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Container logo() {
     return Container(
-      height: screenHeight * .2,
+      height: screenHeight * .18,
       width: screenWidth,
       decoration: const BoxDecoration(
         image: DecorationImage(

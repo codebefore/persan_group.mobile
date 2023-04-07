@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../core/component/base_screen.dart';
+import 'package:get/get.dart';
+import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
 import '../../core/constant/text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,23 +19,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: baseScreen(
-          context: context,
-          child: Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            verticalDirection: VerticalDirection.down,
-            children: [
-              Text(
-                "Splash",
-                style: themeTitleLarge(context),
-              )
-            ],
-          ),
-        ));
+    return ScaffoldWidget(
+      body: GetBuilder<AuthController>(builder: (authcontroller) {
+        return Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          verticalDirection: VerticalDirection.down,
+          children: [
+            Text(
+              "Splash",
+              style: themeTitleLarge(context),
+            )
+          ],
+        );
+      }),
+    );
   }
 }

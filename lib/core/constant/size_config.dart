@@ -25,15 +25,9 @@ double factor = 0;
 
 double iconSize = 0;
 double leadingWidth = 0;
-
 void sizeConfig(BuildContext context) {
-  // final MediaQueryData mediaQueryData = MediaQuery.of(context);
-  // screenWidth = mediaQueryData.size.width;
-  // screenHeight = mediaQueryData.size.height;
-
   screenWidth = Get.width;
   screenHeight = Get.height;
-
   rate = (screenWidth / screenHeight + 1) / 2;
 
   factor = screenWidth * 0.0019 / rate;

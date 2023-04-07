@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/signup/signup_screen.dart';
+import 'package:persangroup_mobile/app/getit_binding.dart';
+import 'package:persangroup_mobile/app/store_binding.dart';
 import 'package:persangroup_mobile/core/constant/languages.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
+import 'package:persangroup_mobile/core/route/pages.dart';
 import 'core/constant/color_schemes.dart';
 
-void main() {
+Future<void> main() async {
+  await GetStorage.init();
+  await singleton();
+  await StoreBinding().dependencies();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final authcontoller = Get.find<AuthController>();
     sizeConfig(context);
     return GetMaterialApp(
-        // localizationsDelegates: context.localizationDelegates,
-        // supportedLocales: context.supportedLocales,
-        translations: Languages(),
-        locale: Get.deviceLocale,
-        fallbackLocale: const Locale('en', 'US'),
-        title: 'Pestomat',
-        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-        themeMode: ThemeMode.light,
-        home: const StartScreen(),
-        debugShowCheckedModeBanner: false);
+      getPages: getPages,
+      translations: Languages(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
+      title: 'Persan',
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      themeMode: ThemeMode.light,
+      home: const SignUpScreen(),
+      debugShowCheckedModeBanner: false,
+      onReady: () => {authcontoller.test()},
+    );
   }
 }

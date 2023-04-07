@@ -37,23 +37,22 @@ class BaseButton extends StatelessWidget {
       currentTextStyles = currentTextStyles.merge(newTextStyles);
     }
 
-    return Container(
-      width: width ?? buttonWidth,
-      height: height ?? buttonHeight,
-      decoration: BoxDecoration(
-          color: bgColor ?? Theme.of(context).colorScheme.primary,
-          borderRadius: ThemeParameters.borderRadius,
-          border: border),
+    return Material(
+      color: bgColor ?? Theme.of(context).colorScheme.primary,
+      borderRadius: ThemeParameters.borderRadius,
       child: InkWell(
-        borderRadius: const BorderRadius.all(ThemeParameters.radiusCircular),
-        onTap: () {
-          onTap.call();
-        },
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.016),
+        borderRadius: ThemeParameters.borderRadius,
+        child: Container(
+          width: width ?? buttonWidth,
+          height: height ?? buttonHeight,
+          decoration: BoxDecoration(
+              borderRadius: ThemeParameters.borderRadius, border: border),
           child: BaseText(text,
               textAlign: TextAlign.center, style: currentTextStyles),
         ),
+        onTap: () {
+          onTap.call();
+        },
       ),
     );
   }

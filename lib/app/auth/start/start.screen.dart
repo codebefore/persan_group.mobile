@@ -16,16 +16,9 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
-  bool isTurk = false;
   @override
   void initState() {
     super.initState();
-  }
-
-  void changeLanguage(isTurk) {
-    setState(() {
-      this.isTurk = isTurk;
-    });
   }
 
   @override
@@ -71,31 +64,11 @@ class _StartScreenState extends State<StartScreen> {
               bgColor: darkColorScheme.primary,
               textColor: darkColorScheme.background,
               text: "signup".tr,
-              onTap: () => {
-                Get.to(const SignUpScreen())
-                // Get.changeTheme(ThemeData.from(colorScheme: lightColorScheme))
-              },
+              onTap: () => {Get.to(const SignUpScreen())},
             ),
             BaseButton(
               text: "login".tr,
-              onTap: () => {
-                // Get.bottomSheet(Container(
-                //   color: Colors.red,
-                // )),
-                // if (isTurk == true)
-                //   {
-                //     Get.updateLocale(const Locale('en', 'EN')),
-                //     changeLanguage(false)
-                //   }
-                // else
-                //   {
-                //     Get.updateLocale(const Locale('tr', 'TR')),
-                //     changeLanguage(true)
-                //   }
-                Get.to(const LoginScreen())
-                // Get.changeTheme(ThemeData.from(colorScheme: darkColorScheme))
-                // Get
-              },
+              onTap: () => {Get.to(const LoginScreen())},
               bgColor: Colors.transparent,
               textColor: darkColorScheme.primary,
               border: Border.all(color: darkColorScheme.primary),

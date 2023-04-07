@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../core/component/base_screen.dart';
+import 'package:get/get.dart';
+import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,15 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: baseScreen(
-          context: context,
-          child: Flex(
-            direction: Axis.vertical,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            verticalDirection: VerticalDirection.down,
-            children: const [Text("home")],
-          ),
+        body: ScaffoldWidget(
+          body: GetBuilder<AuthController>(builder: (authcontroller) {
+            return Flex(
+              direction: Axis.vertical,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              verticalDirection: VerticalDirection.down,
+              children: const [Text("home")],
+            );
+          }),
         ));
   }
 }
