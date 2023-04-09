@@ -57,7 +57,7 @@ class BaseResponse {
   factory BaseResponse.fromMap(Map<String, dynamic> map) {
     return BaseResponse(
       success: map['success'],
-      data: map['data'],
+      data: map['data'] ?? "",
       message: map['message'],
       statusCode: map['statusCode']?.toInt(),
       redirectRefreshToken: map['redirectRefreshToken'],

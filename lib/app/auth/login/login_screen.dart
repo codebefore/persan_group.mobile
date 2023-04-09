@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
           ),
           blank(),
-          loginButton(),
+          loginButton(authcontroller),
           signUpButton(context, authcontroller)
         ],
       ));
@@ -78,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
             FocusScope.of(context).requestFocus(passwordFocus);
           },
           onChanged: (String value) {
-            controller.loginModel.phone;
+            controller.loginModel.phone = value;
+            controller.setLoginModel(controller.loginModel);
           },
           validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
         ),
@@ -86,10 +87,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  BaseButton loginButton() {
+  BaseButton loginButton(AuthController authcontroller) {
     return BaseButton(
       text: "login".tr,
-      onTap: () => {},
+      onTap: () => {authcontroller.login()},
       width: screenWidth,
     );
   }

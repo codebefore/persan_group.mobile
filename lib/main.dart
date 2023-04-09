@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/login/login_screen.dart';
 import 'package:persangroup_mobile/app/auth/signup/signup_screen.dart';
 import 'package:persangroup_mobile/app/getit_binding.dart';
 import 'package:persangroup_mobile/app/store_binding.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final authcontoller = Get.find<AuthController>();
+    // final authcontoller = Get.find<AuthController>();
     sizeConfig(context);
     return GetMaterialApp(
       getPages: getPages,
@@ -33,9 +34,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       themeMode: ThemeMode.light,
-      home: const SignUpScreen(),
+      home: const LoginScreen(),
       debugShowCheckedModeBanner: false,
-      onReady: () => {authcontoller.test()},
+      onReady: () => {},
     );
   }
 }

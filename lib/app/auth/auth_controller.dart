@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/login/login_model.dart';
 import 'package:persangroup_mobile/app/auth/signup/signup_model.dart';
@@ -25,13 +24,14 @@ class AuthController extends GetxController {
 
   void setLoginModel(LoginModel loginModel) {
     _loginModel(loginModel);
+    update();
   }
 
-  void test() async {
-    BaseResponse response = await _dioClient.get(Urls.baseUrl);
-    if (kDebugMode) {
-      print(response.message);
-    }
+  Future<bool?> login() async {
+    BaseResponse response = await _dioClient.post(Urls.login,
+        data: {"Email": loginModel.phone, "sifre": loginModel.password});
+
+    return response.success;
   }
 
   //signup get set

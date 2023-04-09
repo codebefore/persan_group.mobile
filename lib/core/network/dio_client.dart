@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_exception.dart';
@@ -79,8 +81,8 @@ class DioClient {
       );
       var baseResponse = BaseResponse();
       if (response.statusCode == 200 || response.statusCode == 201) {
-        baseResponse = BaseResponse.fromJson(response.data);
-        baseResponse.copyWith(statusCode: 200);
+        baseResponse =
+            BaseResponse(statusCode: 200, success: true, data: response.data);
         return baseResponse;
       } else {
         return baseResponse.copyWith(

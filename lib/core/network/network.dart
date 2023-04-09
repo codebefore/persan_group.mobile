@@ -1,6 +1,6 @@
 class Urls {
-  static String baseUrl = 'https://jsonplaceholder.typicode.com/photos';
-  static String list = 'https://jsonplaceholder.typicode.com/photos';
+  static String baseUrl = 'http://api.persangroup.com.tr/PERSAN';
+  static String login = '$baseUrl/signin.php';
 }
 
 class NetworkSettings {
