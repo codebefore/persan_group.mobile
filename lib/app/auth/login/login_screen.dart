@@ -20,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
+  final AuthController ac = Get.find();
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         direction: Axis.vertical,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          logo(),
+          logo,
           emailArea(authcontroller, context),
           blank(),
           passwordArea(
@@ -41,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
           ),
           blank(),
-          loginButton(authcontroller),
+          loginButton,
           signUpButton(context, authcontroller)
         ],
       ));
@@ -87,13 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  BaseButton loginButton(AuthController authcontroller) {
-    return BaseButton(
-      text: "login".tr,
-      onTap: () => {authcontroller.login()},
-      width: screenWidth,
-    );
-  }
+  BaseButton get loginButton => BaseButton(
+        text: "login".tr,
+        onTap: () => {ac.login()},
+        width: screenWidth,
+      );
 
   BaseInput passwordArea(AuthController controller, BuildContext context) {
     return BaseInput(
@@ -137,15 +137,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Container logo() {
-    return Container(
-      height: screenHeight * .18,
-      width: screenWidth,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('lib/assets/images/persanlogo.png'),
+  Container get logo => Container(
+        height: screenHeight * .18,
+        width: screenWidth,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/images/persanlogo.png'),
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
