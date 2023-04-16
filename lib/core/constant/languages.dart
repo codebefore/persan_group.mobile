@@ -14,7 +14,8 @@ class Languages extends Translations {
           'phone': 'Telefon',
           'enter_phone': 'Lütfen telefonunuzu giriniz',
           'search': 'Ara ..',
-          'search_hint': 'Ülke isimlerini yazabilirsin'
+          'search_hint': 'Ülke isimlerini yazabilirsin',
+          'login_error': 'Girdiğiniz değerler yanlış'
         },
         'en_US': {
           'signup': 'Sign Up',
@@ -27,7 +28,8 @@ class Languages extends Translations {
           'phone': 'Phone Number',
           'enter_phone': 'Please enter phone number',
           'search': 'Search ..',
-          'search_hint': 'Start typing to search'
+          'search_hint': 'Start typing to search',
+          'login_error': 'The values you entered are incorrect'
         },
       };
 }

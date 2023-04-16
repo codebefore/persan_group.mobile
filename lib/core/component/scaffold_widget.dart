@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 
+import '../constant/enums.dart';
+
 class ScaffoldWidget extends StatelessWidget {
   final Widget body;
   final AppBar? appBar;
@@ -26,10 +28,10 @@ class ScaffoldWidget extends StatelessWidget {
               horizontal: screenWidth * .05, vertical: screenHeight * .05),
           child: Stack(
             children: [
-              body,
-              app.loading
+              app.status == Status.loading
                   ? const Center(child: CircularProgressIndicator())
-                  : Container()
+                  : Container(),
+              body,
             ],
           ),
         ),

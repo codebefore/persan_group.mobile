@@ -3,11 +3,15 @@ import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
+import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
+import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
+
+import '../../../core/constant/enums.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,33 +21,52 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final authController = Get.find<AuthController>();
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool obsecurePassword = true;
   @override
   void initState() {
     super.initState();
   }
 
+  Future<void> validateAndSave() async {
+    final FormState? form = _formKey.currentState;
+    if (form?.validate() ?? false) {
+      await authController.login();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(builder: (authcontroller) {
       return ScaffoldWidget(
-          body: Flex(
-        direction: Axis.vertical,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          logo(),
-          emailArea(authcontroller, context),
-          blank(),
-          passwordArea(
-            authcontroller,
-            context,
-          ),
-          blank(),
-          loginButton(authcontroller),
-          signUpButton(context, authcontroller)
-        ],
+          body: Form(
+        key: _formKey,
+        child: Flex(
+          direction: Axis.vertical,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            logo(),
+            emailArea(authcontroller, context),
+            blank(),
+            passwordArea(
+              authcontroller,
+              context,
+            ),
+            blank(),
+            loginButton(authcontroller),
+            signUpButton(context, authcontroller),
+            authController.status == Status.error
+                ? BaseText(
+                    "login_error".tr,
+                    textColor: Theme.of(context).colorScheme.error,
+                    style: themeSubTitleSmall(context),
+                  )
+                : const Text("")
+          ],
+        ),
       ));
     });
   }
@@ -57,40 +80,35 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Column emailArea(AuthController controller, BuildContext context) {
-    return Column(
-      children: [
-        BaseInput(
-          focusNode: emailFocus,
-          decoration: InputDecoration(
-            border:
-                OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-            labelText: 'email'.tr,
-            hintText: 'enter_email'.tr,
-            prefixIcon: Icon(Icons.person,
-                size: iconSize, color: Theme.of(context).primaryColor),
-          ),
-          keyboardType: TextInputType.emailAddress,
-          textInputAction: TextInputAction.next,
-          textFormatters: const [],
-          onEditingComplete: () {
-            emailFocus.unfocus();
-            FocusScope.of(context).requestFocus(passwordFocus);
-          },
-          onChanged: (String value) {
-            controller.loginModel.phone = value;
-            controller.setLoginModel(controller.loginModel);
-          },
-          validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
-        ),
-      ],
+  BaseInput emailArea(AuthController controller, BuildContext context) {
+    return BaseInput(
+      focusNode: emailFocus,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
+        labelText: 'email'.tr,
+        hintText: 'enter_email'.tr,
+        prefixIcon: Icon(Icons.person,
+            size: iconSize, color: Theme.of(context).primaryColor),
+      ),
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      textFormatters: const [],
+      onEditingComplete: () {
+        emailFocus.unfocus();
+        FocusScope.of(context).requestFocus(passwordFocus);
+      },
+      onChanged: (String value) {
+        controller.loginModel.phone = value;
+        controller.setLoginModel(controller.loginModel);
+      },
+      validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
     );
   }
 
   BaseButton loginButton(AuthController authcontroller) {
     return BaseButton(
       text: "login".tr,
-      onTap: () => {authcontroller.login()},
+      onTap: validateAndSave,
       width: screenWidth,
     );
   }
