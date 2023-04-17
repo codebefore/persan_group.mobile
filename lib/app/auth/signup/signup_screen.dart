@@ -19,6 +19,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final authController = Get.find<AuthController>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode emailFocus = FocusNode();
   FocusNode phoneFocus = FocusNode();
   bool obsecurePassword = true;
@@ -29,26 +31,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
   }
 
+  Future<void> validateAndSave() async {
+    final FormState? form = _formKey.currentState;
+    if (form?.validate() ?? false) {
+      await authController.login();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWidget(
       body: GetBuilder<AuthController>(builder: (authcontroller) {
-        return Flex(
-          direction: Axis.vertical,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            logo(),
-            phoneArea(context, authcontroller),
-            blank(),
-            signUpButton(),
-            BaseButton(
-              text: "login".tr,
-              onTap: () => {Get.to(const LoginScreen())},
-              bgColor: Colors.transparent,
-              textColor: Theme.of(context).colorScheme.primary,
-              isInScrollView: false,
-            )
-          ],
+        return Form(
+          key: _formKey,
+          child: Flex(
+            direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              logo(),
+              phoneArea(context, authcontroller),
+              blank(),
+              signUpButton(),
+              BaseButton(
+                text: "login".tr,
+                onTap: () => {Get.to(const LoginScreen())},
+                bgColor: Colors.transparent,
+                textColor: Theme.of(context).colorScheme.primary,
+                isInScrollView: false,
+              )
+            ],
+          ),
         );
       }),
     );
@@ -57,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   BaseButton signUpButton() {
     return BaseButton(
       text: "signup".tr,
-      onTap: () => {},
+      onTap: validateAndSave,
       width: screenWidth,
     );
   }
@@ -121,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         controller.setSignUpModel(controller.signUpModel);
         // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
       },
-      validator: (value) => (value ?? '').isEmpty ? "error_phone".tr : null,
+      validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
     );
   }
 

@@ -3,15 +3,11 @@ import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
-import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
-import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
-
-import '../../../core/constant/enums.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,9 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.find<AuthController>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool obsecurePassword = true;
   @override
   void initState() {
@@ -58,13 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
             blank(),
             loginButton(authcontroller),
             signUpButton(context, authcontroller),
-            authController.status == Status.error
-                ? BaseText(
-                    "login_error".tr,
-                    textColor: Theme.of(context).colorScheme.error,
-                    style: themeSubTitleSmall(context),
-                  )
-                : const Text("")
+            // authController.status == Status.error
+            //     ? BaseText(
+            //         "login_error".tr,
+            //         textColor: Theme.of(context).colorScheme.error,
+            //         style: themeSubTitleSmall(context),
+            //       )
+            //     : const Text("")
           ],
         ),
       ));

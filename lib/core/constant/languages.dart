@@ -13,6 +13,7 @@ class Languages extends Translations {
           'enter_email': 'Lütfen emalinizi giriniz',
           'phone': 'Telefon',
           'enter_phone': 'Lütfen telefonunuzu giriniz',
+          'error_phone': 'Lütfen telefonunuzu giriniz',
           'search': 'Ara ..',
           'search_hint': 'Ülke isimlerini yazabilirsin',
           'login_error': 'Girdiğiniz değerler yanlış'
@@ -27,6 +28,7 @@ class Languages extends Translations {
           'enter_email': 'Please enter email',
           'phone': 'Phone Number',
           'enter_phone': 'Please enter phone number',
+          'error_phone': 'Please enter phone number',
           'search': 'Search ..',
           'search_hint': 'Start typing to search',
           'login_error': 'The values you entered are incorrect'

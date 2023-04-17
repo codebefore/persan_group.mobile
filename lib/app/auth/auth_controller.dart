@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/login/login_model.dart';
 import 'package:persangroup_mobile/app/auth/login/login_response_model.dart';
@@ -38,8 +39,29 @@ class AuthController extends GetxController {
     if (response.success == true && response.data != null) {
       var loginResponse = LoginResponseModel.fromJson(response.data);
       if (loginResponse.status == "Success") {
-        setStatus(Status.success);
-        Get.toNamed(Routes.signup);
+        setStatus(Status.initial);
+        Get.toNamed(Routes.home);
+        return true;
+      }
+    }
+    Get.snackbar("Error", "login_error".tr,
+        snackPosition: SnackPosition.BOTTOM,
+        icon: const Icon(Icons.error, color: Colors.red),
+        overlayColor: Colors.black,
+        colorText: Colors.red);
+    setStatus(Status.error);
+    return false;
+  }
+
+  Future<bool> signUp() async {
+    setStatus(Status.loading);
+    BaseResponse response = await _dioClient.post(Urls.login,
+        data: {"Email": loginModel.phone, "sifre": loginModel.password});
+    if (response.success == true && response.data != null) {
+      var loginResponse = LoginResponseModel.fromJson(response.data);
+      if (loginResponse.status == "Success") {
+        setStatus(Status.initial);
+        Get.toNamed(Routes.login);
         return true;
       }
     }
