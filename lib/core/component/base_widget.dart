@@ -5,11 +5,11 @@ import 'package:persangroup_mobile/core/constant/size_config.dart';
 
 import '../constant/enums.dart';
 
-class ScaffoldWidget extends StatelessWidget {
+class BaseWidget extends StatelessWidget {
   final Widget body;
   final AppBar? appBar;
   final bool? resizeToAvoidBottomInset;
-  const ScaffoldWidget(
+  const BaseWidget(
       {super.key,
       required this.body,
       this.appBar,

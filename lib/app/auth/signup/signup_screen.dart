@@ -6,7 +6,7 @@ import 'package:persangroup_mobile/app/auth/login/login_screen.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
-import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
+import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldWidget(
+    return BaseWidget(
       body: GetBuilder<AuthController>(builder: (authcontroller) {
         return Form(
           key: _formKey,

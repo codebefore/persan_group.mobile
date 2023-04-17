@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
-import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
+import 'package:persangroup_mobile/core/component/base_widget.dart';
 import '../../core/constant/text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldWidget(
+    return BaseWidget(
       body: GetBuilder<AuthController>(builder: (authcontroller) {
         return Flex(
           direction: Axis.vertical,

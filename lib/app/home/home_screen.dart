@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
-import 'package:persangroup_mobile/core/component/scaffold_widget.dart';
+import 'package:persangroup_mobile/core/component/base_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: ScaffoldWidget(
+        body: BaseWidget(
           body: GetBuilder<AuthController>(builder: (authcontroller) {
             return Flex(
               direction: Axis.vertical,

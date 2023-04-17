@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/login/login_model.dart';
 import 'package:persangroup_mobile/app/auth/login/login_response_model.dart';
 import 'package:persangroup_mobile/app/auth/signup/signup_model.dart';
 import 'package:persangroup_mobile/app/getit_binding.dart';
 import 'package:persangroup_mobile/core/constant/enums.dart';
+import 'package:persangroup_mobile/core/functions/toast.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_client.dart';
 import 'package:persangroup_mobile/core/network/network.dart';
@@ -44,11 +44,12 @@ class AuthController extends GetxController {
         return true;
       }
     }
-    Get.snackbar("Error", "login_error".tr,
-        snackPosition: SnackPosition.BOTTOM,
-        icon: const Icon(Icons.error, color: Colors.red),
-        overlayColor: Colors.black,
-        colorText: Colors.red);
+    // Get.snackbar("Error", "login_error".tr,
+    //     snackPosition: SnackPosition.BOTTOM,
+    //     icon: const Icon(Icons.error, color: Colors.red),
+    //     overlayColor: Colors.black,
+    //     colorText: Colors.red);
+    getToast(content: "login_error".tr);
     setStatus(Status.error);
     return false;
   }
