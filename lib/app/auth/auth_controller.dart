@@ -7,7 +7,6 @@ import 'package:persangroup_mobile/app/getit_binding.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
-import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/functions/toast.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_client.dart';
@@ -152,7 +151,6 @@ class AuthController extends GetxController {
   SignUpModel get signUpModel => _signUpModel.value;
 
   void setSignUpModel(SignUpModel signUpModel) {
-    print(signUpModel.toString());
     setStatus(Status.initial);
     _signUpModel(signUpModel);
   }

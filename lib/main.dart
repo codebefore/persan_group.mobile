@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:persangroup_mobile/app/auth/login/login_screen.dart';
-import 'package:persangroup_mobile/app/auth/signup/signup_screen.dart';
-import 'package:persangroup_mobile/app/auth/signup/signup_screen_last.dart';
 import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
 import 'package:persangroup_mobile/app/getit_binding.dart';
 import 'package:persangroup_mobile/app/store_binding.dart';

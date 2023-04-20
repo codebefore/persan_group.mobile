@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
@@ -7,9 +6,7 @@ import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
-import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
-import 'package:persangroup_mobile/core/route/routes.dart';
 
 class SignUpScreenLast extends StatefulWidget {
   const SignUpScreenLast({super.key});

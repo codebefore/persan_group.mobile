@@ -6,7 +6,6 @@ import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
-import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
