@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
@@ -10,20 +11,19 @@ import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreenLast extends StatefulWidget {
+  const SignUpScreenLast({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreenLast> createState() => _SignUpScreenLastState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenLastState extends State<SignUpScreenLast> {
   final authController = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
-  final AuthController ac = Get.find();
+  final passwordController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -32,73 +32,79 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      await authController.login();
-      form?.reset();
+      await authController.signUp();
     }
+  }
+
+  List<DropdownMenuItem<String>> get dropdownCurrency {
+    List<DropdownMenuItem<String>> currencyItems = [
+      const DropdownMenuItem(value: "TL", child: Text("TL")),
+      const DropdownMenuItem(value: "USD", child: Text("USD")),
+      const DropdownMenuItem(value: "EURO", child: Text("EURO")),
+    ];
+    return currencyItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AuthController>(builder: (authcontroller) {
-      return BaseWidget(
-          body: Form(
-        key: _formKey,
-        child: Flex(
-          direction: Axis.vertical,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            logo,
-            emailArea,
-            blank(),
-            passwordArea,
-            blank(),
-            loginButton,
-            signUpButton
-          ],
-        ),
-      ));
-    });
+    return BaseWidget(
+      // appBar: AppBar(
+      //   title: Text(""),
+      // ),
+      body: GetBuilder<AuthController>(builder: (authcontroller) {
+        return Form(
+          key: _formKey,
+          child: Flex(
+            direction: Axis.vertical,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              logo,
+              passwordArea,
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: ThemeParameters.borderRadius),
+                    labelText: "currency".tr,
+                    hintText: "select_currency".tr,
+                    prefixIcon: Icon(Icons.currency_lira,
+                        size: iconSize, color: Theme.of(context).primaryColor)),
+                borderRadius: BorderRadius.circular(18.0),
+                isExpanded: true,
+                elevation: 2,
+                value: authController.signUpModel.currency,
+                items: dropdownCurrency,
+                onChanged: (Object? value) {
+                  authController.signUpModel.currency = value.toString();
+                  authController.setSignUpModel(authcontroller.signUpModel);
+                },
+              ),
+              blank(),
+              signUpButton,
+              backButton
+            ],
+          ),
+        );
+      }),
+    );
   }
+
+  BaseButton get backButton => BaseButton(
+        text: "back".tr,
+        onTap: () => {Get.back()},
+        bgColor: Colors.transparent,
+        textColor: Theme.of(context).colorScheme.primary,
+        isInScrollView: false,
+      );
 
   BaseButton get signUpButton => BaseButton(
         text: "signup".tr,
-        onTap: () => {Get.toNamed(Routes.signup)},
-        bgColor: Colors.transparent,
-        textColor: Theme.of(context).colorScheme.primary,
-      );
-
-  BaseInput get emailArea => BaseInput(
-        focusNode: emailFocus,
-        decoration: InputDecoration(
-          border:
-              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: 'email'.tr,
-          hintText: 'enter_email'.tr,
-          prefixIcon: Icon(Icons.person,
-              size: iconSize, color: Theme.of(context).primaryColor),
-        ),
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        textFormatters: const [],
-        onEditingComplete: () {
-          emailFocus.unfocus();
-          FocusScope.of(context).requestFocus(passwordFocus);
-        },
-        onChanged: (String value) {
-          authController.loginModel.phone = value;
-          authController.setLoginModel(authController.loginModel);
-        },
-        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
-      );
-
-  BaseButton get loginButton => BaseButton(
-        text: "login".tr,
         onTap: validateAndSave,
         width: screenWidth,
       );
 
   BaseInput get passwordArea => BaseInput(
         focusNode: passwordFocus,
+        isInScrollView: true,
         obsecure: obsecurePassword,
         decoration: InputDecoration(
           suffixIcon: GestureDetector(
@@ -132,13 +138,14 @@ class _LoginScreenState extends State<LoginScreen> {
           passwordFocus.unfocus();
         },
         onChanged: (String value) {
-          authController.loginModel.password = value;
-          authController.setLoginModel(authController.loginModel);
+          authController.signUpModel.password = value;
+          authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
+
   Container get logo => Container(
-        height: screenHeight * .18,
+        height: screenHeight * .2,
         width: screenWidth,
         decoration: const BoxDecoration(
           image: DecorationImage(

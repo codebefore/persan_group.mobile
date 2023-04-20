@@ -5,11 +5,23 @@ class SignUpModel {
   String? phoneCode;
   String? password;
   String? country;
+  String? city;
+  String? name;
+  String? lastName;
+  String? email;
+  String? company;
+  String? currency = "USD";
   SignUpModel({
     this.phone,
     this.phoneCode,
     this.password,
     this.country,
+    this.city,
+    this.name,
+    this.lastName,
+    this.email,
+    this.company,
+    this.currency,
   });
 
   SignUpModel copyWith({
@@ -17,12 +29,24 @@ class SignUpModel {
     String? phoneCode,
     String? password,
     String? country,
+    String? city,
+    String? name,
+    String? lastName,
+    String? email,
+    String? company,
+    String? currency,
   }) {
     return SignUpModel(
       phone: phone ?? this.phone,
       phoneCode: phoneCode ?? this.phoneCode,
       password: password ?? this.password,
       country: country ?? this.country,
+      city: city ?? this.city,
+      name: name ?? this.name,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      company: company ?? this.company,
+      currency: currency ?? this.currency,
     );
   }
 
@@ -41,6 +65,26 @@ class SignUpModel {
     if (country != null) {
       result.addAll({'country': country});
     }
+    if (city != null) {
+      result.addAll({'city': city});
+    }
+    if (name != null) {
+      result.addAll({'name': name});
+    }
+    if (lastName != null) {
+      result.addAll({'lastName': lastName});
+    }
+
+    if (email != null) {
+      result.addAll({'email': email});
+    }
+
+    if (company != null) {
+      result.addAll({'company': company});
+    }
+    if (currency != null) {
+      result.addAll({'currency': currency});
+    }
 
     return result;
   }
@@ -51,6 +95,12 @@ class SignUpModel {
       phoneCode: map['phoneCode'],
       password: map['password'],
       country: map['country'],
+      city: map['city'],
+      name: map['name'],
+      lastName: map['lastName'],
+      email: map['email'],
+      company: map['company'],
+      currency: map['currency'],
     );
   }
 
@@ -61,7 +111,7 @@ class SignUpModel {
 
   @override
   String toString() {
-    return 'SignUpModel(phone: $phone, phoneCode: $phoneCode, password: $password, country: $country)';
+    return 'SignUpModel(phone: $phone, phoneCode: $phoneCode, password: $password, country: $country, city: $city, name: $name, lastName: $lastName, email: $email,  company: $company, currency: $currency)';
   }
 
   @override
@@ -72,7 +122,13 @@ class SignUpModel {
         other.phone == phone &&
         other.phoneCode == phoneCode &&
         other.password == password &&
-        other.country == country;
+        other.country == country &&
+        other.city == city &&
+        other.name == name &&
+        other.lastName == lastName &&
+        other.email == email &&
+        other.company == company &&
+        other.currency == currency;
   }
 
   @override
@@ -80,6 +136,12 @@ class SignUpModel {
     return phone.hashCode ^
         phoneCode.hashCode ^
         password.hashCode ^
-        country.hashCode;
+        country.hashCode ^
+        city.hashCode ^
+        name.hashCode ^
+        lastName.hashCode ^
+        email.hashCode ^
+        company.hashCode ^
+        currency.hashCode;
   }
 }

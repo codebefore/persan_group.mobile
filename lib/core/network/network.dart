@@ -1,6 +1,7 @@
 class Urls {
   static String baseUrl = 'http://api.persangroup.com.tr/PERSAN';
   static String login = '$baseUrl/signin.php';
+  static String signUp = '$baseUrl/create.php';
 }
 
 class NetworkSettings {

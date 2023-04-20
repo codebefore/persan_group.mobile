@@ -10,23 +10,24 @@ import 'package:persangroup_mobile/core/constant/text_styles.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpScreenMore extends StatefulWidget {
+  const SignUpScreenMore({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpScreenMore> createState() => _SignUpScreenMoreState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenMoreState extends State<SignUpScreenMore> {
   final authController = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  FocusNode phoneFocus = FocusNode();
-  FocusNode cityFocus = FocusNode();
-  FocusNode companyFocus = FocusNode();
+  FocusNode emailFocus = FocusNode();
+  FocusNode firstNameFocus = FocusNode();
+  FocusNode lastNameFocus = FocusNode();
+  FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
-  final phoneController = TextEditingController();
-  final cityController = TextEditingController();
-  final companyController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
   // final dio = Dio();
   @override
   void initState() {
@@ -36,13 +37,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      Get.toNamed(Routes.signupmore);
+      Get.toNamed(Routes.signuplast);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget(
+      // appBar: AppBar(
+      //   title: Text(""),
+      // ),
       body: GetBuilder<AuthController>(builder: (authcontroller) {
         return Form(
           key: _formKey,
@@ -51,11 +55,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               logo,
-              phoneArea,
-              cityArea,
-              companyArea,
+              emailArea,
+              firstNameArea,
+              lastNameArea,
+              // passwordArea,
               signUpButton,
-              loginButton
+              backButton
             ],
           ),
         );
@@ -63,9 +68,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  BaseButton get loginButton => BaseButton(
-        text: "login".tr,
-        onTap: () => {Get.toNamed(Routes.login)},
+  BaseButton get backButton => BaseButton(
+        text: "back".tr,
+        onTap: () => {Get.back()},
         bgColor: Colors.transparent,
         textColor: Theme.of(context).colorScheme.primary,
         isInScrollView: false,
@@ -77,126 +82,126 @@ class _SignUpScreenState extends State<SignUpScreen> {
         width: screenWidth,
       );
 
-  BaseInput get companyArea => BaseInput(
-        controller: companyController,
+  BaseInput get lastNameArea => BaseInput(
+        controller: lastNameController,
         isInScrollView: true,
         onTap: () => {},
-        focusNode: companyFocus,
+        focusNode: lastNameFocus,
         maxLength: 10,
         decoration: InputDecoration(
           counterText: '',
           border:
               OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: "company".tr,
-          hintText: "enter_company".tr,
-          prefixIcon: Icon(Icons.account_balance,
+          labelText: "last_name".tr,
+          hintText: "enter_last_name".tr,
+          prefixIcon: Icon(Icons.account_circle,
               size: iconSize, color: Theme.of(context).primaryColor),
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         textFormatters: const [],
         onEditingComplete: () {
-          companyFocus.unfocus();
-          // FocusScope.of(context).requestFocus(passwordFocus);
+          lastNameFocus.unfocus();
+          // FocusScope.of(context).requestFocus(emailFocus);\
         },
         onChanged: (String value) {
-          authController.signUpModel.company = value;
+          authController.signUpModel.lastName = value;
           authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
 
-  BaseInput get cityArea => BaseInput(
-        controller: cityController,
+  BaseInput get firstNameArea => BaseInput(
+        controller: firstNameController,
         isInScrollView: true,
-        onTap: () => {},
-        focusNode: cityFocus,
+        focusNode: firstNameFocus,
         maxLength: 10,
         decoration: InputDecoration(
           counterText: '',
           border:
               OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: "city".tr,
-          hintText: "enter_city".tr,
-          prefixIcon: Icon(Icons.location_city,
-              size: iconSize, color: Theme.of(context).primaryColor),
-        ),
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
-        textFormatters: const [],
-        onEditingComplete: () {
-          cityFocus.unfocus();
-          FocusScope.of(context).requestFocus(companyFocus);
-        },
-        onChanged: (String value) {
-          authController.signUpModel.city = value;
-          authController.setSignUpModel(authController.signUpModel);
-          // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
-        },
-        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
-      );
-
-  BaseInput get phoneArea => BaseInput(
-        controller: phoneController,
-        isInScrollView: true,
-        onTap: () => {
-          showCountryPicker(
-              context: context,
-              countryListTheme: CountryListThemeData(
-                flagSize: screenHeight * .025,
-                backgroundColor: Theme.of(context).colorScheme.background,
-                textStyle: themeSubTitleSmall(context),
-                bottomSheetHeight:
-                    screenHeight * .5, // Optional. Country list modal height
-                //Optional. Sets the border radius for the bottomsheet.
-                borderRadius: ThemeParameters.borderRadius,
-                //Optional. Styles the search field.
-                inputDecoration: InputDecoration(
-                  labelText: 'search'.tr,
-                  hintText: 'search_hint'.tr,
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: const Color(0xFF8C98A8).withOpacity(0.2),
-                    ),
-                  ),
-                ),
-              ),
-              favorite: List.from(["TR"]),
-              showPhoneCode: true,
-              onSelect: (Country country) => {
-                    authController.signUpModel.phoneCode =
-                        "+${country.phoneCode}",
-                    authController.signUpModel.phone = "",
-                    authController.signUpModel.country =
-                        country.displayNameNoCountryCode,
-                    authController.setSignUpModel(authController.signUpModel),
-                    phoneController.text = "+${country.phoneCode}"
-                  })
-        },
-        focusNode: phoneFocus,
-        maxLength: 10,
-        decoration: InputDecoration(
-          counterText: '',
-          border:
-              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: "phone".tr,
-          hintText: "enter_phone".tr,
-          prefixIcon: Icon(Icons.phone,
+          labelText: "first_name".tr,
+          hintText: "enter_first_name".tr,
+          prefixIcon: Icon(Icons.account_circle,
               size: iconSize, color: Theme.of(context).primaryColor),
         ),
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
         textFormatters: const [],
         onEditingComplete: () {
-          phoneFocus.unfocus();
-          FocusScope.of(context).requestFocus(cityFocus);
+          firstNameFocus.unfocus();
+          FocusScope.of(context).requestFocus(lastNameFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.phone = value;
+          authController.signUpModel.name = value;
           authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
+        },
+        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
+      );
+  BaseInput get emailArea => BaseInput(
+        focusNode: emailFocus,
+        isInScrollView: true,
+        decoration: InputDecoration(
+          border:
+              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
+          labelText: 'email'.tr,
+          hintText: 'enter_email'.tr,
+          prefixIcon: Icon(Icons.email_rounded,
+              size: iconSize, color: Theme.of(context).primaryColor),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
+        textFormatters: const [],
+        onEditingComplete: () {
+          emailFocus.unfocus();
+          FocusScope.of(context).requestFocus(firstNameFocus);
+        },
+        onChanged: (String value) {
+          authController.signUpModel.email = value;
+          authController.setSignUpModel(authController.signUpModel);
+        },
+        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
+      );
+  BaseInput get passwordArea => BaseInput(
+        focusNode: passwordFocus,
+        isInScrollView: true,
+        obsecure: obsecurePassword,
+        decoration: InputDecoration(
+          suffixIcon: GestureDetector(
+              onTap: () {
+                setState(() {
+                  obsecurePassword = !obsecurePassword;
+                });
+              },
+              child: obsecurePassword == true
+                  ? Icon(
+                      Icons.visibility_off_sharp,
+                      color: Theme.of(context).primaryColor,
+                      size: iconSize,
+                    )
+                  : Icon(
+                      Icons.visibility,
+                      color: Theme.of(context).primaryColor,
+                      size: iconSize,
+                    )),
+          border:
+              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
+          labelText: "password".tr,
+          hintText: "enter_password".tr,
+          prefixIcon: Icon(Icons.lock,
+              size: iconSize, color: Theme.of(context).primaryColor),
+        ),
+        keyboardType: TextInputType.text,
+        textFormatters: const [],
+        textInputAction: TextInputAction.done,
+        onEditingComplete: () {
+          passwordFocus.unfocus();
+        },
+        onChanged: (String value) {
+          authController.signUpModel.password = value;
+          authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
