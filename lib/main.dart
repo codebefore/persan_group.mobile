@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
 import 'package:persangroup_mobile/app/getit_binding.dart';
+import 'package:persangroup_mobile/app/home/home_screen.dart';
 import 'package:persangroup_mobile/app/store_binding.dart';
 import 'package:persangroup_mobile/core/constant/languages.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       themeMode: ThemeMode.light,
-      home: const StartScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
       onReady: () => {},
     );

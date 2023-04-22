@@ -43,6 +43,7 @@ class AuthController extends GetxController {
       var loginResponse = LoginResponseModel.fromJson(response.data);
       if (loginResponse.status == "Success") {
         setStatus(Status.initial);
+        // Get.changeThemeMode(ThemeMode.dark);
         Get.toNamed(Routes.home);
         return true;
       }

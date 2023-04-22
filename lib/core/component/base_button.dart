@@ -17,6 +17,8 @@ class BaseButton extends StatelessWidget {
     this.isInScrollView,
     this.style,
     this.border,
+    this.prefixIcon,
+    this.suffixIcon,
   }) : super(key: key);
   final Color? bgColor;
   final Color? textColor;
@@ -27,11 +29,19 @@ class BaseButton extends StatelessWidget {
   final bool? isInScrollView;
   final BoxBorder? border;
   final TextStyle? style;
+  final Icon? prefixIcon;
+  final Icon? suffixIcon;
   @override
   Widget build(BuildContext context) {
-    TextStyle currentTextStyles = style ?? themeTitleSmall(context);
+    TextStyle currentTextStyles = themeSubTitleMedium(context);
+
+    if (style != null) {
+      currentTextStyles = currentTextStyles.merge(style);
+    }
+
     currentTextStyles = currentTextStyles
         .merge(TextStyle(color: Theme.of(context).colorScheme.background));
+
     if (textColor != null) {
       TextStyle newTextStyles = TextStyle(color: textColor);
       currentTextStyles = currentTextStyles.merge(newTextStyles);
@@ -47,8 +57,22 @@ class BaseButton extends StatelessWidget {
           height: height ?? buttonHeight,
           decoration: BoxDecoration(
               borderRadius: ThemeParameters.borderRadius, border: border),
-          child: BaseText(text,
-              textAlign: TextAlign.center, style: currentTextStyles),
+          child: prefixIcon == null && suffixIcon == null
+              ? BaseText(text,
+                  textAlign: TextAlign.center, style: currentTextStyles)
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      prefixIcon ?? Container(),
+                      BaseText(text,
+                          textAlign: TextAlign.center,
+                          style: currentTextStyles),
+                      suffixIcon ?? Container(),
+                    ],
+                  ),
+                ),
         ),
         onTap: () {
           onTap.call();

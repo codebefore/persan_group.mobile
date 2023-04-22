@@ -32,7 +32,10 @@ class Languages extends Translations {
           "your_registration_has_been_successfully_completed":
               "Kaydınız başarıyla tamamlandı",
           "something_wrong_please_try_again":
-              "Bir şeyle ters gitti Lütfen tekrar deneyin!"
+              "Bir şeyle ters gitti Lütfen tekrar deneyin!",
+          "shading_systems": "Gölgelendirme Sistemleri",
+          "logout": "Oturumu Kapat",
+          "contact": "iletişim",
         },
         "en_US": {
           "signup": "Sign Up",
@@ -63,7 +66,10 @@ class Languages extends Translations {
           "your_registration_has_been_successfully_completed":
               "Your registration has been successfully completed",
           "something_wrong_please_try_again":
-              "Something is wrong please try again"
+              "Something is wrong please try again",
+          "shading_systems": "Shading Systems",
+          "logout": "Logout",
+          "contact": "Contact",
         },
       };
 }
