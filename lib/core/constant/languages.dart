@@ -36,6 +36,8 @@ class Languages extends Translations {
           "shading_systems": "Gölgelendirme Sistemleri",
           "logout": "Oturumu Kapat",
           "contact": "iletişim",
+          "giosan_catalog": "Giosan Katalog",
+          "persan_catalog": "Persan Katalog"
         },
         "en_US": {
           "signup": "Sign Up",
@@ -70,6 +72,8 @@ class Languages extends Translations {
           "shading_systems": "Shading Systems",
           "logout": "Logout",
           "contact": "Contact",
+          "giosan_catalog": "Giosan Catalog",
+          "persan_catalog": "Persan Catalog"
         },
       };
 }

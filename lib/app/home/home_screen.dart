@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/home/html_viewer.dart';
+import 'package:persangroup_mobile/app/home/pdf_viewer.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -78,13 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
             width: screenWidth * .35,
             // height: screenHeight * .05,
             prefixIcon: const Icon(Icons.adobe),
-            text: "Persan Katalog",
+            text: "persan_catalog".tr,
             style: const TextStyle(fontSize: 12),
             textColor: Colors.black,
-            // style: TextStyle(
-            //   fontSize: 20,
-            // ),
-            onTap: () => {},
+            onTap: () => {Get.to(const PdfViewerScreen())},
             bgColor: Colors.white,
           ),
           BaseButton(
@@ -92,8 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
             style: const TextStyle(fontSize: 12),
             prefixIcon: const Icon(Icons.adobe),
             textColor: Colors.black,
-            text: "Giosan Katalog",
-            onTap: () => {},
+            text: "giosan_catalog".tr,
+            onTap: () => {Get.to(const PdfViewerScreen())},
             bgColor: Colors.white,
           )
         ],
@@ -111,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         text: "contact".tr,
         width: screenWidth * .33,
         height: screenHeight * .05,
-        onTap: () => {Get.toNamed(Routes.login)},
+        onTap: () => {Get.to(const HtmlViewerScreen())},
         bgColor: Colors.white,
         textColor: Theme.of(context).colorScheme.primary,
         prefixIcon: const Icon(Icons.call, color: Colors.black),

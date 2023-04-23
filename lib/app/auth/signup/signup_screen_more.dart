@@ -26,7 +26,6 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
-  // final dio = Dio();
   @override
   void initState() {
     super.initState();
