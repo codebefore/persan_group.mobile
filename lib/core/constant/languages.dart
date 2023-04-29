@@ -34,10 +34,13 @@ class Languages extends Translations {
           "something_wrong_please_try_again":
               "Bir şeyle ters gitti Lütfen tekrar deneyin!",
           "shading_systems": "Gölgelendirme Sistemleri",
+          "giosan_systems": "Giosan Cam Sistemleri",
           "logout": "Oturumu Kapat",
           "contact": "iletişim",
           "giosan_catalog": "Giosan Katalog",
-          "persan_catalog": "Persan Katalog"
+          "persan_catalog": "Persan Katalog",
+          "getprice": "Fiyat Al",
+          "width": "Genişlik (Metre)"
         },
         "en_US": {
           "signup": "Sign Up",
@@ -70,10 +73,13 @@ class Languages extends Translations {
           "something_wrong_please_try_again":
               "Something is wrong please try again",
           "shading_systems": "Shading Systems",
+          "giosan_systems": "Giosan Systems",
           "logout": "Logout",
           "contact": "Contact",
           "giosan_catalog": "Giosan Catalog",
-          "persan_catalog": "Persan Catalog"
+          "persan_catalog": "Persan Catalog",
+          "getprice": "Get Price",
+          "width": "Width (Meter)"
         },
       };
 }

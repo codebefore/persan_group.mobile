@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HtmlViewerScreen extends StatefulWidget {
@@ -25,9 +23,10 @@ class _HtmlViewerScreenState extends State<HtmlViewerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: BaseText("contact".tr),
-      ),
+          // title: BaseText("contact".tr),
+          ),
       body: WebViewWidget(
         controller: controller,
       ),

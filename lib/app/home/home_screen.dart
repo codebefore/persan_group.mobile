@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   productBox('lib/assets/images/shadowsystems.jpeg',
                       'shading_systems'.tr),
-                  productBox('lib/assets/images/shadowsystems.jpeg',
-                      'shading_systems'.tr)
+                  productBox('lib/assets/images/categories/titan.png',
+                      'giosan_systems'.tr)
                 ],
               ),
             ),
@@ -115,39 +115,42 @@ class _HomeScreenState extends State<HomeScreen> {
         textColor: Theme.of(context).colorScheme.primary,
         prefixIcon: const Icon(Icons.call, color: Colors.black),
       );
-  Card productBox(String imageUrl, String title) => Card(
-        color: Colors.white,
-        shadowColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 7,
-              child: SizedBox(
-                width: screenWidth * .45,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image(
-                    image: AssetImage(imageUrl),
-                    alignment: Alignment.center,
-                    fit: BoxFit.cover,
+  GestureDetector productBox(String imageUrl, String title) => GestureDetector(
+        onTap: () => {Get.toNamed(Routes.category, arguments: title)},
+        child: Card(
+          color: Colors.white,
+          shadowColor: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 7,
+                child: SizedBox(
+                  width: screenWidth * .45,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image(
+                      image: AssetImage(imageUrl),
+                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      fontSize: 11, fontWeight: FontWeight.w500),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 11, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 
