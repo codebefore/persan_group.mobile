@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/product/product_category_model.dart';
+import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
+import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -16,20 +18,46 @@ class CategoryDetailScreen extends StatefulWidget {
 }
 
 class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
-  final authController = Get.find<AuthController>();
+  final productController = Get.find<ProductController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode widthFocus = FocusNode();
   FocusNode width2Focus = FocusNode();
-
+  var id = Get.arguments;
   @override
   void initState() {
     super.initState();
   }
 
+  List<Widget> createRadioList() {
+    List<Widget> widgets = [];
+    var types = productController
+        .getCategories()
+        .firstWhere((element) => element.id == id)
+        .types;
+    productController.priceModel.type = types.first;
+    for (String type in types) {
+      widgets.add(
+        RadioListTile(
+          value: type,
+          groupValue: productController.priceModel.type,
+          title: Text(type),
+          // subtitle: Text(type),
+          onChanged: (type) {
+            productController.priceModel.type = type;
+            productController.setPriceModel(productController.priceModel);
+          },
+          selected: productController.priceModel.type == type,
+          activeColor: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    return widgets;
+  }
+
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      await authController.login();
+      // await productController.login();
       form?.reset();
     }
   }
@@ -46,7 +74,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
         body: BaseWidget(
           isDark: true,
           noNeedPadding: true,
-          body: GetBuilder<AuthController>(builder: (authcontroller) {
+          body: GetBuilder<ProductController>(builder: (productcontroller) {
             return Flex(
               direction: Axis.vertical,
               children: [start],
@@ -87,7 +115,19 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                       children: [
                         widthArea,
                         blank(),
-                        widthArea,
+                        width2Area,
+                        blank(),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BaseText(
+                              "fabric".tr,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
+                            ),
+                            ...createRadioList()
+                          ],
+                        ),
                         blank(),
                         loginButton,
                       ],
@@ -115,8 +155,31 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          authController.loginModel.phone = value;
-          authController.setLoginModel(authController.loginModel);
+          productController.priceModel.width = value;
+          productController.setPriceModel(productController.priceModel);
+        },
+        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
+      );
+  BaseInput get width2Area => BaseInput(
+        focusNode: width2Focus,
+        decoration: InputDecoration(
+          border:
+              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
+          labelText: 'width2'.tr,
+          // hintText: 'enter_email'.tr,
+          prefixIcon: Icon(Icons.calculate,
+              size: iconSize, color: Theme.of(context).primaryColor),
+        ),
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        textFormatters: const [],
+        onEditingComplete: () {
+          widthFocus.unfocus();
+          // FocusScope.of(context).requestFocus(loginButton);
+        },
+        onChanged: (String value) {
+          productController.priceModel.column = value;
+          productController.setPriceModel(productController.priceModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );

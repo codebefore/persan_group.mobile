@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/auth/auth_controller.dart';
-import 'package:persangroup_mobile/app/product/product_category_model.dart';
+import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
@@ -10,28 +9,14 @@ import 'package:persangroup_mobile/core/route/routes.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
-
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  Iterable l = [
-    {"name": "CALYPSO", "url": "lib/assets/images/categories/wintent.png"},
-    {"name": "LYNX", "url": "lib/assets/images/categories/lynxs.png"},
-    {"name": "PANDORA", "url": "lib/assets/images/categories/pandora.png"},
-    {"name": "PHOENIX", "url": "lib/assets/images/categories/phoenix.png"},
-    {"name": "SIRIUS", "url": "lib/assets/images/categories/pergola.png"},
-    {"name": "TETHYS", "url": "lib/assets/images/categories/tethys.png"},
-    {"name": "TITAN", "url": "lib/assets/images/categories/titan.png"},
-    {"name": "RHEA", "url": "lib/assets/images/categories/zip.png"}
-  ];
-
-  List<ProductCategoryModel> categories = <ProductCategoryModel>[];
-
+  final productContoller = Get.find<ProductController>();
   @override
   void initState() {
-    categories = l.map((e) => ProductCategoryModel.fromMap(e)).toList();
     super.initState();
   }
 
@@ -47,7 +32,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         body: BaseWidget(
           isDark: true,
           noNeedPadding: true,
-          body: GetBuilder<AuthController>(builder: (authcontroller) {
+          body: GetBuilder<ProductController>(builder: (productcontroller) {
             return Flex(
               direction: Axis.vertical,
               children: [start],
@@ -78,14 +63,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
                     color: Theme.of(context).colorScheme.background),
-                child: categories.isNotEmpty
+                child: productContoller.getCategories().isNotEmpty
                     ? ListView.builder(
                         padding: const EdgeInsets.only(
                             left: 10, right: 10, bottom: 100),
-                        itemCount: categories.length,
+                        itemCount: productContoller.getCategories().length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                              onTap: () => {Get.toNamed(Routes.categorydetail)},
+                              onTap: () => {
+                                    Get.toNamed(Routes.categorydetail,
+                                        arguments: productContoller
+                                            .getCategories()[index]
+                                            .id)
+                                  },
                               child: categoryItem(index, context));
                         })
                     : Container())
@@ -105,7 +95,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           borderRadius: ThemeParameters.borderRadius,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage(categories[index].url),
+            image: AssetImage(productContoller.getCategories()[index].url),
           ),
         ),
         child: Column(
@@ -116,7 +106,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               padding: const EdgeInsets.only(left: 10),
               height: screenHeight * .075,
               width: screenWidth * .3,
-              child: BaseText(categories[index].name,
+              child: BaseText(productContoller.getCategories()[index].name,
                   style: const TextStyle(shadows: [
                     Shadow(
                       blurRadius: 10.0, // shadow blur

@@ -40,7 +40,9 @@ class Languages extends Translations {
           "giosan_catalog": "Giosan Katalog",
           "persan_catalog": "Persan Katalog",
           "getprice": "Fiyat Al",
-          "width": "Genişlik (Metre)"
+          "width": "Genişlik (Metre)",
+          "width2": "Açılım (Metre)",
+          "fabric": "Kumaş",
         },
         "en_US": {
           "signup": "Sign Up",
@@ -79,7 +81,9 @@ class Languages extends Translations {
           "giosan_catalog": "Giosan Catalog",
           "persan_catalog": "Persan Catalog",
           "getprice": "Get Price",
-          "width": "Width (Meter)"
+          "width": "Width (Meter)",
+          "width2": "Forward Opening (Metre)",
+          "fabric": "Fabric",
         },
       };
 }
