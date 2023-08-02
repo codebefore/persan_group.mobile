@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:get/get_connect/http/src/request/request.dart';
-
 class ProductCategoryModel {
   final String id;
   final String name;

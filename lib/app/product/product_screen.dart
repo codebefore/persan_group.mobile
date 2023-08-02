@@ -7,13 +7,13 @@ import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
-class CategoryScreen extends StatefulWidget {
-  const CategoryScreen({super.key});
+class ProductScreen extends StatefulWidget {
+  const ProductScreen({super.key});
   @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
+  State<ProductScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> {
+class _CategoryScreenState extends State<ProductScreen> {
   final productContoller = Get.find<ProductController>();
   @override
   void initState() {
@@ -63,18 +63,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
                     color: Theme.of(context).colorScheme.background),
-                child: productContoller.getCategories().isNotEmpty
+                child: productContoller.products.isNotEmpty
                     ? ListView.builder(
                         padding: const EdgeInsets.only(
                             left: 10, right: 10, bottom: 100),
-                        itemCount: productContoller.getCategories().length,
+                        itemCount: productContoller.products.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                               onTap: () => {
-                                    Get.toNamed(Routes.categorydetail,
-                                        arguments: productContoller
-                                            .getCategories()[index]
-                                            .id)
+                                    Get.toNamed(Routes.productdetail,
+                                        arguments:
+                                            productContoller.products[index].id)
                                   },
                               child: categoryItem(index, context));
                         })
@@ -95,7 +94,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
           borderRadius: ThemeParameters.borderRadius,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage(productContoller.getCategories()[index].url),
+            image: AssetImage(
+                productContoller.products[index].images?.first.image ?? ""),
           ),
         ),
         child: Column(
@@ -106,7 +106,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
               padding: const EdgeInsets.only(left: 10),
               height: screenHeight * .075,
               width: screenWidth * .3,
-              child: BaseText(productContoller.getCategories()[index].name,
+              child: BaseText(productContoller.products[index].name ?? "",
                   style: const TextStyle(shadows: [
                     Shadow(
                       blurRadius: 10.0, // shadow blur

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
-import 'package:persangroup_mobile/core/network/dio_exception.dart';
 import 'package:persangroup_mobile/core/network/dio_interceptor.dart';
 
 import 'network.dart';
@@ -53,9 +52,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 
@@ -89,9 +88,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 
@@ -125,9 +124,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 
@@ -158,9 +157,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 }

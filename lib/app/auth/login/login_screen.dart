@@ -5,6 +5,7 @@ import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
+import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
@@ -31,8 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      await authController.login();
-      form?.reset();
+      authController.setStatus(Status.loading);
+      var isSuccess = await authController.login();
+      // form?.reset();
+      if (isSuccess == true) {
+        authController.setStatus(Status.success);
+      } else {
+        authController.setStatus(Status.error);
+      }
     }
   }
 
@@ -84,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           FocusScope.of(context).requestFocus(passwordFocus);
         },
         onChanged: (String value) {
-          authController.loginModel.phone = value;
+          authController.loginModel.username = value;
           authController.setLoginModel(authController.loginModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,

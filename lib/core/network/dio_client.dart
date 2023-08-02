@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
-import 'package:persangroup_mobile/core/network/dio_exception.dart';
 import 'package:persangroup_mobile/core/network/dio_interceptor.dart';
 
 import 'network.dart';
@@ -17,6 +16,7 @@ class DioClient {
       ..options.headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        // 'Keep-Alive': 'timeout=5, max=1000'
       };
     _dio.interceptors.add(DioInterceptor());
   }
@@ -38,7 +38,8 @@ class DioClient {
       );
       var baseResponse = BaseResponse();
       if (response.statusCode == 200 || response.statusCode == 201) {
-        baseResponse.copyWith(statusCode: 200, data: response.data);
+        baseResponse =
+            BaseResponse(statusCode: 200, success: true, data: response.data);
         return baseResponse;
       } else if (response.statusCode == 401) {
         return baseResponse.copyWith(
@@ -52,9 +53,12 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      // final errorResponse = DioExceptions.fromDioError(error);
+      return BaseResponse(
+          message: error.toString(),
+          success: false,
+          statusCode: error.hashCode);
     }
   }
 
@@ -88,9 +92,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 
@@ -124,9 +128,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 
@@ -157,9 +161,9 @@ class DioClient {
             success: false,
             statusCode: response.statusCode);
       }
-    } on DioError catch (error) {
-      final errorResponse = DioExceptions.fromDioError(error);
-      return errorResponse.response;
+    } catch (error) {
+      return BaseResponse(
+          message: error.toString(), success: false, statusCode: 500);
     }
   }
 }

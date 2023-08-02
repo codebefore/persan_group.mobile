@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persangroup_mobile/app/product/product_category_model.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
@@ -10,14 +9,14 @@ import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 
-class CategoryDetailScreen extends StatefulWidget {
-  const CategoryDetailScreen({super.key});
+class ProductDetailScreen extends StatefulWidget {
+  const ProductDetailScreen({super.key});
 
   @override
-  State<CategoryDetailScreen> createState() => _CategoryDetailScreenState();
+  State<ProductDetailScreen> createState() => _CategoryDetailScreenState();
 }
 
-class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
+class _CategoryDetailScreenState extends State<ProductDetailScreen> {
   final productController = Get.find<ProductController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode widthFocus = FocusNode();
@@ -28,31 +27,31 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
     super.initState();
   }
 
-  List<Widget> createRadioList() {
-    List<Widget> widgets = [];
-    var types = productController
-        .getCategories()
-        .firstWhere((element) => element.id == id)
-        .types;
-    productController.priceModel.type = types.first;
-    for (String type in types) {
-      widgets.add(
-        RadioListTile(
-          value: type,
-          groupValue: productController.priceModel.type,
-          title: Text(type),
-          // subtitle: Text(type),
-          onChanged: (type) {
-            productController.priceModel.type = type;
-            productController.setPriceModel(productController.priceModel);
-          },
-          selected: productController.priceModel.type == type,
-          activeColor: Theme.of(context).colorScheme.primary,
-        ),
-      );
-    }
-    return widgets;
-  }
+  // List<Widget> createRadioList() {
+  //   List<Widget> widgets = [];
+  //   var types = productController
+  //       .products
+  //       .firstWhere((element) => element.id == id)
+  //       .types;
+  //   productController.priceModel.type = types.first;
+  //   for (String type in types) {
+  //     widgets.add(
+  //       RadioListTile(
+  //         value: type,
+  //         groupValue: productController.priceModel.type,
+  //         title: Text(type),
+  //         // subtitle: Text(type),
+  //         onChanged: (type) {
+  //           productController.priceModel.type = type;
+  //           productController.setPriceModel(productController.priceModel);
+  //         },
+  //         selected: productController.priceModel.type == type,
+  //         activeColor: Theme.of(context).colorScheme.primary,
+  //       ),
+  //     );
+  //   }
+  //   return widgets;
+  // }
 
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
@@ -125,7 +124,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w500),
                             ),
-                            ...createRadioList()
+                            // ...createRadioList()
                           ],
                         ),
                         blank(),
@@ -155,8 +154,8 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          productController.priceModel.width = value;
-          productController.setPriceModel(productController.priceModel);
+          // productController.priceModel.width = value;
+          // productController.setPriceModel(productController.priceModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
@@ -178,8 +177,8 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           // FocusScope.of(context).requestFocus(loginButton);
         },
         onChanged: (String value) {
-          productController.priceModel.column = value;
-          productController.setPriceModel(productController.priceModel);
+          // productController.priceModel.column = value;
+          // productController.setPriceModel(productController.priceModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );

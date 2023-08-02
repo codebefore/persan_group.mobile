@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
         prefixIcon: const Icon(Icons.call, color: Colors.black),
       );
   GestureDetector productBox(String imageUrl, String title) => GestureDetector(
-        onTap: () => {Get.toNamed(Routes.category, arguments: title)},
+        onTap: () => {Get.toNamed(Routes.product, arguments: title)},
         child: Card(
           color: Colors.white,
           shadowColor: Colors.white,

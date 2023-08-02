@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DioInterceptor extends Interceptor {
+  GetStorage storage = GetStorage();
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // This method is called before the request is sent
@@ -9,8 +12,11 @@ class DioInterceptor extends Interceptor {
     if (kDebugMode) {
       print("onRequest");
     }
-    options.headers["Authorization"] = "Bearer your-access-token";
-    handler.next(options); // Pass the modified options to the next interceptor
+    var token = storage.read("token");
+    if (token != null) {
+      options.headers["Authorization"] = "Bearer $token";
+    }
+    handler.next(options);
   }
 
   @override
@@ -20,7 +26,7 @@ class DioInterceptor extends Interceptor {
     if (response.statusCode == 401) {
       // Unauthorized, so refresh the access token and try again
       // ...
-      handler.reject(DioError(
+      handler.reject(DioException(
           requestOptions: response.requestOptions, response: response));
     } else {
       handler.next(response); // Pass the response to the next interceptor
@@ -28,7 +34,7 @@ class DioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     // This method is called when an error occurs
     // You can handle the error here
     if (err.response?.statusCode == 401) {
