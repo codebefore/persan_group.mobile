@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 class ProductExcelModel {
@@ -6,12 +8,14 @@ class ProductExcelModel {
   String? description;
   String? input_or_output;
   String? condition;
+  bool? selected;
   ProductExcelModel({
     this.id,
     this.cell,
     this.description,
     this.input_or_output,
     this.condition,
+    this.selected,
   });
 
   ProductExcelModel copyWith({
@@ -20,6 +24,7 @@ class ProductExcelModel {
     String? description,
     String? input_or_output,
     String? condition,
+    bool? selected,
   }) {
     return ProductExcelModel(
       id: id ?? this.id,
@@ -27,6 +32,7 @@ class ProductExcelModel {
       description: description ?? this.description,
       input_or_output: input_or_output ?? this.input_or_output,
       condition: condition ?? this.condition,
+      selected: selected ?? this.selected,
     );
   }
 
@@ -48,6 +54,9 @@ class ProductExcelModel {
     if (condition != null) {
       result.addAll({'condition': condition});
     }
+    if (selected != null) {
+      result.addAll({'selected': selected});
+    }
 
     return result;
   }
@@ -59,6 +68,7 @@ class ProductExcelModel {
       description: map['description'],
       input_or_output: map['input_or_output'],
       condition: map['condition'],
+      selected: map['selected'],
     );
   }
 
@@ -69,7 +79,7 @@ class ProductExcelModel {
 
   @override
   String toString() {
-    return 'ProductImageModel(id: $id, cell: $cell, description: $description, input_or_output: $input_or_output, condition: $condition)';
+    return 'ProductExcelModel(id: $id, cell: $cell, description: $description, input_or_output: $input_or_output, condition: $condition, selected: $selected)';
   }
 
   @override
@@ -81,7 +91,8 @@ class ProductExcelModel {
         other.cell == cell &&
         other.description == description &&
         other.input_or_output == input_or_output &&
-        other.condition == condition;
+        other.condition == condition &&
+        other.selected == selected;
   }
 
   @override
@@ -90,6 +101,7 @@ class ProductExcelModel {
         cell.hashCode ^
         description.hashCode ^
         input_or_output.hashCode ^
-        condition.hashCode;
+        condition.hashCode ^
+        selected.hashCode;
   }
 }

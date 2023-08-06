@@ -4,8 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/app/home/html_viewer.dart';
 import 'package:persangroup_mobile/app/home/pdf_viewer.dart';
+import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
+import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
@@ -17,6 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final authContoller = Get.find<AuthController>();
+  final productcontroller = Get.find<ProductController>();
+
   @override
   void initState() {
     super.initState();
@@ -24,17 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BaseWidget(
+    return BaseWidget(
       isDark: false,
       noNeedPadding: true,
-      body: GetBuilder<AuthController>(builder: (authcontroller) {
-        return Flex(
-          direction: Axis.vertical,
-          children: [home],
-        );
-      }),
-    ));
+      body: Flex(
+        direction: Axis.vertical,
+        children: [home],
+      ),
+    );
   }
 
   Container get home => Container(
@@ -116,7 +118,12 @@ class _HomeScreenState extends State<HomeScreen> {
         prefixIcon: const Icon(Icons.call, color: Colors.black),
       );
   GestureDetector productBox(String imageUrl, String title) => GestureDetector(
-        onTap: () => {Get.toNamed(Routes.product, arguments: title)},
+        onTap: () async {
+          authContoller.setStatus(Status.loading);
+          await productcontroller.fetchProducts();
+          Get.toNamed(Routes.product, arguments: title);
+          authContoller.setStatus(Status.initial);
+        },
         child: Card(
           color: Colors.white,
           shadowColor: Colors.white,

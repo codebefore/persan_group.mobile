@@ -9,7 +9,8 @@ class Urls {
   static String login = '$baseUrl/api/token/';
   static String profile = '$baseUrl/api/customer/';
   static String register = '$baseUrl/api/customer/';
-  static String products = '$baseUrl/api/customer/';
+  static String products = '$baseUrl/api/product/';
+  static String createoffer = '$baseUrl/api/offer/';
 }
 
 class NetworkSettings {

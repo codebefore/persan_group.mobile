@@ -21,42 +21,18 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode widthFocus = FocusNode();
   FocusNode width2Focus = FocusNode();
-  var id = Get.arguments;
+  final id = Get.arguments;
   @override
   void initState() {
     super.initState();
   }
 
-  // List<Widget> createRadioList() {
-  //   List<Widget> widgets = [];
-  //   var types = productController
-  //       .products
-  //       .firstWhere((element) => element.id == id)
-  //       .types;
-  //   productController.priceModel.type = types.first;
-  //   for (String type in types) {
-  //     widgets.add(
-  //       RadioListTile(
-  //         value: type,
-  //         groupValue: productController.priceModel.type,
-  //         title: Text(type),
-  //         // subtitle: Text(type),
-  //         onChanged: (type) {
-  //           productController.priceModel.type = type;
-  //           productController.setPriceModel(productController.priceModel);
-  //         },
-  //         selected: productController.priceModel.type == type,
-  //         activeColor: Theme.of(context).colorScheme.primary,
-  //       ),
-  //     );
-  //   }
-  //   return widgets;
-  // }
-
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
+
     if (form?.validate() ?? false) {
-      // await productController.login();
+      productController.fetchCreateOffer(
+          productController.products.indexWhere((element) => element.id == id));
       form?.reset();
     }
   }
@@ -76,13 +52,13 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           body: GetBuilder<ProductController>(builder: (productcontroller) {
             return Flex(
               direction: Axis.vertical,
-              children: [start],
+              children: [start(productcontroller)],
             );
           }),
         ));
   }
 
-  Container get start => Container(
+  Container start(ProductController productcontroller) => Container(
         height: screenHeight,
         width: screenWidth,
         decoration: const BoxDecoration(
@@ -98,8 +74,15 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
               height: screenHeight * .1,
             ),
             logo,
+            BaseText(
+              productcontroller.products
+                      .firstWhere((element) => element.id == id)
+                      .name ??
+                  "",
+              textColor: Colors.white,
+            ),
             Container(
-                height: screenHeight * .7,
+                height: screenHeight * .71,
                 width: screenWidth * .95,
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
@@ -107,41 +90,91 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                 child: Form(
                   key: _formKey,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        widthArea,
-                        blank(),
-                        width2Area,
-                        blank(),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BaseText(
-                              "fabric".tr,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w500),
-                            ),
-                            // ...createRadioList()
-                          ],
-                        ),
-                        blank(),
-                        loginButton,
-                      ],
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [excelField(), getPriceButton, blank()],
                     ),
                   ),
                 ))
           ],
         ),
       );
-  BaseInput get widthArea => BaseInput(
-        focusNode: widthFocus,
+
+  Container excelField() => Container(
+      width: screenWidth * .8,
+      height: screenHeight * .6,
+      // color: Colors.red,
+      child: productController.products
+                      .firstWhere((element) => element.id == id)
+                      .excel_cell_customer !=
+                  null &&
+              productController.products
+                  .firstWhere((element) => element.id == id)
+                  .excel_cell_customer!
+                  .isNotEmpty
+          ? ListView.builder(
+              // padding: const EdgeInsets.only(left: 10, right: 10, bottom: 100),
+              itemCount: productController.products
+                  .firstWhere((element) => element.id == id)
+                  .excel_cell_customer
+                  ?.length,
+              itemBuilder: (BuildContext context, int index) {
+                // controller
+                var excelCell = productController.products
+                    .firstWhere((element) => element.id == id)
+                    .excel_cell_customer?[index];
+                var celltype = excelCell?.input_or_output;
+                if (celltype != null) {
+                  var productIndex = productController.products
+                      .indexWhere((element) => element.id == id);
+                  if (celltype == "INPUT") {
+                    // return ;
+                    return widthArea(productIndex, index);
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: BaseButton(
+                          prefixIcon: productController.products[productIndex]
+                                      .excel_cell_customer![index].selected ==
+                                  true
+                              ? const Icon(Icons.check)
+                              : null,
+                          bgColor: Colors.transparent,
+                          border: Border.all(),
+                          textColor: Theme.of(context).primaryColor,
+                          text: productController.products[productIndex]
+                                  .excel_cell_customer?[index].description ??
+                              "",
+                          onTap: () {
+                            for (var i = 0;
+                                i <
+                                    productController.products[productIndex]
+                                        .excel_cell_customer!.length;
+                                i++) {
+                              productController.products[productIndex]
+                                  .excel_cell_customer![i].selected = false;
+                            }
+                            productController.products[productIndex]
+                                .excel_cell_customer![index].selected = true;
+                          }),
+                    );
+                  }
+                } else {
+                  return null;
+                }
+              })
+          : Container());
+
+  BaseInput widthArea(productIndex, excelIndex) => BaseInput(
+        // focusNode: widthFocus,
+        isInScrollView: true,
         decoration: InputDecoration(
           border:
               OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: 'width'.tr,
+          labelText: productController.products[productIndex]
+              .excel_cell_customer?[excelIndex].description,
+          // labelText: productIndex.toString() + excelIndex.toString(),
           // hintText: 'enter_email'.tr,
           prefixIcon: Icon(Icons.calculate,
               size: iconSize, color: Theme.of(context).primaryColor),
@@ -150,40 +183,17 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         textInputAction: TextInputAction.next,
         textFormatters: const [],
         onEditingComplete: () {
-          widthFocus.unfocus();
-          FocusScope.of(context).requestFocus(width2Focus);
+          // widthFocus.unfocus();
+          // FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          // productController.priceModel.width = value;
-          // productController.setPriceModel(productController.priceModel);
-        },
-        validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
-      );
-  BaseInput get width2Area => BaseInput(
-        focusNode: width2Focus,
-        decoration: InputDecoration(
-          border:
-              OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: 'width2'.tr,
-          // hintText: 'enter_email'.tr,
-          prefixIcon: Icon(Icons.calculate,
-              size: iconSize, color: Theme.of(context).primaryColor),
-        ),
-        keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.next,
-        textFormatters: const [],
-        onEditingComplete: () {
-          widthFocus.unfocus();
-          // FocusScope.of(context).requestFocus(loginButton);
-        },
-        onChanged: (String value) {
-          // productController.priceModel.column = value;
-          // productController.setPriceModel(productController.priceModel);
+          productController.products[productIndex]
+              .excel_cell_customer?[excelIndex].condition = value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
 
-  BaseButton get loginButton => BaseButton(
+  BaseButton get getPriceButton => BaseButton(
         text: "getprice".tr,
         onTap: validateAndSave,
         width: screenWidth,

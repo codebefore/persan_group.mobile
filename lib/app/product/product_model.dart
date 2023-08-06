@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -55,7 +57,7 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: map['id']?.toInt(),
+      id: map['id'],
       name: map['name'],
       images: map['images'] != null
           ? List<ProductImageModel>.from(

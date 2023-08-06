@@ -27,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    authController.setStatus(Status.initial);
   }
 
   Future<void> validateAndSave() async {
@@ -45,25 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AuthController>(builder: (authcontroller) {
-      return BaseWidget(
-          body: Form(
-        key: _formKey,
-        child: Flex(
-          direction: Axis.vertical,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            logo,
-            emailArea,
-            blank(),
-            passwordArea,
-            blank(),
-            loginButton,
-            signUpButton
-          ],
-        ),
-      ));
-    });
+    return BaseWidget(
+        body: Form(
+      key: _formKey,
+      child: Flex(
+        direction: Axis.vertical,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          logo,
+          emailArea,
+          blank(),
+          passwordArea,
+          blank(),
+          loginButton,
+          signUpButton
+        ],
+      ),
+    ));
   }
 
   BaseButton get signUpButton => BaseButton(

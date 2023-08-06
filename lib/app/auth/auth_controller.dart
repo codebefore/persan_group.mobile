@@ -23,8 +23,7 @@ class AuthController extends GetxController {
   final _status = Status.initial.obs;
   Status get status => _status.value;
   void setStatus(Status b) {
-    _status.value = b;
-    update();
+    _status(b);
   }
 
   //login get set
@@ -32,9 +31,7 @@ class AuthController extends GetxController {
   LoginRequestModel get loginModel => _loginModel.value;
 
   void setLoginModel(LoginRequestModel loginModel) {
-    setStatus(Status.initial);
     _loginModel(loginModel);
-    update();
   }
 
 //user get set
@@ -51,14 +48,14 @@ class AuthController extends GetxController {
 
   bool get isAuthenticated => _token.isNotEmpty;
 
-  void logout() {
+  Future<void> logout() async {
     _token.value = '';
-    Get.offAllNamed('/');
+    await userStorage.remove('user');
+    await userStorage.remove('token');
+    Get.offAllNamed(Routes.login);
   }
 
   Future<bool> login() async {
-    // setStatus(Status.loading);
-
     BaseResponse response =
         await _dioClient.post(Urls.login, data: loginModel.toJson());
     if (response.success == true) {
@@ -66,7 +63,6 @@ class AuthController extends GetxController {
       setToken(loginResponseModel.access ?? '');
       userStorage.write("token", loginResponseModel.access);
       getProfile();
-      // Get.offAllNamed(Routes.home);
     } else {
       Get.snackbar("Error", response.message!.tr,
           snackPosition: SnackPosition.TOP,
@@ -75,13 +71,10 @@ class AuthController extends GetxController {
           overlayColor: Colors.black,
           colorText: Colors.red);
     }
-    // setStatus(Status.initial);
     return false;
   }
 
   Future<bool> getProfile() async {
-    // setStatus(Status.loading);
-
     BaseResponse response = await _dioClient.get(Urls.profile);
     if (response.success == true) {
       UserModel loginResponseModel = UserModel.fromMap(response.data[0]);
@@ -98,7 +91,6 @@ class AuthController extends GetxController {
           overlayColor: Colors.black,
           colorText: Colors.red);
     }
-    // setStatus(Status.initial);
     return false;
   }
 

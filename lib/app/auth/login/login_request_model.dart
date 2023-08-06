@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 class LoginRequestModel {
-  String? username;
-  String? password;
+  String? username = "aliveli";
+  String? password = "ali123qwe";
   LoginRequestModel({
     this.username,
     this.password,
