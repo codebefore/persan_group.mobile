@@ -18,12 +18,20 @@ import 'login/user_model.dart';
 class AuthController extends GetxController {
   //
   final DioClient _dioClient = getIt.get<DioClient>();
-  GetStorage userStorage = GetStorage();
+  GetStorage storage = GetStorage();
   //loading get set
   final _status = Status.initial.obs;
   Status get status => _status.value;
   void setStatus(Status b) {
-    _status(b);
+    _status.value = b;
+    update();
+  }
+
+  @override
+  void onReady() {
+    _token.value = storage.read('token');
+    update();
+    super.onReady();
   }
 
   //login get set
@@ -31,28 +39,34 @@ class AuthController extends GetxController {
   LoginRequestModel get loginModel => _loginModel.value;
 
   void setLoginModel(LoginRequestModel loginModel) {
-    _loginModel(loginModel);
+    _loginModel.value = loginModel;
+    update();
   }
 
 //user get set
   final _user = UserModel().obs;
   UserModel get user => _user.value;
   void setUser(UserModel b) {
-    _user(b);
+    _user.value = b;
+    update();
   }
 
   final _token = ''.obs;
-  void setToken(String token) {
-    _token(token);
+  Future setToken(String token) async {
+    _token.value = token;
+    if (token.isEmpty) {
+      await storage.remove('token');
+    } else {
+      await storage.write('token', token);
+    }
   }
 
   bool get isAuthenticated => _token.isNotEmpty;
 
-  Future<void> logout() async {
-    _token.value = '';
-    await userStorage.remove('user');
-    await userStorage.remove('token');
-    Get.offAllNamed(Routes.login);
+  Future logout() async {
+    await setToken('');
+    await storage.remove('user');
+    await Get.toNamed(Routes.login);
   }
 
   Future<bool> login() async {
@@ -61,10 +75,10 @@ class AuthController extends GetxController {
     if (response.success == true) {
       TokenModel loginResponseModel = TokenModel.fromMap(response.data);
       setToken(loginResponseModel.access ?? '');
-      userStorage.write("token", loginResponseModel.access);
-      getProfile();
+      await storage.write("token", loginResponseModel.access);
+      return await getProfile();
     } else {
-      Get.snackbar("Error", response.message!.tr,
+      Get.snackbar("Error", "checkyourcredentials".tr,
           snackPosition: SnackPosition.TOP,
           duration: const Duration(seconds: 10),
           icon: const Icon(Icons.error, color: Colors.red),
@@ -78,18 +92,9 @@ class AuthController extends GetxController {
     BaseResponse response = await _dioClient.get(Urls.profile);
     if (response.success == true) {
       UserModel loginResponseModel = UserModel.fromMap(response.data[0]);
-      // setToken(loginResponseModel.access ?? '');
       setUser(loginResponseModel);
-      userStorage.write("user", loginResponseModel.toJson().toString());
-      // userStorage.write("token", loginResponseModel.access);
-      Get.offAllNamed(Routes.home);
-    } else {
-      Get.snackbar("Error", response.message!.tr,
-          snackPosition: SnackPosition.TOP,
-          duration: const Duration(seconds: 10),
-          icon: const Icon(Icons.error, color: Colors.red),
-          overlayColor: Colors.black,
-          colorText: Colors.red);
+      await storage.write("user", loginResponseModel.toJson().toString());
+      return true;
     }
     return false;
   }
@@ -162,8 +167,6 @@ class AuthController extends GetxController {
 
   void setSignUpModel(SignUpModel signUpModel) {
     setStatus(Status.initial);
-    _signUpModel(signUpModel);
+    _signUpModel.value = signUpModel;
   }
-
-  RxString token = ''.obs;
 }

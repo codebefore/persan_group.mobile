@@ -43,6 +43,7 @@ class Languages extends Translations {
           "width": "Genişlik (Metre)",
           "width2": "Açılım (Metre)",
           "fabric": "Kumaş",
+          "checkyourcredentials": "Bilgilerinizi kontrol ediniz",
         },
         "en_US": {
           "signup": "Sign Up",
@@ -84,6 +85,7 @@ class Languages extends Translations {
           "width": "Width (Meter)",
           "width2": "Forward Opening (Metre)",
           "fabric": "Fabric",
+          "checkyourcredentials": "Check your credentials",
         },
       };
 }

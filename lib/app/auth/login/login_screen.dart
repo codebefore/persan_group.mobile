@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // form?.reset();
       if (isSuccess == true) {
         authController.setStatus(Status.success);
+        await Get.offAllNamed(Routes.home);
       } else {
         authController.setStatus(Status.error);
       }

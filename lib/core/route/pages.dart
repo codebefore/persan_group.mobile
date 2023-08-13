@@ -8,6 +8,7 @@ import 'package:persangroup_mobile/app/home/home_screen.dart';
 import 'package:persangroup_mobile/app/product/product_detail_screen.dart';
 import 'package:persangroup_mobile/app/product/product_screen.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
+import 'package:persangroup_mobile/middleware.dart';
 
 final List<GetPage> getPages = [
   GetPage(name: Routes.starter, page: () => const StartScreen()),
@@ -15,7 +16,13 @@ final List<GetPage> getPages = [
   GetPage(name: Routes.signup, page: () => const SignUpScreen()),
   GetPage(name: Routes.signupmore, page: () => const SignUpScreenMore()),
   GetPage(name: Routes.signuplast, page: () => const SignUpScreenLast()),
-  GetPage(name: Routes.home, page: () => const HomeScreen()),
-  GetPage(name: Routes.product, page: () => const ProductScreen()),
+  GetPage(
+      name: Routes.home,
+      page: () => const HomeScreen(),
+      middlewares: [HomeMiddleware()]),
+  GetPage(
+      name: Routes.product,
+      page: () => const ProductScreen(),
+      middlewares: [ProductMiddleware()]),
   GetPage(name: Routes.productdetail, page: () => const ProductDetailScreen()),
 ];

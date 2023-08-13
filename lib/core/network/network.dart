@@ -1,16 +1,11 @@
-// class Urls {
-//   static String baseUrl = 'http://api.persangroup.com.tr/PERSAN';
-//   static String login = '$baseUrl/signin.php';
-//   static String signUp = '$baseUrl/create.php';
-// }
-
 class Urls {
-  static String baseUrl = 'http://185.81.152.101:8080';
-  static String login = '$baseUrl/api/token/';
-  static String profile = '$baseUrl/api/customer/';
-  static String register = '$baseUrl/api/customer/';
-  static String products = '$baseUrl/api/product/';
-  static String createoffer = '$baseUrl/api/offer/';
+  static String baseUrl = 'http://185.81.152.101:8080/api';
+  static String login = '$baseUrl/token/';
+  static String refresh = '$baseUrl/token/refresh/';
+  static String profile = '$baseUrl/customer/';
+  static String register = '$baseUrl/customer/';
+  static String products = '$baseUrl/product/';
+  static String createoffer = '$baseUrl/offer/';
 }
 
 class NetworkSettings {

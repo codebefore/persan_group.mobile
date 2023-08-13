@@ -22,7 +22,7 @@ class BaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
-      builder: (app) => Scaffold(
+      builder: (controller) => Scaffold(
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: appBar,
         body: Container(
@@ -34,10 +34,9 @@ class BaseWidget extends StatelessWidget {
                   horizontal: screenWidth * .05, vertical: screenHeight * .05),
           child: Stack(
             children: [
-              app.status == Status.loading
+              controller.status == Status.loading
                   ? const Center(child: CircularProgressIndicator())
-                  : Container(),
-              body,
+                  : body,
             ],
           ),
         ),

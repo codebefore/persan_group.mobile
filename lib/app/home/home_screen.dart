@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final authContoller = Get.find<AuthController>();
+  final authcontoller = Get.find<AuthController>();
   final productcontroller = Get.find<ProductController>();
 
   @override
@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BaseButton get logoutButton => BaseButton(
         text: "logout".tr,
         width: screenWidth * .5,
-        onTap: () => {Get.toNamed(Routes.login)},
+        onTap: () async => {await authcontoller.logout()},
         bgColor: Colors.transparent,
         textColor: Theme.of(context).colorScheme.background,
         prefixIcon: const Icon(Icons.logout, color: Colors.white),
@@ -119,10 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
       );
   GestureDetector productBox(String imageUrl, String title) => GestureDetector(
         onTap: () async {
-          authContoller.setStatus(Status.loading);
+          authcontoller.setStatus(Status.loading);
           await productcontroller.fetchProducts();
-          Get.toNamed(Routes.product, arguments: title);
-          authContoller.setStatus(Status.initial);
+          authcontoller.setStatus(Status.initial);
+          await Get.toNamed(Routes.product, arguments: title);
         },
         child: Card(
           color: Colors.white,
