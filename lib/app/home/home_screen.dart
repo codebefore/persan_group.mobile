@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   BaseButton get logoutButton => BaseButton(
         text: "logout".tr,
         width: screenWidth * .5,
-        onTap: () async => {await authcontoller.logout()},
+        onTap: () => {authcontoller.logout()},
         bgColor: Colors.transparent,
         textColor: Theme.of(context).colorScheme.background,
         prefixIcon: const Icon(Icons.logout, color: Colors.white),

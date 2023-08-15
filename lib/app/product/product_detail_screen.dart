@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
+import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 
@@ -17,7 +19,8 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _CategoryDetailScreenState extends State<ProductDetailScreen> {
-  final productController = Get.find<ProductController>();
+  final productcontroller = Get.find<ProductController>();
+  final authcontroller = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode widthFocus = FocusNode();
   FocusNode width2Focus = FocusNode();
@@ -25,15 +28,31 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
+    productcontroller.setPrice("");
+  }
+
+  int counter = 0;
+
+  void update() {
+    setState(() {
+      counter++;
+    });
   }
 
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
 
     if (form?.validate() ?? false) {
-      productController.fetchCreateOffer(
-          productController.products.indexWhere((element) => element.id == id));
-      form?.reset();
+      // var string = json.encode(productcontroller.products
+      //     .where((element) => element.id == id)
+      //     .first
+      //     .excel_cell_customer);
+      // print(string);
+      authcontroller.setStatus(Status.loading);
+      await productcontroller.fetchCreateOffer(
+          productcontroller.products.indexWhere((element) => element.id == id));
+      // form?.reset();
+      authcontroller.setStatus(Status.initial);
     }
   }
 
@@ -92,8 +111,27 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [excelField(), getPriceButton, blank()],
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GetBuilder<AuthController>(
+                            builder: (authController) => Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: BaseText(
+                                    authController.status != Status.loading
+                                        ? (productcontroller.price.isNotEmpty
+                                            ? "${"price".tr} : ${productcontroller.price} TL"
+                                            : "")
+                                        : "...",
+                                    textColor: Colors.green[800],
+                                    style: const TextStyle(
+                                      fontSize: 26,
+                                    ),
+                                  ),
+                                )),
+                        excelField(),
+                        getPriceButton,
+                        blank()
+                      ],
                     ),
                   ),
                 ))
@@ -101,32 +139,32 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         ),
       );
 
-  Container excelField() => Container(
-      width: screenWidth * .8,
-      height: screenHeight * .6,
+  SizedBox excelField() => SizedBox(
+      width: screenWidth * .9,
+      height: screenHeight * .45,
       // color: Colors.red,
-      child: productController.products
+      child: productcontroller.products
                       .firstWhere((element) => element.id == id)
                       .excel_cell_customer !=
                   null &&
-              productController.products
+              productcontroller.products
                   .firstWhere((element) => element.id == id)
                   .excel_cell_customer!
                   .isNotEmpty
           ? ListView.builder(
-              // padding: const EdgeInsets.only(left: 10, right: 10, bottom: 100),
-              itemCount: productController.products
+              padding: const EdgeInsets.only(top: 10),
+              itemCount: productcontroller.products
                   .firstWhere((element) => element.id == id)
                   .excel_cell_customer
                   ?.length,
               itemBuilder: (BuildContext context, int index) {
                 // controller
-                var excelCell = productController.products
+                var excelCell = productcontroller.products
                     .firstWhere((element) => element.id == id)
                     .excel_cell_customer?[index];
                 var celltype = excelCell?.input_or_output;
-                if (celltype != null) {
-                  var productIndex = productController.products
+                if (excelCell != null && celltype != null) {
+                  var productIndex = productcontroller.products
                       .indexWhere((element) => element.id == id);
                   if (celltype == "INPUT") {
                     // return ;
@@ -135,7 +173,8 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: BaseButton(
-                          prefixIcon: productController.products[productIndex]
+                          width: screenWidth * .1,
+                          prefixIcon: productcontroller.products[productIndex]
                                       .excel_cell_customer![index].selected ==
                                   true
                               ? const Icon(Icons.check)
@@ -143,20 +182,19 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                           bgColor: Colors.transparent,
                           border: Border.all(),
                           textColor: Theme.of(context).primaryColor,
-                          text: productController.products[productIndex]
-                                  .excel_cell_customer?[index].description ??
-                              "",
+                          text: excelCell.description ?? "",
                           onTap: () {
                             for (var i = 0;
                                 i <
-                                    productController.products[productIndex]
+                                    productcontroller.products[productIndex]
                                         .excel_cell_customer!.length;
                                 i++) {
-                              productController.products[productIndex]
+                              productcontroller.products[productIndex]
                                   .excel_cell_customer![i].selected = false;
                             }
-                            productController.products[productIndex]
+                            productcontroller.products[productIndex]
                                 .excel_cell_customer![index].selected = true;
+                            update();
                           }),
                     );
                   }
@@ -172,7 +210,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         decoration: InputDecoration(
           border:
               OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: productController.products[productIndex]
+          labelText: productcontroller.products[productIndex]
               .excel_cell_customer?[excelIndex].description,
           // labelText: productIndex.toString() + excelIndex.toString(),
           // hintText: 'enter_email'.tr,
@@ -187,7 +225,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           // FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          productController.products[productIndex]
+          productcontroller.products[productIndex]
               .excel_cell_customer?[excelIndex].condition = value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,

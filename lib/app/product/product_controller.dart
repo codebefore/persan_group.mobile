@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/product/create_offer_request_model.dart';
+import 'package:persangroup_mobile/app/product/offer_response_model.dart';
 import 'package:persangroup_mobile/app/product/product_model.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_client.dart';
@@ -19,13 +20,18 @@ class ProductController extends GetxController {
   List<ProductModel> get products => _products;
   void setProducts(List<ProductModel> products) {
     _products.value = products;
-    update();
     // products.toString();
   }
 
   void setProductsV2(List<ProductModel> updatedproducts) {
     _products.value = updatedproducts;
-    // products.toString();
+  }
+
+  final _price = "".obs;
+  String get price => _price.value;
+  void setPrice(String b) {
+    _price.value = b;
+    update();
   }
 
   Future<bool> fetchCreateOffer(int productIndex) async {
@@ -55,19 +61,17 @@ class ProductController extends GetxController {
                 input_body: input_body,
                 output_body: output_body,
                 product: products[productIndex].id,
-                condition: "MT_NOK")
+                condition: products[productIndex]
+                    .excel_cell_customer!
+                    .where((element) => element.selected == true)
+                    .first
+                    .condition)
             .toJson());
 
     if (response.success == true) {
-    } else {
-      Get.snackbar("Error", response.message!.tr,
-          snackPosition: SnackPosition.TOP,
-          duration: const Duration(seconds: 10),
-          icon: const Icon(Icons.error, color: Colors.red),
-          overlayColor: Colors.black,
-          colorText: Colors.red);
+      var offerresponse = OfferResponseModel.fromMap(response.data);
+      setPrice(offerresponse.price ?? "");
     }
-    // setStatus(Status.initial);
     return false;
   }
 
