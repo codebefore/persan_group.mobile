@@ -31,7 +31,6 @@ class ProductController extends GetxController {
   String get price => _price.value;
   void setPrice(String b) {
     _price.value = b;
-    update();
   }
 
   Future<bool> fetchCreateOffer(int productIndex) async {

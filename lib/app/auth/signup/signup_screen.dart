@@ -99,8 +99,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           // FocusScope.of(context).requestFocus(passwordFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.company = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.company = value;
+          // authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
@@ -129,8 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusScope.of(context).requestFocus(companyFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.city = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.city = value;
+          // authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
@@ -165,13 +165,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               favorite: List.from(["TR"]),
               showPhoneCode: true,
               onSelect: (Country country) => {
-                    authController.signUpModel.phoneCode =
-                        "+${country.phoneCode}",
-                    authController.signUpModel.phone = "",
-                    authController.signUpModel.country =
-                        country.displayNameNoCountryCode,
-                    authController.setSignUpModel(authController.signUpModel),
-                    phoneController.text = "+${country.phoneCode}"
+                    // authController.signUpModel.phoneCode =
+                    //     "+${country.phoneCode}",
+                    // authController.signUpModel.phone = "",
+                    // authController.signUpModel.country =
+                    //     country.displayNameNoCountryCode,
+                    // authController.setSignUpModel(authController.signUpModel),
+                    // phoneController.text = "+${country.phoneCode}"
                   })
         },
         focusNode: phoneFocus,
@@ -193,8 +193,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusScope.of(context).requestFocus(cityFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.phone = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.phone = value;
+          // authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,

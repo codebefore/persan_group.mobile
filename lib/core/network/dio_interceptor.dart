@@ -47,8 +47,7 @@ class DioInterceptor extends Interceptor {
       await storage.remove('token');
       Get.toNamed(Routes.login);
       // Pass the original request options to the next interceptor
-    } else {
-      handler.next(err); // Pass the error to the next interceptor
-    }
+    } else {}
+    handler.next(err); // Pass the error to the next interceptor
   }
 }

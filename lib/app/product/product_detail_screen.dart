@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
@@ -21,6 +22,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _CategoryDetailScreenState extends State<ProductDetailScreen> {
   final productcontroller = Get.find<ProductController>();
   final authcontroller = Get.find<AuthController>();
+  final loadercontroller = Get.find<LoaderController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode widthFocus = FocusNode();
   FocusNode width2Focus = FocusNode();
@@ -48,11 +50,11 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
       //     .first
       //     .excel_cell_customer);
       // print(string);
-      authcontroller.setStatus(Status.loading);
+      loadercontroller.setStatus(Status.loading);
       await productcontroller.fetchCreateOffer(
           productcontroller.products.indexWhere((element) => element.id == id));
       // form?.reset();
-      authcontroller.setStatus(Status.initial);
+      loadercontroller.setStatus(Status.initial);
     }
   }
 
@@ -117,7 +119,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                             builder: (authController) => Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: BaseText(
-                                    authController.status != Status.loading
+                                    loadercontroller.status != Status.loading
                                         ? (productcontroller.price.isNotEmpty
                                             ? "${"price".tr} : ${productcontroller.price} TL"
                                             : "")

@@ -102,8 +102,8 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
           // FocusScope.of(context).requestFocus(emailFocus);\
         },
         onChanged: (String value) {
-          authController.signUpModel.lastName = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.lastName = value;
+          // authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
@@ -131,8 +131,8 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
           FocusScope.of(context).requestFocus(lastNameFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.name = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.name = value;
+          // authController.setSignUpModel(authController.signUpModel);
           // phoneController.text = (controller.signUpModel.phoneCode ?? "") + value;
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
@@ -156,8 +156,8 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
           FocusScope.of(context).requestFocus(firstNameFocus);
         },
         onChanged: (String value) {
-          authController.signUpModel.email = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.email = value;
+          // authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
@@ -197,8 +197,8 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
           passwordFocus.unfocus();
         },
         onChanged: (String value) {
-          authController.signUpModel.password = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.password = value;
+          // authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );

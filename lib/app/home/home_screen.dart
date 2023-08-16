@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/app/home/html_viewer.dart';
 import 'package:persangroup_mobile/app/home/pdf_viewer.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final authcontoller = Get.find<AuthController>();
+  final loadercontroller = Get.find<LoaderController>();
   final productcontroller = Get.find<ProductController>();
 
   @override
@@ -103,7 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
   BaseButton get logoutButton => BaseButton(
         text: "logout".tr,
         width: screenWidth * .5,
-        onTap: () => {authcontoller.logout()},
+        onTap: () async {
+          loadercontroller.setStatus(Status.loading);
+          await authcontoller.logout();
+          loadercontroller.setStatus(Status.initial);
+          await Get.toNamed(Routes.login);
+        },
         bgColor: Colors.transparent,
         textColor: Theme.of(context).colorScheme.background,
         prefixIcon: const Icon(Icons.logout, color: Colors.white),
@@ -119,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
   GestureDetector productBox(String imageUrl, String title) => GestureDetector(
         onTap: () async {
-          authcontoller.setStatus(Status.loading);
+          loadercontroller.setStatus(Status.loading);
           await productcontroller.fetchProducts();
-          authcontoller.setStatus(Status.initial);
+          loadercontroller.setStatus(Status.initial);
           await Get.toNamed(Routes.product, arguments: title);
         },
         child: Card(

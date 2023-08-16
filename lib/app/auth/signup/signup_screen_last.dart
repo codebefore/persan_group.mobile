@@ -29,7 +29,7 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      await authController.signUp();
+      // await authController.signUp();
     }
   }
 
@@ -68,11 +68,11 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
                 borderRadius: BorderRadius.circular(18.0),
                 isExpanded: true,
                 elevation: 2,
-                value: authController.signUpModel.currency,
+                // value: authController.signUpModel.currency,
                 items: dropdownCurrency,
                 onChanged: (Object? value) {
-                  authController.signUpModel.currency = value.toString();
-                  authController.setSignUpModel(authcontroller.signUpModel);
+                  // authController.signUpModel.currency = value.toString();
+                  // authController.setSignUpModel(authcontroller.signUpModel);
                 },
               ),
               blank(),
@@ -135,8 +135,8 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
           passwordFocus.unfocus();
         },
         onChanged: (String value) {
-          authController.signUpModel.password = value;
-          authController.setSignUpModel(authController.signUpModel);
+          // authController.signUpModel.password = value;
+          // authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );

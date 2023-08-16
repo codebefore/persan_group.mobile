@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
@@ -19,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.find<AuthController>();
+  final loaderController = Get.find<LoaderController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
@@ -27,20 +29,25 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    authController.setStatus(Status.initial);
   }
 
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
     if (form?.validate() ?? false) {
-      authController.setStatus(Status.loading);
+      loaderController.setStatus(Status.loading);
       var isSuccess = await authController.login();
       // form?.reset();
       if (isSuccess == true) {
-        authController.setStatus(Status.success);
+        loaderController.setStatus(Status.success);
         await Get.offAllNamed(Routes.home);
       } else {
-        authController.setStatus(Status.error);
+        loaderController.setStatus(Status.error);
+        Get.snackbar("Error", "checkyourcredentials".tr,
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 10),
+            icon: const Icon(Icons.error, color: Colors.red),
+            overlayColor: Colors.black,
+            colorText: Colors.red);
       }
     }
   }

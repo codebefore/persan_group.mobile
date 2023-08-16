@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 
 class StoreBinding implements Bindings {
@@ -8,5 +9,6 @@ class StoreBinding implements Bindings {
   Future<void> dependencies() async {
     await Get.putAsync(() async => AuthController(), permanent: true);
     await Get.putAsync(() async => ProductController(), permanent: true);
+    await Get.putAsync(() async => LoaderController(), permanent: true);
   }
 }
