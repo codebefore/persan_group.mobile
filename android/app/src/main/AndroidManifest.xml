@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.persangroup_mobile">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="persangroup_mobile"
         android:name="${applicationName}"

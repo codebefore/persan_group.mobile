@@ -21,8 +21,8 @@ class HomeMiddleware extends GetMiddleware {
       var user = UserModel.fromJson(userString!);
       authcontroller.setUser(user);
       authcontroller.setToken(token);
+      return null;
     }
-    return null;
   }
 }
 

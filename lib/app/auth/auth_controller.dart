@@ -14,12 +14,12 @@ class AuthController extends GetxController {
   final DioClient _dioClient = getIt.get<DioClient>();
   GetStorage storage = GetStorage();
 
-  @override
-  void onReady() {
-    _token.value = storage.read('token');
+  // @override
+  // void onReady() {
+  //   _token.value = storage.read('token');
 
-    super.onReady();
-  }
+  //   super.onReady();
+  // }
 
   //login get set
   final Rx<LoginRequestModel> _loginModel = LoginRequestModel().obs;
@@ -37,20 +37,16 @@ class AuthController extends GetxController {
   }
 
   final _token = ''.obs;
-  Future setToken(String token) async {
+  void setToken(String token) {
     _token.value = token;
-    if (token.isEmpty) {
-      await storage.remove('token');
-    } else {
-      await storage.write('token', token);
-    }
   }
 
   bool get isAuthenticated => _token.isNotEmpty;
 
   Future logout() async {
-    await setToken('');
+    setToken('');
     await storage.remove('user');
+    await storage.remove('token');
   }
 
   Future<bool> login() async {

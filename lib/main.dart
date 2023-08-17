@@ -9,11 +9,11 @@ import 'package:persangroup_mobile/core/route/pages.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 import 'core/constant/color_schemes.dart';
 
-Future<void> main() async {
-  await GetStorage.init();
-  await singleton();
-  await StoreBinding().dependencies();
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  GetStorage.init();
+  singleton();
+  StoreBinding().dependencies();
   runApp(const MyApp());
 }
 
@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sizeConfig(context);
-
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
