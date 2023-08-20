@@ -21,28 +21,54 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    sizeConfig(context);
+    Future<double> whenNotZero(Stream<double> source) async {
+      await for (double value in source) {
+        print("Width:$value");
+        if (value > 0) {
+          sizeConfig(context);
+          return value;
+        }
+      }
+      return 0;
+    }
+
     return GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: GetMaterialApp(
-          getPages: getPages,
-          translations: Languages(),
-          locale: Get.deviceLocale,
-          fallbackLocale: const Locale('en', 'US'),
-          title: 'Persan',
-          theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-          darkTheme:
-              ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-          themeMode: ThemeMode.light,
-          // home: LoginScreen(),
-          initialRoute: Routes.home,
-          debugShowCheckedModeBanner: false,
-          onReady: () => {},
-        ));
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: FutureBuilder(
+          future: whenNotZero(
+            Stream<double>.periodic(const Duration(seconds: 1),
+                (x) => MediaQuery.of(context).size.width),
+          ),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data! > 0) {
+                return GetMaterialApp(
+                  getPages: getPages,
+                  translations: Languages(),
+                  locale: Get.deviceLocale,
+                  fallbackLocale: const Locale('en', 'US'),
+                  title: 'Persan',
+                  theme: ThemeData(
+                      useMaterial3: true, colorScheme: lightColorScheme),
+                  darkTheme: ThemeData(
+                      useMaterial3: true, colorScheme: darkColorScheme),
+                  themeMode: ThemeMode.light,
+                  // home: LoginScreen(),
+                  initialRoute: Routes.home,
+                  debugShowCheckedModeBanner: false,
+                  onReady: () => {},
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          }),
+    );
   }
 }

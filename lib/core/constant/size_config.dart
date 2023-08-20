@@ -25,6 +25,19 @@ double factor = 0;
 
 double iconSize = 0;
 double leadingWidth = 0;
+
+// Future<double> whenNotZero(Stream<double> source) async {
+//   await for (double value in source) {
+//     print("Width:" + value.toString());
+//     if (value > 0) {
+//       print("Width > 0: " + value.toString());
+//       return value;
+//     }
+//   }
+//   return 0;
+//   // stream exited without a true value, maybe return an exception.
+// }
+
 void sizeConfig(BuildContext context) {
   screenWidth = Get.width;
   screenHeight = Get.height;
