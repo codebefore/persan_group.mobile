@@ -8,7 +8,7 @@ class CreateOfferRequestModel {
   List<dynamic>? input_body;
   List<dynamic>? output_body;
   int? product;
-  String? condition;
+  int? condition;
   CreateOfferRequestModel({
     this.input_body,
     this.output_body,
@@ -20,7 +20,7 @@ class CreateOfferRequestModel {
     List<dynamic>? input_body,
     List<dynamic>? output_body,
     int? product,
-    String? condition,
+    int? condition,
   }) {
     return CreateOfferRequestModel(
       input_body: input_body ?? this.input_body,
@@ -54,7 +54,7 @@ class CreateOfferRequestModel {
       input_body: List<dynamic>.from(map['input_body']),
       output_body: List<dynamic>.from(map['output_body']),
       product: map['product']?.toInt(),
-      condition: map['condition'],
+      condition: map['condition']?.toInt(),
     );
   }
 

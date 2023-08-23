@@ -79,7 +79,7 @@ class ProductController extends GetxController {
                 .where((element) => element.selected == true)
                 .first
                 .condition
-                ?.selected_value)
+                ?.id)
         .toJson();
     print(data);
     BaseResponse response = await _dioClient.post(Urls.createoffer, data: data);
