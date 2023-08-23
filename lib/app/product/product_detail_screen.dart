@@ -12,6 +12,8 @@ import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 
+import '../../core/component/base_dropdown.dart';
+
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
 
@@ -20,6 +22,7 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _CategoryDetailScreenState extends State<ProductDetailScreen> {
+  // String? selectedValue = null;
   final productcontroller = Get.find<ProductController>();
   final authcontroller = Get.find<AuthController>();
   final loadercontroller = Get.find<LoaderController>();
@@ -45,11 +48,6 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
     final FormState? form = _formKey.currentState;
 
     if (form?.validate() ?? false) {
-      // var string = json.encode(productcontroller.products
-      //     .where((element) => element.id == id)
-      //     .first
-      //     .excel_cell_customer);
-      // print(string);
       loadercontroller.setStatus(Status.loading);
       await productcontroller.fetchCreateOffer(
           productcontroller.products.indexWhere((element) => element.id == id));
@@ -130,6 +128,26 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ),
                                 )),
+                        productcontroller.products
+                                        .firstWhere(
+                                            (element) => element.id == id)
+                                        .excel_cell_customer !=
+                                    null &&
+                                productcontroller.products
+                                    .firstWhere((element) => element.id == id)
+                                    .excel_cell_customer!
+                                    .isNotEmpty &&
+                                productcontroller.products
+                                    .firstWhere((element) => element.id == id)
+                                    .excel_cell_customer!
+                                    .any((e) =>
+                                        e.input_or_output == "INPUT" &&
+                                        e.condition != null)
+                            ? Container(
+                                child: dropdown(productcontroller.products
+                                    .indexWhere((element) => element.id == id)),
+                              )
+                            : Container(),
                         excelField(),
                         getPriceButton,
                         blank()
@@ -141,10 +159,10 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         ),
       );
 
-  SizedBox excelField() => SizedBox(
+  Container excelField() => Container(
       width: screenWidth * .9,
       height: screenHeight * .45,
-      // color: Colors.red,
+      color: Colors.white,
       child: productcontroller.products
                       .firstWhere((element) => element.id == id)
                       .excel_cell_customer !=
@@ -168,14 +186,16 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                 if (excelCell != null && celltype != null) {
                   var productIndex = productcontroller.products
                       .indexWhere((element) => element.id == id);
-                  if (celltype == "INPUT") {
-                    // return ;
+                  if (celltype == "INPUT" && excelCell.condition == null) {
                     return widthArea(productIndex, index);
+                  } else if (celltype == "INPUT" &&
+                      excelCell.condition != null) {
+                    // return dropdown(productIndex);
+                    return Container();
                   } else {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: BaseButton(
-                          width: screenWidth * .1,
                           prefixIcon: productcontroller.products[productIndex]
                                       .excel_cell_customer![index].selected ==
                                   true
@@ -191,8 +211,14 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                                     productcontroller.products[productIndex]
                                         .excel_cell_customer!.length;
                                 i++) {
-                              productcontroller.products[productIndex]
-                                  .excel_cell_customer![i].selected = false;
+                              if (productcontroller
+                                      .products[productIndex]
+                                      .excel_cell_customer![i]
+                                      .input_or_output ==
+                                  "OUTPUT") {
+                                productcontroller.products[productIndex]
+                                    .excel_cell_customer![i].selected = false;
+                              }
                             }
                             productcontroller.products[productIndex]
                                 .excel_cell_customer![index].selected = true;
@@ -227,10 +253,104 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           // FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          productcontroller.products[productIndex]
-              .excel_cell_customer?[excelIndex].condition = value;
+          if (int.parse(value) > 0) {
+            productcontroller
+                .products[productIndex]
+                .excel_cell_customer?[excelIndex]
+                .selected_value_int = int.parse(value);
+          }
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
+      );
+  BaseDropDown dropdown(int productIndex) => BaseDropDown(
+        key: Key("drpevidence$productIndex"),
+        items: productcontroller.products[productIndex].excel_cell_customer!
+            .where((element) =>
+                element.input_or_output == "INPUT" && element.condition != null)
+            .map((item) => DropdownMenuItem<String>(
+                  value: item.condition?.selected_value,
+                  child: Text(
+                    item.description!,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ))
+            .toList(),
+        dropdownWidth: screenWidth * .9,
+        buttonWidth: screenWidth,
+        hint: Row(
+          children: [
+            Icon(
+              Icons.flaky,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: BaseText(
+                "Select".tr,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            )
+          ],
+        ),
+        buttonHeight: screenHeight * .06,
+        buttonDecoration: BoxDecoration(
+          borderRadius: ThemeParameters.borderRadius,
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline,
+            width: 1, // Border width
+          ),
+        ),
+        value: productcontroller.products[productIndex].excel_cell_customer!
+                .any((element) => (element.input_or_output == "INPUT" &&
+                    element.condition != null &&
+                    element.selected == true))
+            ? productcontroller.products[productIndex].excel_cell_customer!
+                .where((element) => (element.input_or_output == "INPUT" &&
+                    element.condition != null &&
+                    element.selected == true))
+                .first
+                .condition
+                ?.selected_value
+            : null,
+        onChanged: (value) {
+          if (value != null && value.isNotEmpty) {
+            if (productcontroller.products[productIndex].excel_cell_customer!
+                .any((element) => (element.input_or_output == "INPUT" &&
+                    element.condition != null))) {
+              for (var i = 0;
+                  i <
+                      productcontroller
+                          .products[productIndex].excel_cell_customer!
+                          .where((element) =>
+                              (element.input_or_output == "INPUT" &&
+                                  element.condition != null))
+                          .length;
+                  i++) {
+                productcontroller.products[productIndex].excel_cell_customer![i]
+                    .selected = false;
+              }
+
+              productcontroller.products[productIndex].excel_cell_customer!
+                  .where((element) => (element.input_or_output == "INPUT" &&
+                      element.condition != null &&
+                      element.condition?.selected_value == value))
+                  .first
+                  .selected = true;
+
+              productcontroller.products[productIndex].excel_cell_customer!
+                  .where((element) => (element.input_or_output == "INPUT" &&
+                      element.condition != null &&
+                      element.condition?.selected_value == value))
+                  .first
+                  .selected_value = value;
+            }
+          }
+          update();
+        },
       );
 
   BaseButton get getPriceButton => BaseButton(

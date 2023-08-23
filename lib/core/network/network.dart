@@ -1,5 +1,5 @@
 class Urls {
-  static String baseUrl = 'http://185.81.152.101:8080/api';
+  static String baseUrl = 'https://persan.pestomat.com/api';
   static String login = '$baseUrl/token/';
   static String refresh = '$baseUrl/token/refresh/';
   static String profile = '$baseUrl/customer/';

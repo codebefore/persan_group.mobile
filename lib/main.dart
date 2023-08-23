@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<double> whenNotZero(Stream<double> source) async {
       await for (double value in source) {
-        print("Width:$value");
         if (value > 0) {
           sizeConfig(context);
           return value;

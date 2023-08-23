@@ -14,13 +14,6 @@ class AuthController extends GetxController {
   final DioClient _dioClient = getIt.get<DioClient>();
   GetStorage storage = GetStorage();
 
-  // @override
-  // void onReady() {
-  //   _token.value = storage.read('token');
-
-  //   super.onReady();
-  // }
-
   //login get set
   final Rx<LoginRequestModel> _loginModel = LoginRequestModel().obs;
   LoginRequestModel get loginModel => _loginModel.value;
@@ -50,8 +43,8 @@ class AuthController extends GetxController {
   }
 
   Future<bool> login() async {
-    BaseResponse response =
-        await _dioClient.post(Urls.login, data: loginModel.toJson());
+    var data = loginModel.toJson();
+    BaseResponse response = await _dioClient.post(Urls.login, data: data);
     if (response.success == true) {
       TokenModel loginResponseModel = TokenModel.fromMap(response.data);
       setToken(loginResponseModel.access ?? '');

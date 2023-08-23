@@ -40,32 +40,49 @@ class ProductController extends GetxController {
         i < products[productIndex].excel_cell_customer!.length;
         i++) {
       if (products[productIndex].excel_cell_customer![i].input_or_output ==
-          "INPUT") {
+              "INPUT" &&
+          products[productIndex].excel_cell_customer![i].condition == null) {
         input_body.add({
           products[productIndex].excel_cell_customer![i].cell:
-              products[productIndex].excel_cell_customer![i].condition
+              products[productIndex].excel_cell_customer![i].selected_value_int
+        });
+      }
+      if (products[productIndex].excel_cell_customer![i].input_or_output ==
+              "INPUT" &&
+          products[productIndex].excel_cell_customer![i].condition != null &&
+          products[productIndex].excel_cell_customer![i].selected == true) {
+        input_body.add({
+          products[productIndex].excel_cell_customer![i].cell:
+              products[productIndex]
+                  .excel_cell_customer![i]
+                  .condition!
+                  .selected_value
         });
       }
       if (products[productIndex].excel_cell_customer![i].input_or_output ==
           "OUTPUT") {
         output_body.add({
-          products[productIndex].excel_cell_customer![i].condition:
+          products[productIndex]
+                  .excel_cell_customer![i]
+                  .condition!
+                  .selected_value:
               products[productIndex].excel_cell_customer![i].cell
         });
       }
     }
-
-    BaseResponse response = await _dioClient.post(Urls.createoffer,
-        data: CreateOfferRequestModel(
-                input_body: input_body,
-                output_body: output_body,
-                product: products[productIndex].id,
-                condition: products[productIndex]
-                    .excel_cell_customer!
-                    .where((element) => element.selected == true)
-                    .first
-                    .condition)
-            .toJson());
+    var data = CreateOfferRequestModel(
+            input_body: input_body,
+            output_body: output_body,
+            product: products[productIndex].id,
+            condition: products[productIndex]
+                .excel_cell_customer!
+                .where((element) => element.selected == true)
+                .first
+                .condition
+                ?.selected_value)
+        .toJson();
+    print(data);
+    BaseResponse response = await _dioClient.post(Urls.createoffer, data: data);
 
     if (response.success == true) {
       var offerresponse = OfferResponseModel.fromMap(response.data);
@@ -81,6 +98,12 @@ class ProductController extends GetxController {
       List<ProductModel> products = List.empty(growable: true);
       for (var i = 0; i < productlist.length; i++) {
         products.add(ProductModel.fromMap(productlist[i]));
+      }
+
+      for (var i = 0; i < products.length; i++) {
+        products[i]
+            .excel_cell_customer
+            ?.sort((a, b) => a.input_or_output!.compareTo(b.input_or_output!));
       }
       setProducts(products);
     } else {
