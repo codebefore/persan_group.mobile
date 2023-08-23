@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = persangroup_mobile
+PRODUCT_NAME = Persan Group App;
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.persangroupMobile
+PRODUCT_BUNDLE_IDENTIFIER = com.codebefore.persangroup_mobile;
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
