@@ -76,7 +76,9 @@ class ProductController extends GetxController {
             product: products[productIndex].id,
             condition: products[productIndex]
                 .excel_cell_customer!
-                .where((element) => element.selected == true)
+                .where((element) =>
+                    element.input_or_output == "OUTPUT" &&
+                    element.selected == true)
                 .first
                 .condition
                 ?.id)
