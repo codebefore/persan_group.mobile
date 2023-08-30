@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         loaderController.setStatus(Status.error);
         Get.snackbar("Error", "checkyourcredentials".tr,
             snackPosition: SnackPosition.TOP,
-            duration: const Duration(seconds: 10),
+            duration: const Duration(seconds: 5),
             icon: const Icon(Icons.error, color: Colors.red),
             overlayColor: Colors.black,
             colorText: Colors.red);

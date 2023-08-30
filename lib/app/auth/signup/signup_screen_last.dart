@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
 import 'package:persangroup_mobile/core/component/base_input.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
+
+import '../../../core/constant/enums.dart';
+import '../../../core/route/routes.dart';
 
 class SignUpScreenLast extends StatefulWidget {
   const SignUpScreenLast({super.key});
@@ -18,6 +22,8 @@ class SignUpScreenLast extends StatefulWidget {
 class _SignUpScreenLastState extends State<SignUpScreenLast> {
   final authController = Get.find<AuthController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final loaderController = Get.find<LoaderController>();
+
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
   final passwordController = TextEditingController();
@@ -28,8 +34,21 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
 
   Future<void> validateAndSave() async {
     final FormState? form = _formKey.currentState;
+    loaderController.setStatus(Status.loading);
     if (form?.validate() ?? false) {
-      // await authController.signUp();
+      var isSuccess = await authController.register();
+      if (isSuccess == true) {
+        loaderController.setStatus(Status.success);
+        await Get.offAllNamed(Routes.login);
+      } else {
+        loaderController.setStatus(Status.error);
+        Get.snackbar("Error", "checkyourcredentials".tr,
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 5),
+            icon: const Icon(Icons.error, color: Colors.red),
+            overlayColor: Colors.black,
+            colorText: Colors.red);
+      }
     }
   }
 
@@ -37,7 +56,7 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
     List<DropdownMenuItem<String>> currencyItems = [
       const DropdownMenuItem(value: "TL", child: Text("TL")),
       const DropdownMenuItem(value: "USD", child: Text("USD")),
-      const DropdownMenuItem(value: "EURO", child: Text("EURO")),
+      const DropdownMenuItem(value: "EUR", child: Text("EUR")),
     ];
     return currencyItems;
   }
@@ -68,11 +87,11 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
                 borderRadius: BorderRadius.circular(18.0),
                 isExpanded: true,
                 elevation: 2,
-                // value: authController.signUpModel.currency,
+                value: authController.signUpModel.currency,
                 items: dropdownCurrency,
                 onChanged: (Object? value) {
-                  // authController.signUpModel.currency = value.toString();
-                  // authController.setSignUpModel(authcontroller.signUpModel);
+                  authController.signUpModel.currency = value.toString();
+                  authController.setSignUpModel(authcontroller.signUpModel);
                 },
               ),
               blank(),
@@ -135,8 +154,9 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
           passwordFocus.unfocus();
         },
         onChanged: (String value) {
-          // authController.signUpModel.password = value;
-          // authController.setSignUpModel(authController.signUpModel);
+          authController.signUpModel.password = value;
+          authController.signUpModel.password2 = value;
+          authController.setSignUpModel(authController.signUpModel);
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );

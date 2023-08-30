@@ -83,7 +83,6 @@ class ProductController extends GetxController {
                 .condition
                 ?.id)
         .toJson();
-    print(data);
     BaseResponse response = await _dioClient.post(Urls.createoffer, data: data);
 
     if (response.success == true) {

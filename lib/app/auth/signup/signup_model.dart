@@ -1,52 +1,62 @@
 import 'dart:convert';
 
+// ignore_for_file: non_constant_identifier_names
+
 class SignUpModel {
   String? phone;
-  String? phoneCode;
-  String? password;
+  String? company;
+  String? last_name;
+  String? first_name;
+  String? username;
+  String? email;
+  String? currency = "USD";
   String? country;
   String? city;
-  String? name;
-  String? lastName;
-  String? email;
-  String? company;
-  String? currency = "USD";
+  String? phonecode;
+  String? password;
+  String? password2;
   SignUpModel({
     this.phone,
-    this.phoneCode,
-    this.password,
+    this.company,
+    this.last_name,
+    this.first_name,
+    this.username,
+    this.email,
+    this.currency,
     this.country,
     this.city,
-    this.name,
-    this.lastName,
-    this.email,
-    this.company,
-    this.currency,
+    this.phonecode,
+    this.password,
+    this.password2,
   });
 
   SignUpModel copyWith({
     String? phone,
-    String? phoneCode,
-    String? password,
+    String? company,
+    String? last_name,
+    String? first_name,
+    String? username,
+    String? email,
+    String? currency,
     String? country,
     String? city,
-    String? name,
-    String? lastName,
-    String? email,
-    String? company,
-    String? currency,
+    String? phonecode,
+    String? password,
+    String? password2,
   }) {
     return SignUpModel(
       phone: phone ?? this.phone,
-      phoneCode: phoneCode ?? this.phoneCode,
-      password: password ?? this.password,
+      company: company ?? this.company,
+      last_name: last_name ?? this.last_name,
+      first_name: first_name ?? this.first_name,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      currency: currency ?? this.currency,
       country: country ?? this.country,
       city: city ?? this.city,
-      name: name ?? this.name,
-      lastName: lastName ?? this.lastName,
-      email: email ?? this.email,
-      company: company ?? this.company,
-      currency: currency ?? this.currency,
+      phonecode: phonecode ?? this.phonecode,
+      password: password ?? this.password,
+      password2: password2 ?? this.password2,
     );
   }
 
@@ -56,11 +66,23 @@ class SignUpModel {
     if (phone != null) {
       result.addAll({'phone': phone});
     }
-    if (phoneCode != null) {
-      result.addAll({'phoneCode': phoneCode});
+    if (company != null) {
+      result.addAll({'company': company});
     }
-    if (password != null) {
-      result.addAll({'password': password});
+    if (last_name != null) {
+      result.addAll({'last_name': last_name});
+    }
+    if (first_name != null) {
+      result.addAll({'first_name': first_name});
+    }
+    if (username != null) {
+      result.addAll({'username': username});
+    }
+    if (email != null) {
+      result.addAll({'email': email});
+    }
+    if (currency != null) {
+      result.addAll({'currency': currency});
     }
     if (country != null) {
       result.addAll({'country': country});
@@ -68,22 +90,14 @@ class SignUpModel {
     if (city != null) {
       result.addAll({'city': city});
     }
-    if (name != null) {
-      result.addAll({'name': name});
+    if (phonecode != null) {
+      result.addAll({'phonecode': phonecode});
     }
-    if (lastName != null) {
-      result.addAll({'lastName': lastName});
+    if (password != null) {
+      result.addAll({'password': password});
     }
-
-    if (email != null) {
-      result.addAll({'email': email});
-    }
-
-    if (company != null) {
-      result.addAll({'company': company});
-    }
-    if (currency != null) {
-      result.addAll({'currency': currency});
+    if (password2 != null) {
+      result.addAll({'password2': password2});
     }
 
     return result;
@@ -92,15 +106,17 @@ class SignUpModel {
   factory SignUpModel.fromMap(Map<String, dynamic> map) {
     return SignUpModel(
       phone: map['phone'],
-      phoneCode: map['phoneCode'],
-      password: map['password'],
+      company: map['company'],
+      last_name: map['last_name'],
+      first_name: map['first_name'],
+      username: map['username'],
+      email: map['email'],
+      currency: map['currency'],
       country: map['country'],
       city: map['city'],
-      name: map['name'],
-      lastName: map['lastName'],
-      email: map['email'],
-      company: map['company'],
-      currency: map['currency'],
+      phonecode: map['phonecode'],
+      password: map['password'],
+      password2: map['password2'],
     );
   }
 
@@ -111,7 +127,7 @@ class SignUpModel {
 
   @override
   String toString() {
-    return 'SignUpModel(phone: $phone, phoneCode: $phoneCode, password: $password, country: $country, city: $city, name: $name, lastName: $lastName, email: $email,  company: $company, currency: $currency)';
+    return 'SignUpModel(phone: $phone, company: $company, last_name: $last_name, first_name: $first_name, username: $username, email: $email, currency: $currency, country: $country, city: $city, phonecode: $phonecode, password: $password, password2: $password2)';
   }
 
   @override
@@ -120,28 +136,32 @@ class SignUpModel {
 
     return other is SignUpModel &&
         other.phone == phone &&
-        other.phoneCode == phoneCode &&
-        other.password == password &&
+        other.company == company &&
+        other.last_name == last_name &&
+        other.first_name == first_name &&
+        other.username == username &&
+        other.email == email &&
+        other.currency == currency &&
         other.country == country &&
         other.city == city &&
-        other.name == name &&
-        other.lastName == lastName &&
-        other.email == email &&
-        other.company == company &&
-        other.currency == currency;
+        other.phonecode == phonecode &&
+        other.password == password &&
+        other.password2 == password2;
   }
 
   @override
   int get hashCode {
     return phone.hashCode ^
-        phoneCode.hashCode ^
-        password.hashCode ^
+        company.hashCode ^
+        last_name.hashCode ^
+        first_name.hashCode ^
+        username.hashCode ^
+        email.hashCode ^
+        currency.hashCode ^
         country.hashCode ^
         city.hashCode ^
-        name.hashCode ^
-        lastName.hashCode ^
-        email.hashCode ^
-        company.hashCode ^
-        currency.hashCode;
+        phonecode.hashCode ^
+        password.hashCode ^
+        password2.hashCode;
   }
 }
