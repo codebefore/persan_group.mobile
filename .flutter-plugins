@@ -1,11 +1,11 @@
 # This is a generated file; do not edit or check into version control.
-flutter_pdfview=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_pdfview-1.3.1\\
-fluttertoast=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\fluttertoast-8.2.2\\
-path_provider=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider-2.0.15\\
-path_provider_android=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider_android-2.0.27\\
-path_provider_foundation=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider_foundation-2.2.4\\
-path_provider_linux=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider_linux-2.1.11\\
-path_provider_windows=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider_windows-2.1.7\\
-webview_flutter=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\webview_flutter-4.2.2\\
-webview_flutter_android=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\webview_flutter_android-3.9.2\\
-webview_flutter_wkwebview=C:\\Users\\armym\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\webview_flutter_wkwebview-3.7.2\\
+flutter_pdfview=/Users/codebefore/.pub-cache/hosted/pub.dev/flutter_pdfview-1.3.1/
+fluttertoast=/Users/codebefore/.pub-cache/hosted/pub.dev/fluttertoast-8.2.2/
+path_provider=/Users/codebefore/.pub-cache/hosted/pub.dev/path_provider-2.0.15/
+path_provider_android=/Users/codebefore/.pub-cache/hosted/pub.dev/path_provider_android-2.0.27/
+path_provider_foundation=/Users/codebefore/.pub-cache/hosted/pub.dev/path_provider_foundation-2.2.4/
+path_provider_linux=/Users/codebefore/.pub-cache/hosted/pub.dev/path_provider_linux-2.1.11/
+path_provider_windows=/Users/codebefore/.pub-cache/hosted/pub.dev/path_provider_windows-2.1.7/
+webview_flutter=/Users/codebefore/.pub-cache/hosted/pub.dev/webview_flutter-4.2.2/
+webview_flutter_android=/Users/codebefore/.pub-cache/hosted/pub.dev/webview_flutter_android-3.9.2/
+webview_flutter_wkwebview=/Users/codebefore/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.7.2/
