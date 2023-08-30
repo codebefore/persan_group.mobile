@@ -1,4 +1,7 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:persangroup_mobile/app/getit_binding.dart';
@@ -9,7 +12,14 @@ import 'package:persangroup_mobile/core/route/pages.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 import 'core/constant/color_schemes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ByteData data = await PlatformAssetBundle()
+      .load('lib/assets/images/ca/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+
   WidgetsFlutterBinding.ensureInitialized();
   GetStorage.init();
   singleton();
