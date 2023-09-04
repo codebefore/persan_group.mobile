@@ -9,11 +9,13 @@ import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_client.dart';
 import 'package:persangroup_mobile/core/network/network.dart';
 
+import '../auth/auth_controller.dart';
 import '../getit_binding.dart';
 
 class ProductController extends GetxController {
   //
   final DioClient _dioClient = getIt.get<DioClient>();
+  final authcontroller = Get.find<AuthController>();
 
   //products get set
   final _products = <ProductModel>[].obs;
@@ -87,7 +89,13 @@ class ProductController extends GetxController {
 
     if (response.success == true) {
       var offerresponse = OfferResponseModel.fromMap(response.data);
-      setPrice(offerresponse.price ?? "");
+      //TODO:get currency by response
+      double offerprice = double.parse(offerresponse.price!);
+      double rate = double.parse(authcontroller.user.currency!.exchange_rate!);
+      double currencyrate = offerprice / rate;
+      setPrice(currencyrate
+          .toString()
+          .substring(0, currencyrate.toString().indexOf('.') + 3));
     }
     return false;
   }

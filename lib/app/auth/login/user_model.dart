@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:persangroup_mobile/app/auth/login/user_currency_model.dart';
+
 class UserModel {
   int? id;
   String? company;
@@ -9,6 +11,7 @@ class UserModel {
   String? city;
   String? firstname;
   String? lastname;
+  UserCurrencyModel? currency;
   UserModel({
     this.id,
     this.company,
@@ -18,6 +21,7 @@ class UserModel {
     this.city,
     this.firstname,
     this.lastname,
+    this.currency,
   });
 
   UserModel copyWith({
@@ -29,6 +33,7 @@ class UserModel {
     String? city,
     String? firstname,
     String? lastname,
+    UserCurrencyModel? currency,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -39,6 +44,7 @@ class UserModel {
       city: city ?? this.city,
       firstname: firstname ?? this.firstname,
       lastname: lastname ?? this.lastname,
+      currency: currency ?? this.currency,
     );
   }
 
@@ -69,13 +75,16 @@ class UserModel {
     if (lastname != null) {
       result.addAll({'lastname': lastname});
     }
+    if (currency != null) {
+      result.addAll({'currency': currency!.toMap()});
+    }
 
     return result;
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'],
+      id: map['id']?.toInt(),
       company: map['company'],
       phone: map['phone'],
       email: map['email'],
@@ -83,6 +92,9 @@ class UserModel {
       city: map['city'],
       firstname: map['firstname'],
       lastname: map['lastname'],
+      currency: map['currency'] != null
+          ? UserCurrencyModel.fromMap(map['currency'])
+          : null,
     );
   }
 
@@ -93,7 +105,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, company: $company, phone: $phone, email: $email, country: $country, city: $city, firstname: $firstname, lastname: $lastname)';
+    return 'UserModel(id: $id, company: $company, phone: $phone, email: $email, country: $country, city: $city, firstname: $firstname, lastname: $lastname, currency: $currency)';
   }
 
   @override
@@ -108,7 +120,8 @@ class UserModel {
         other.country == country &&
         other.city == city &&
         other.firstname == firstname &&
-        other.lastname == lastname;
+        other.lastname == lastname &&
+        other.currency == currency;
   }
 
   @override
@@ -120,6 +133,7 @@ class UserModel {
         country.hashCode ^
         city.hashCode ^
         firstname.hashCode ^
-        lastname.hashCode;
+        lastname.hashCode ^
+        currency.hashCode;
   }
 }

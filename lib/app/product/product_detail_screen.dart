@@ -119,7 +119,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                                   child: BaseText(
                                     loadercontroller.status != Status.loading
                                         ? (productcontroller.price.isNotEmpty
-                                            ? "${"price".tr} : ${productcontroller.price} TL"
+                                            ? "${"price".tr} : ${productcontroller.price} ${authcontroller.user.currency?.code}"
                                             : "")
                                         : "...",
                                     textColor: Colors.green[800],
