@@ -10,11 +10,13 @@ import 'package:persangroup_mobile/app/product/product_image_model.dart';
 class ProductModel {
   int? id;
   String? name;
+  String? brand;
   List<ProductImageModel>? images;
   List<ProductExcelModel>? excel_cell_customer;
   ProductModel({
     this.id,
     this.name,
+    this.brand,
     this.images,
     this.excel_cell_customer,
   });
@@ -22,12 +24,14 @@ class ProductModel {
   ProductModel copyWith({
     int? id,
     String? name,
+    String? brand,
     List<ProductImageModel>? images,
     List<ProductExcelModel>? excel_cell_customer,
   }) {
     return ProductModel(
       id: id ?? this.id,
       name: name ?? this.name,
+      brand: brand ?? this.brand,
       images: images ?? this.images,
       excel_cell_customer: excel_cell_customer ?? this.excel_cell_customer,
     );
@@ -41,6 +45,9 @@ class ProductModel {
     }
     if (name != null) {
       result.addAll({'name': name});
+    }
+    if (brand != null) {
+      result.addAll({'brand': brand});
     }
     if (images != null) {
       result.addAll({'images': images!.map((x) => x.toMap()).toList()});
@@ -59,6 +66,7 @@ class ProductModel {
     return ProductModel(
       id: map['id'],
       name: map['name'],
+      brand: map['brand'],
       images: map['images'] != null
           ? List<ProductImageModel>.from(
               map['images']?.map((x) => ProductImageModel.fromMap(x)))
@@ -77,7 +85,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, images: $images, excel_cell_customer: $excel_cell_customer)';
+    return 'ProductModel(id: $id, name: $name, brand: $brand, images: $images, excel_cell_customer: $excel_cell_customer)';
   }
 
   @override
@@ -87,6 +95,7 @@ class ProductModel {
     return other is ProductModel &&
         other.id == id &&
         other.name == name &&
+        other.brand == brand &&
         listEquals(other.images, images) &&
         listEquals(other.excel_cell_customer, excel_cell_customer);
   }
@@ -95,6 +104,7 @@ class ProductModel {
   int get hashCode {
     return id.hashCode ^
         name.hashCode ^
+        brand.hashCode ^
         images.hashCode ^
         excel_cell_customer.hashCode;
   }

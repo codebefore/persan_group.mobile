@@ -64,9 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   productBox('lib/assets/images/shadowsystems.jpeg',
-                      'shading_systems'.tr),
+                      'shading_systems'.tr, "PERSAN"),
                   productBox('lib/assets/images/categories/titan.png',
-                      'giosan_systems'.tr)
+                      'giosan_systems'.tr, "GIOSAN")
                 ],
               ),
             ),
@@ -124,12 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
         textColor: Theme.of(context).colorScheme.primary,
         prefixIcon: const Icon(Icons.call, color: Colors.black),
       );
-  GestureDetector productBox(String imageUrl, String title) => GestureDetector(
+  GestureDetector productBox(String imageUrl, String title, String brandName) =>
+      GestureDetector(
         onTap: () async {
           loadercontroller.setStatus(Status.loading);
           await productcontroller.fetchProducts();
           loadercontroller.setStatus(Status.initial);
-          await Get.toNamed(Routes.product, arguments: title);
+          await Get.toNamed(Routes.product,
+              arguments: {'0': title, '1': brandName});
         },
         child: Card(
           color: Colors.white,

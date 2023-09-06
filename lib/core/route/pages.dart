@@ -21,8 +21,8 @@ final List<GetPage> getPages = [
       page: () => const HomeScreen(),
       middlewares: [HomeMiddleware()]),
   GetPage(
-      name: Routes.product,
-      page: () => const ProductScreen(),
-      middlewares: [ProductMiddleware()]),
+    name: Routes.product,
+    page: () => const ProductScreen(),
+  ),
   GetPage(name: Routes.productdetail, page: () => const ProductDetailScreen()),
 ];

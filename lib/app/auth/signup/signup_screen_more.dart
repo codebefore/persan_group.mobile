@@ -123,7 +123,7 @@ class _SignUpScreenMoreState extends State<SignUpScreenMore> {
           prefixIcon: Icon(Icons.account_circle,
               size: iconSize, color: Theme.of(context).primaryColor),
         ),
-        keyboardType: TextInputType.phone,
+        keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         textFormatters: const [],
         onEditingComplete: () {

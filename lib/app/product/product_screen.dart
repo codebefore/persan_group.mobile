@@ -16,8 +16,15 @@ class ProductScreen extends StatefulWidget {
 class _CategoryScreenState extends State<ProductScreen> {
   final productContoller = Get.find<ProductController>();
   final authContoller = Get.find<AuthController>();
+
+  String title = Get.arguments['0'];
+  String brandName = Get.arguments['1'];
+
+  List products = [];
+
   @override
   void initState() {
+    test();
     super.initState();
   }
 
@@ -62,17 +69,16 @@ class _CategoryScreenState extends State<ProductScreen> {
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
                     color: Theme.of(context).colorScheme.background),
-                child: productContoller.products.isNotEmpty
+                child: products.isNotEmpty
                     ? ListView.builder(
                         padding: const EdgeInsets.only(
                             left: 10, right: 10, bottom: 100),
-                        itemCount: productContoller.products.length,
+                        itemCount: products.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                               onTap: () => {
                                     Get.toNamed(Routes.productdetail,
-                                        arguments:
-                                            productContoller.products[index].id)
+                                        arguments: products[index].id)
                                   },
                               child: productItem(index, context));
                         })
@@ -91,12 +97,11 @@ class _CategoryScreenState extends State<ProductScreen> {
         height: screenHeight * .25,
         decoration: BoxDecoration(
             borderRadius: ThemeParameters.borderRadius,
-            image: productContoller.products[index].images?.first.image != null
+            image: products[index].images?.first.image != null
                 ? DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        productContoller.products[index].images?.first.image ??
-                            ""),
+                    image:
+                        NetworkImage(products[index].images?.first.image ?? ""),
                   )
                 : null),
         child: Column(
@@ -112,7 +117,7 @@ class _CategoryScreenState extends State<ProductScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    productContoller.products[index].name ?? "",
+                    products[index].name ?? "",
                     style: TextStyle(
                         shadows: const [
                           Shadow(
@@ -146,4 +151,12 @@ class _CategoryScreenState extends State<ProductScreen> {
           ),
         ),
       );
+
+  Future test() async {
+    for (var i = 0; i < productContoller.products.length; i++) {
+      if (productContoller.products[i].brand == brandName) {
+        products.add(productContoller.products[i]);
+      }
+    }
+  }
 }

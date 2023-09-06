@@ -253,11 +253,11 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           // FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
-          if (int.parse(value) > 0) {
+          if (double.parse(value) > 0) {
             productcontroller
                 .products[productIndex]
                 .excel_cell_customer?[excelIndex]
-                .selected_value_int = int.parse(value);
+                .selected_value_int = double.parse(value);
           }
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,

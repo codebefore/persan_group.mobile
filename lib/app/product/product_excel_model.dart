@@ -10,7 +10,7 @@ class ProductExcelModel {
   String? input_or_output;
   ConditionModel? condition;
   String? selected_value;
-  int? selected_value_int;
+  double? selected_value_int;
   bool? selected;
   ProductExcelModel({
     this.id,
