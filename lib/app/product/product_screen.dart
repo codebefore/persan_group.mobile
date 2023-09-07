@@ -24,7 +24,7 @@ class _CategoryScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    test();
+    productFilter();
     super.initState();
   }
 
@@ -152,11 +152,9 @@ class _CategoryScreenState extends State<ProductScreen> {
         ),
       );
 
-  Future test() async {
-    for (var i = 0; i < productContoller.products.length; i++) {
-      if (productContoller.products[i].brand == brandName) {
-        products.add(productContoller.products[i]);
-      }
-    }
+  productFilter() {
+    products = productContoller.products
+        .where((element) => element.brand == brandName)
+        .toList();
   }
 }
