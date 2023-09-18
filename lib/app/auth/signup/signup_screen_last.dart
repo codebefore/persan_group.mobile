@@ -54,6 +54,7 @@ class _SignUpScreenLastState extends State<SignUpScreenLast> {
 
   List<DropdownMenuItem<String>> get dropdownCurrency {
     List<DropdownMenuItem<String>> currencyItems = [
+      const DropdownMenuItem(value: "TRY", child: Text("TRY")),
       const DropdownMenuItem(value: "USD", child: Text("USD")),
       const DropdownMenuItem(value: "EUR", child: Text("EUR")),
     ];
