@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/product/create_offer_request_model.dart';
 import 'package:persangroup_mobile/app/product/offer_response_model.dart';
+import 'package:persangroup_mobile/app/product/product_excel_model.dart';
 import 'package:persangroup_mobile/app/product/product_model.dart';
 import 'package:persangroup_mobile/core/network/base_response.dart';
 import 'package:persangroup_mobile/core/network/dio_client.dart';
@@ -38,37 +39,30 @@ class ProductController extends GetxController {
   Future<bool> fetchCreateOffer(int productIndex) async {
     List<dynamic> input_body = List.empty(growable: true);
     List<dynamic> output_body = List.empty(growable: true);
-    for (var i = 0;
-        i < products[productIndex].excel_cell_customer!.length;
-        i++) {
-      if (products[productIndex].excel_cell_customer![i].input_or_output ==
-              "INPUT" &&
-          products[productIndex].excel_cell_customer![i].condition == null) {
+    var excels = products[productIndex].excel_cell_customer;
+
+    print(excels.toString());
+    for (var i = 0; i < excels!.length; i++) {
+      if (excels[i].input_or_output == "INPUT" && excels[i].condition == null) {
+        input_body.add({excels[i].cell: excels[i].selected_value_int});
+      }
+
+      if (excels[i].input_or_output == "INPUT" &&
+          excels[i].condition != null &&
+          excels[i].selected == true) {
         input_body.add({
-          products[productIndex].excel_cell_customer![i].cell:
-              products[productIndex].excel_cell_customer![i].selected_value_int
+          excels[i].cell: products[productIndex]
+              .excel_cell_customer![i]
+              .condition!
+              .selected_value
         });
       }
-      if (products[productIndex].excel_cell_customer![i].input_or_output ==
-              "INPUT" &&
-          products[productIndex].excel_cell_customer![i].condition != null &&
-          products[productIndex].excel_cell_customer![i].selected == true) {
-        input_body.add({
-          products[productIndex].excel_cell_customer![i].cell:
-              products[productIndex]
-                  .excel_cell_customer![i]
-                  .condition!
-                  .selected_value
-        });
-      }
-      if (products[productIndex].excel_cell_customer![i].input_or_output ==
-          "OUTPUT") {
+      if (excels[i].input_or_output == "OUTPUT") {
         output_body.add({
           products[productIndex]
-                  .excel_cell_customer![i]
-                  .condition!
-                  .selected_value:
-              products[productIndex].excel_cell_customer![i].cell
+              .excel_cell_customer![i]
+              .condition!
+              .selected_value: excels[i].cell
         });
       }
     }
@@ -89,7 +83,6 @@ class ProductController extends GetxController {
 
     if (response.success == true) {
       var offerresponse = OfferResponseModel.fromMap(response.data);
-      //TODO:get currency by response
       double offerprice = double.parse(offerresponse.price!);
       double rate = double.parse(authcontroller.user.currency!.exchange_rate!);
       double currencyrate = offerprice / rate;
@@ -104,17 +97,117 @@ class ProductController extends GetxController {
     BaseResponse response = await _dioClient.get(Urls.products);
     if (response.success == true) {
       List<dynamic> productlist = response.data;
+
       List<ProductModel> products = List.empty(growable: true);
+
       for (var i = 0; i < productlist.length; i++) {
         products.add(ProductModel.fromMap(productlist[i]));
       }
+      List<ProductModel> sortedproducts = List.empty(growable: true);
+      for (var i = 0; i < products.length; i++) {
+        ProductModel product = ProductModel(
+            id: products[i].id,
+            name: products[i].name,
+            brand: products[i].brand,
+            excel_cell_customer: List.empty(growable: true),
+            images: products[i].images);
+        sortedproducts.add(product);
+      }
 
       for (var i = 0; i < products.length; i++) {
-        products[i]
-            .excel_cell_customer
-            ?.sort((a, b) => a.input_or_output!.compareTo(b.input_or_output!));
+        var currentexcels = products[i].excel_cell_customer;
+        if (currentexcels!.isNotEmpty &&
+            currentexcels
+                .where((element) =>
+                    element.input_or_output == "INPUT" &&
+                    element.condition != null)
+                .isNotEmpty) {
+          List<ProductExcelModel> excels = List.empty(growable: true);
+          for (var e = 0;
+              e <
+                  products[i]
+                      .excel_cell_customer!
+                      .where((element) =>
+                          element.input_or_output == "INPUT" &&
+                          element.condition != null)
+                      .length;
+              e++) {
+            excels.add(products[i]
+                .excel_cell_customer!
+                .where((element) =>
+                    element.input_or_output == "INPUT" &&
+                    element.condition != null)
+                .toList()[e]);
+          }
+          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+            sortedproducts[i].excel_cell_customer?.addAll(excels);
+          } else {
+            sortedproducts[i].excel_cell_customer = excels;
+          }
+        }
       }
-      setProducts(products);
+      for (var i = 0; i < products.length; i++) {
+        if (products[i].excel_cell_customer != null &&
+            products[i].excel_cell_customer!.isNotEmpty &&
+            products[i]
+                .excel_cell_customer!
+                .where((element) => element.input_or_output == "OUTPUT")
+                .isNotEmpty) {
+          List<ProductExcelModel> excels = List.empty(growable: true);
+          for (var e = 0;
+              e <
+                  products[i]
+                      .excel_cell_customer!
+                      .where((element) => element.input_or_output == "OUTPUT")
+                      .length;
+              e++) {
+            excels.add(products[i]
+                .excel_cell_customer!
+                .where((element) => element.input_or_output == "OUTPUT")
+                .toList()[e]);
+          }
+          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+            sortedproducts[i].excel_cell_customer?.addAll(excels);
+          } else {
+            sortedproducts[i].excel_cell_customer = excels;
+          }
+        }
+      }
+      for (var i = 0; i < products.length; i++) {
+        if (products[i].excel_cell_customer != null &&
+            products[i].excel_cell_customer!.isNotEmpty &&
+            products[i]
+                .excel_cell_customer!
+                .where((element) =>
+                    element.input_or_output == "INPUT" &&
+                    element.condition == null)
+                .isNotEmpty) {
+          List<ProductExcelModel> excels = List.empty(growable: true);
+          for (var e = 0;
+              e <
+                  products[i]
+                      .excel_cell_customer!
+                      .where((element) =>
+                          element.input_or_output == "INPUT" &&
+                          element.condition == null)
+                      .length;
+              e++) {
+            excels.add(products[i]
+                .excel_cell_customer!
+                .where((element) =>
+                    element.input_or_output == "INPUT" &&
+                    element.condition == null)
+                .toList()[e]);
+          }
+          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+            sortedproducts[i].excel_cell_customer?.addAll(excels);
+          } else {
+            sortedproducts[i].excel_cell_customer = excels;
+          }
+        }
+      }
+
+      setProducts(sortedproducts);
     } else {
       Get.snackbar("Error", response.message!.tr,
           snackPosition: SnackPosition.TOP,

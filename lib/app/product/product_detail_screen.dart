@@ -101,21 +101,21 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
               textColor: Colors.white,
             ),
             Container(
-                height: screenHeight * .71,
-                width: screenWidth * .95,
+                height: screenHeight * .7,
+                width: screenWidth,
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
                     color: Theme.of(context).colorScheme.background),
                 child: Form(
                   key: _formKey,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GetBuilder<AuthController>(
                             builder: (authController) => Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
+                                  padding: const EdgeInsets.only(top: 1.0),
                                   child: BaseText(
                                     loadercontroller.status != Status.loading
                                         ? (productcontroller.price.isNotEmpty
@@ -128,27 +128,24 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                                     ),
                                   ),
                                 )),
-                        productcontroller.products
-                                        .firstWhere(
-                                            (element) => element.id == id)
-                                        .excel_cell_customer !=
-                                    null &&
-                                productcontroller.products
-                                    .firstWhere((element) => element.id == id)
-                                    .excel_cell_customer!
-                                    .isNotEmpty &&
-                                productcontroller.products
-                                    .firstWhere((element) => element.id == id)
-                                    .excel_cell_customer!
-                                    .any((e) =>
-                                        e.input_or_output == "INPUT" &&
-                                        e.condition != null)
-                            ? Container(
-                                child: dropdown(productcontroller.products
-                                    .indexWhere((element) => element.id == id)),
-                              )
-                            : Container(),
-                        excelField(),
+                        // productcontroller.products
+                        //                 .firstWhere(
+                        //                     (element) => element.id == id)
+                        //                 .excel_cell_customer !=
+                        //             null &&
+                        //         productcontroller.products
+                        //             .firstWhere((element) => element.id == id)
+                        //             .excel_cell_customer!
+                        //             .isNotEmpty &&
+                        //         productcontroller.products
+                        //             .firstWhere((element) => element.id == id)
+                        //             .excel_cell_customer!
+                        //             .any((e) =>
+                        //                 e.input_or_output == "INPUT" &&
+                        //                 e.condition != null)
+                        //     ? dropdownListForExcel(productcontroller)
+                        //     : Container(),
+                        excelFields(),
                         getPriceButton,
                         blank()
                       ],
@@ -159,87 +156,161 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         ),
       );
 
-  Container excelField() => Container(
-      width: screenWidth * .9,
-      height: screenHeight * .45,
-      color: Colors.white,
-      child: productcontroller.products
-                      .firstWhere((element) => element.id == id)
-                      .excel_cell_customer !=
-                  null &&
-              productcontroller.products
-                  .firstWhere((element) => element.id == id)
-                  .excel_cell_customer!
-                  .isNotEmpty
-          ? ListView.builder(
-              padding: const EdgeInsets.only(top: 10),
-              itemCount: productcontroller.products
-                  .firstWhere((element) => element.id == id)
-                  .excel_cell_customer
-                  ?.length,
-              itemBuilder: (BuildContext context, int index) {
-                // controller
-                var excelCell = productcontroller.products
-                    .firstWhere((element) => element.id == id)
-                    .excel_cell_customer?[index];
-                var celltype = excelCell?.input_or_output;
-                if (excelCell != null && celltype != null) {
-                  var productIndex = productcontroller.products
-                      .indexWhere((element) => element.id == id);
-                  if (celltype == "INPUT" && excelCell.condition == null) {
-                    return widthArea(productIndex, index);
-                  } else if (celltype == "INPUT" &&
-                      excelCell.condition != null) {
-                    // return dropdown(productIndex);
-                    return Container();
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: BaseButton(
-                          prefixIcon: productcontroller.products[productIndex]
-                                      .excel_cell_customer![index].selected ==
-                                  true
-                              ? const Icon(Icons.check)
-                              : null,
-                          bgColor: Colors.transparent,
-                          border: Border.all(),
-                          textColor: Theme.of(context).primaryColor,
-                          text: excelCell.description ?? "",
-                          onTap: () {
-                            for (var i = 0;
-                                i <
-                                    productcontroller.products[productIndex]
-                                        .excel_cell_customer!.length;
-                                i++) {
-                              if (productcontroller
-                                      .products[productIndex]
-                                      .excel_cell_customer![i]
-                                      .input_or_output ==
-                                  "OUTPUT") {
-                                productcontroller.products[productIndex]
-                                    .excel_cell_customer![i].selected = false;
-                              }
-                            }
-                            productcontroller.products[productIndex]
-                                .excel_cell_customer![index].selected = true;
-                            update();
-                          }),
-                    );
-                  }
-                } else {
-                  return null;
-                }
-              })
-          : Container());
+  // Container dropdownListForExcel(ProductController productcontroller) {
+  //   var count = productcontroller.products
+  //       .firstWhere((element) => element.id == id)
+  //       .excel_cell_customer!
+  //       .where((element) =>
+  //           element.input_or_output == "INPUT" && element.condition != null)
+  //       .map((e) => e.cell)
+  //       .toSet()
+  //       .toList()
+  //       .length;
+  //   var cells = productcontroller.products
+  //       .firstWhere((element) => element.id == id)
+  //       .excel_cell_customer!
+  //       .where((element) =>
+  //           element.input_or_output == "INPUT" && element.condition != null)
+  //       .map((e) => e.cell)
+  //       .toSet()
+  //       .toList();
+  //   return Container(
+  //       // color: Colors.yellow,
+  //       width: screenWidth,
+  //       height: count * screenHeight * .082,
+  //       child: ListView.builder(
+  //           padding: const EdgeInsets.only(top: 10),
+  //           itemCount: count,
+  //           itemBuilder: (BuildContext context, int index) {
+  //             // controller
+  //             return Padding(
+  //               padding: const EdgeInsets.symmetric(vertical: 8),
+  //               child: dropdown(
+  //                   productcontroller.products
+  //                       .indexWhere((element) => element.id == id),
+  //                   cell: cells[index]),
+  //             );
+  //           }));
+  // }
 
-  BaseInput widthArea(productIndex, excelIndex) => BaseInput(
+  Container excelFields() {
+    // var dropdowncount = productcontroller.products
+    //     .firstWhere((element) => element.id == id)
+    //     .excel_cell_customer!
+    //     .where((element) =>
+    //         element.input_or_output == "INPUT" && element.condition != null)
+    //     .map((e) => e.cell)
+    //     .toList()
+    //     .length;
+    // var dropdowngroupcount = productcontroller.products
+    //     .firstWhere((element) => element.id == id)
+    //     .excel_cell_customer!
+    //     .where((element) =>
+    //         element.input_or_output == "INPUT" && element.condition != null)
+    //     .map((e) => e.cell)
+    //     .toSet()
+    //     .toList()
+    //     .length;
+    var distinccells = productcontroller.products
+        .firstWhere((element) => element.id == id)
+        .excel_cell_customer!
+        .map((e) => e.cell)
+        .toSet()
+        .toList();
+
+    // var totalcount = productcontroller.products
+    //     .firstWhere((element) => element.id == id)
+    //     .excel_cell_customer
+    //     ?.length;
+
+    // var currentcount = (totalcount! - dropdowncount) + dropdowngroupcount;
+    var currentcount = distinccells.length;
+    return Container(
+        // width: screenWidth * .9,
+        height: screenHeight * .5,
+        color: Colors.white,
+        child: productcontroller.products
+                        .firstWhere((element) => element.id == id)
+                        .excel_cell_customer !=
+                    null &&
+                productcontroller.products
+                    .firstWhere((element) => element.id == id)
+                    .excel_cell_customer!
+                    .isNotEmpty
+            ? ListView.builder(
+                padding: const EdgeInsets.only(top: 10),
+                itemCount: currentcount,
+                itemBuilder: (BuildContext context, int index) {
+                  // controller
+                  var excelCell = productcontroller.products
+                      .firstWhere((element) => element.id == id)
+                      .excel_cell_customer
+                      ?.firstWhere(
+                          (element) => element.cell == distinccells[index]);
+                  var celltype = excelCell?.input_or_output;
+                  if (excelCell != null && celltype != null) {
+                    var productIndex = productcontroller.products
+                        .indexWhere((element) => element.id == id);
+                    if (celltype == "INPUT" && excelCell.condition == null) {
+                      return widthArea(productIndex, excelCell.cell!);
+                    } else if (celltype == "INPUT" &&
+                        excelCell.condition != null) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: dropdown(productIndex, cell: excelCell.cell),
+                      );
+                      // return Container();
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: BaseButton(
+                            prefixIcon: productcontroller.products[productIndex]
+                                        .excel_cell_customer![index].selected ==
+                                    true
+                                ? const Icon(Icons.check)
+                                : null,
+                            bgColor: Colors.transparent,
+                            border: Border.all(),
+                            textColor: Theme.of(context).primaryColor,
+                            text: excelCell.description ?? "",
+                            onTap: () {
+                              for (var i = 0;
+                                  i <
+                                      productcontroller.products[productIndex]
+                                          .excel_cell_customer!.length;
+                                  i++) {
+                                if (productcontroller
+                                        .products[productIndex]
+                                        .excel_cell_customer![i]
+                                        .input_or_output ==
+                                    "OUTPUT") {
+                                  productcontroller.products[productIndex]
+                                      .excel_cell_customer![i].selected = false;
+                                }
+                              }
+                              productcontroller.products[productIndex]
+                                  .excel_cell_customer![index].selected = true;
+                              update();
+                            }),
+                      );
+                    }
+                  } else {
+                    return null;
+                  }
+                })
+            : Container());
+  }
+
+  BaseInput widthArea(productIndex, String cell) => BaseInput(
         // focusNode: widthFocus,
         isInScrollView: true,
         decoration: InputDecoration(
           border:
               OutlineInputBorder(borderRadius: ThemeParameters.borderRadius),
-          labelText: productcontroller.products[productIndex]
-              .excel_cell_customer?[excelIndex].description,
+          labelText: productcontroller
+              .products[productIndex].excel_cell_customer
+              ?.firstWhere((element) => element.cell == cell)
+              .description,
           // labelText: productIndex.toString() + excelIndex.toString(),
           // hintText: 'enter_email'.tr,
           prefixIcon: Icon(Icons.calculate,
@@ -254,19 +325,17 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         },
         onChanged: (String value) {
           if (double.parse(value) > 0) {
-            productcontroller
-                .products[productIndex]
-                .excel_cell_customer?[excelIndex]
+            productcontroller.products[productIndex].excel_cell_customer
+                ?.firstWhere((element) => element.cell == cell)
                 .selected_value_int = double.parse(value);
           }
         },
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
-  BaseDropDown dropdown(int productIndex) => BaseDropDown(
+  BaseDropDown dropdown(int productIndex, {String? cell}) => BaseDropDown(
         key: Key("drpevidence$productIndex"),
         items: productcontroller.products[productIndex].excel_cell_customer!
-            .where((element) =>
-                element.input_or_output == "INPUT" && element.condition != null)
+            .where((element) => element.cell == cell)
             .map((item) => DropdownMenuItem<String>(
                   value: item.condition?.selected_value,
                   child: Text(
@@ -281,6 +350,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
             .toList(),
         dropdownWidth: screenWidth * .9,
         buttonWidth: screenWidth,
+        buttonHeight: screenHeight * .07,
         hint: Row(
           children: [
             Icon(
@@ -288,7 +358,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
               color: Theme.of(context).colorScheme.primary,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 12),
+              padding: const EdgeInsets.only(left: 20),
               child: BaseText(
                 "Select".tr,
                 style: Theme.of(context).textTheme.titleSmall,
@@ -296,7 +366,6 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
             )
           ],
         ),
-        buttonHeight: screenHeight * .06,
         buttonDecoration: BoxDecoration(
           borderRadius: ThemeParameters.borderRadius,
           border: Border.all(
@@ -307,10 +376,12 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         value: productcontroller.products[productIndex].excel_cell_customer!
                 .any((element) => (element.input_or_output == "INPUT" &&
                     element.condition != null &&
+                    element.cell == cell &&
                     element.selected == true))
             ? productcontroller.products[productIndex].excel_cell_customer!
                 .where((element) => (element.input_or_output == "INPUT" &&
                     element.condition != null &&
+                    element.cell == cell &&
                     element.selected == true))
                 .first
                 .condition
@@ -320,6 +391,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           if (value != null && value.isNotEmpty) {
             if (productcontroller.products[productIndex].excel_cell_customer!
                 .any((element) => (element.input_or_output == "INPUT" &&
+                    element.cell == cell &&
                     element.condition != null))) {
               for (var i = 0;
                   i <
@@ -327,16 +399,22 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                           .products[productIndex].excel_cell_customer!
                           .where((element) =>
                               (element.input_or_output == "INPUT" &&
+                                  element.cell == cell &&
                                   element.condition != null))
                           .length;
                   i++) {
-                productcontroller.products[productIndex].excel_cell_customer![i]
-                    .selected = false;
+                if (productcontroller
+                        .products[productIndex].excel_cell_customer![i].cell ==
+                    cell) {
+                  productcontroller.products[productIndex]
+                      .excel_cell_customer![i].selected = false;
+                }
               }
 
               productcontroller.products[productIndex].excel_cell_customer!
                   .where((element) => (element.input_or_output == "INPUT" &&
                       element.condition != null &&
+                      element.cell == cell &&
                       element.condition?.selected_value == value))
                   .first
                   .selected = true;
@@ -344,6 +422,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
               productcontroller.products[productIndex].excel_cell_customer!
                   .where((element) => (element.input_or_output == "INPUT" &&
                       element.condition != null &&
+                      element.cell == cell &&
                       element.condition?.selected_value == value))
                   .first
                   .selected_value = value;
@@ -361,7 +440,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
   Container get logo => Container(
         width: screenWidth,
-        height: screenHeight * .15,
+        height: screenHeight * .1,
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
