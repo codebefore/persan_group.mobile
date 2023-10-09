@@ -48,7 +48,7 @@ class ProductController extends GetxController {
         .toSet()
         .toList();
 
-    if (excels!
+    if (excels
             .where((element) =>
                 element.input_or_output == "INPUT" &&
                 element.condition != null &&
@@ -57,7 +57,7 @@ class ProductController extends GetxController {
         distinccells.length) {
       return false;
     }
-    for (var i = 0; i < excels!.length; i++) {
+    for (var i = 0; i < excels.length; i++) {
       if (excels[i].input_or_output == "INPUT" && excels[i].condition == null) {
         input_body.add({excels[i].cell: excels[i].selected_value_int});
       }
