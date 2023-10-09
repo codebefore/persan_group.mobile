@@ -41,7 +41,22 @@ class ProductController extends GetxController {
     List<dynamic> output_body = List.empty(growable: true);
     var excels = products[productIndex].excel_cell_customer;
 
-    print(excels.toString());
+    var distinccells = excels!
+        .where((element) =>
+            element.input_or_output == "INPUT" && element.condition != null)
+        .map((e) => e.cell)
+        .toSet()
+        .toList();
+
+    if (excels!
+            .where((element) =>
+                element.input_or_output == "INPUT" &&
+                element.condition != null &&
+                element.selected == true)
+            .length !=
+        distinccells.length) {
+      return false;
+    }
     for (var i = 0; i < excels!.length; i++) {
       if (excels[i].input_or_output == "INPUT" && excels[i].condition == null) {
         input_body.add({excels[i].cell: excels[i].selected_value_int});
@@ -66,18 +81,46 @@ class ProductController extends GetxController {
         });
       }
     }
+    int? conditionId = 0;
+    if (products[productIndex]
+                .excel_cell_customer!
+                .where((element) => element.input_or_output == "OUTPUT")
+                .length >
+            1 &&
+        products[productIndex].excel_cell_customer!.any((element) =>
+            element.input_or_output == "OUTPUT" && element.selected == true)) {
+      conditionId = products[productIndex]
+          .excel_cell_customer!
+          .where((element) =>
+              element.input_or_output == "OUTPUT" && element.selected == true)
+          .first
+          .condition
+          ?.id;
+    } else if (products[productIndex]
+                .excel_cell_customer!
+                .where((element) => element.input_or_output == "OUTPUT")
+                .length >
+            1 &&
+        !products[productIndex].excel_cell_customer!.any((element) =>
+            element.input_or_output == "OUTPUT" && element.selected == true)) {
+      return false;
+    } else if (products[productIndex]
+            .excel_cell_customer!
+            .where((element) => element.input_or_output == "OUTPUT")
+            .length ==
+        1) {
+      conditionId = products[productIndex]
+          .excel_cell_customer!
+          .where((element) => element.input_or_output == "OUTPUT")
+          .first
+          .condition
+          ?.id;
+    }
     var data = CreateOfferRequestModel(
             input_body: input_body,
             output_body: output_body,
             product: products[productIndex].id,
-            condition: products[productIndex]
-                .excel_cell_customer!
-                .where((element) =>
-                    element.input_or_output == "OUTPUT" &&
-                    element.selected == true)
-                .first
-                .condition
-                ?.id)
+            condition: conditionId)
         .toJson();
     BaseResponse response = await _dioClient.post(Urls.createoffer, data: data);
 
@@ -89,6 +132,7 @@ class ProductController extends GetxController {
       setPrice(currencyrate
           .toString()
           .substring(0, currencyrate.toString().indexOf('.') + 3));
+      return true;
     }
     return false;
   }
@@ -115,12 +159,13 @@ class ProductController extends GetxController {
       }
 
       for (var i = 0; i < products.length; i++) {
-        var currentexcels = products[i].excel_cell_customer;
-        if (currentexcels!.isNotEmpty &&
-            currentexcels
+        if (products[i].excel_cell_customer != null &&
+            products[i].excel_cell_customer!.isNotEmpty &&
+            products[i]
+                .excel_cell_customer!
                 .where((element) =>
                     element.input_or_output == "INPUT" &&
-                    element.condition != null)
+                    element.condition == null)
                 .isNotEmpty) {
           List<ProductExcelModel> excels = List.empty(growable: true);
           for (var e = 0;
@@ -129,14 +174,14 @@ class ProductController extends GetxController {
                       .excel_cell_customer!
                       .where((element) =>
                           element.input_or_output == "INPUT" &&
-                          element.condition != null)
+                          element.condition == null)
                       .length;
               e++) {
             excels.add(products[i]
                 .excel_cell_customer!
                 .where((element) =>
                     element.input_or_output == "INPUT" &&
-                    element.condition != null)
+                    element.condition == null)
                 .toList()[e]);
           }
           if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
@@ -174,13 +219,12 @@ class ProductController extends GetxController {
         }
       }
       for (var i = 0; i < products.length; i++) {
-        if (products[i].excel_cell_customer != null &&
-            products[i].excel_cell_customer!.isNotEmpty &&
-            products[i]
-                .excel_cell_customer!
+        var currentexcels = products[i].excel_cell_customer;
+        if (currentexcels!.isNotEmpty &&
+            currentexcels
                 .where((element) =>
                     element.input_or_output == "INPUT" &&
-                    element.condition == null)
+                    element.condition != null)
                 .isNotEmpty) {
           List<ProductExcelModel> excels = List.empty(growable: true);
           for (var e = 0;
@@ -189,14 +233,14 @@ class ProductController extends GetxController {
                       .excel_cell_customer!
                       .where((element) =>
                           element.input_or_output == "INPUT" &&
-                          element.condition == null)
+                          element.condition != null)
                       .length;
               e++) {
             excels.add(products[i]
                 .excel_cell_customer!
                 .where((element) =>
                     element.input_or_output == "INPUT" &&
-                    element.condition == null)
+                    element.condition != null)
                 .toList()[e]);
           }
           if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {

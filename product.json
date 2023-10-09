@@ -1,0 +1,141 @@
+{
+    "id": 27,
+    "images": [
+        {
+            "id": 26,
+            "image": "http://persan.pestomat.com/media/product_images/default_A2xZVcT.png",
+            "created_at": "2023-09-13T16:16:02.439942Z",
+            "updated_at": "2023-09-13T16:16:02.439960Z",
+            "product": 27
+        }
+    ],
+    "excel_cell_customer": [
+        {
+            "id": 169,
+            "cell": "O38",
+            "description": "Pencere (HAYIR)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 44,
+                "name": "HAYIR",
+                "selected_value": "HAYIR"
+            }
+        },
+        {
+            "id": 168,
+            "cell": "O38",
+            "description": "Pencere (EVET)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 43,
+                "name": "EVET",
+                "selected_value": "EVET"
+            }
+        },
+        {
+            "id": 166,
+            "cell": "O34",
+            "description": "KAPI 2200X900 (HAYIR)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 44,
+                "name": "HAYIR",
+                "selected_value": "HAYIR"
+            }
+        },
+        {
+            "id": 165,
+            "cell": "O34",
+            "description": "KAPI 2200X900 (EVET)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 43,
+                "name": "EVET",
+                "selected_value": "EVET"
+            }
+        },
+        {
+            "id": 164,
+            "cell": "O33",
+            "description": "Cam Seçimi (6mm D.c Tek Cam )",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 23,
+                "name": "6mm D.c Tek Cam",
+                "selected_value": "6mm D.c Tek Cam "
+            }
+        },
+        {
+            "id": 163,
+            "cell": "O33",
+            "description": "Cam Seçimi (6mm D.c Tek Cam + Temperli)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 22,
+                "name": "6mm D.c Tek Cam + Temperli",
+                "selected_value": "6mm D.c Tek Cam + Temperli"
+            }
+        },
+        {
+            "id": 162,
+            "cell": "O33",
+            "description": "Cam Seçimi (4+12+4 D.c ısıcam)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 21,
+                "name": "4+12+4 D.c ısıcam",
+                "selected_value": "4+12+4 D.c ısıcam"
+            }
+        },
+        {
+            "id": 161,
+            "cell": "O33",
+            "description": "Cam Seçimi (4+12+4 D.c  ısıcam Temperli)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 20,
+                "name": "4+12+4 D.c  ısıcam Temperli",
+                "selected_value": "4+12+4 D.c  ısıcam Temperli"
+            }
+        },
+        {
+            "id": 160,
+            "cell": "O32",
+            "description": "Cam Tipi (TEK CAM)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 18,
+                "name": "TEK CAM",
+                "selected_value": "TEK CAM"
+            }
+        },
+        {
+            "id": 159,
+            "cell": "O32",
+            "description": "Cam Tipi (ISI CAM)",
+            "input_or_output": "INPUT",
+            "condition": {
+                "id": 19,
+                "name": "ISI CAM",
+                "selected_value": "ISI CAM"
+            }
+        },
+        {
+            "id": 158,
+            "cell": "O15",
+            "description": "Satış Fiyatı",
+            "input_or_output": "OUTPUT",
+            "condition": {
+                "id": 3,
+                "name": "Satış Fiyatı",
+                "selected_value": "ST_OK"
+            }
+        }
+      
+    ],
+    "name": "GİO C60 SABİT DOĞRAMA",
+    "brand": "GIOSAN",
+    "default_profit_rate": 20,
+    "created_at": "2023-09-13T16:16:02.421945Z",
+    "updated_at": "2023-09-13T16:29:31.509008Z"
+}

@@ -49,10 +49,18 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
     if (form?.validate() ?? false) {
       loadercontroller.setStatus(Status.loading);
-      await productcontroller.fetchCreateOffer(
+      bool success = await productcontroller.fetchCreateOffer(
           productcontroller.products.indexWhere((element) => element.id == id));
-      // form?.reset();
       loadercontroller.setStatus(Status.initial);
+      if (success != true) {
+        Get.snackbar("Error", "fillrequiredfields".tr,
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 5),
+            icon: const Icon(Icons.error, color: Colors.red),
+            overlayColor: Colors.black,
+            colorText: Colors.red);
+      }
+      // form?.reset();
     }
   }
 
@@ -225,6 +233,11 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
     // var currentcount = (totalcount! - dropdowncount) + dropdowngroupcount;
     var currentcount = distinccells.length;
+    int? outputcount = productcontroller.products
+        .firstWhere((element) => element.id == id)
+        .excel_cell_customer!
+        .where((element) => element.input_or_output == "OUTPUT")
+        .length;
     return Container(
         // width: screenWidth * .9,
         height: screenHeight * .5,
@@ -260,43 +273,57 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                         child: dropdown(productIndex, cell: excelCell.cell),
                       );
                       // return Container();
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 16),
-                        child: BaseButton(
-                            prefixIcon: productcontroller.products[productIndex]
-                                        .excel_cell_customer![index].selected ==
-                                    true
-                                ? const Icon(Icons.check)
-                                : null,
-                            bgColor: Colors.transparent,
-                            border: Border.all(),
-                            textColor: Theme.of(context).primaryColor,
-                            text: excelCell.description ?? "",
-                            onTap: () {
-                              for (var i = 0;
-                                  i <
-                                      productcontroller.products[productIndex]
-                                          .excel_cell_customer!.length;
-                                  i++) {
-                                if (productcontroller
-                                        .products[productIndex]
-                                        .excel_cell_customer![i]
-                                        .input_or_output ==
-                                    "OUTPUT") {
+                    } else if (celltype == "OUTPUT" && outputcount > 1) {
+                      return Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: BaseButton(
+                              prefixIcon: productcontroller
+                                          .products[productIndex]
+                                          .excel_cell_customer
+                                          ?.firstWhere((element) =>
+                                              element.cell ==
+                                              distinccells[index])
+                                          .selected ==
+                                      true
+                                  ? const Icon(Icons.check)
+                                  : null,
+                              bgColor: Colors.transparent,
+                              border: Border.all(),
+                              textColor: Theme.of(context).primaryColor,
+                              text: excelCell.description ?? "",
+                              onTap: () {
+                                for (var i = 0;
+                                    i <
+                                        productcontroller.products[productIndex]
+                                            .excel_cell_customer!
+                                            .where((element) =>
+                                                element.input_or_output ==
+                                                "OUTPUT")
+                                            .length;
+                                    i++) {
                                   productcontroller.products[productIndex]
-                                      .excel_cell_customer![i].selected = false;
+                                      .excel_cell_customer!
+                                      .where((element) =>
+                                          element.input_or_output == "OUTPUT")
+                                      .toList()[i]
+                                      .selected = false;
                                 }
-                              }
-                              productcontroller.products[productIndex]
-                                  .excel_cell_customer![index].selected = true;
-                              update();
-                            }),
+                                productcontroller
+                                    .products[productIndex].excel_cell_customer
+                                    ?.firstWhere((element) =>
+                                        element.cell == distinccells[index])
+                                    .selected = true;
+                                update();
+                              }),
+                        ),
                       );
                     }
                   } else {
-                    return null;
+                    return Container();
                   }
+                  return Container();
                 })
             : Container());
   }
@@ -403,12 +430,18 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                                   element.condition != null))
                           .length;
                   i++) {
-                if (productcontroller
-                        .products[productIndex].excel_cell_customer![i].cell ==
-                    cell) {
-                  productcontroller.products[productIndex]
-                      .excel_cell_customer![i].selected = false;
-                }
+                // if (productcontroller
+                //           .products[productIndex].excel_cell_customer!
+                //           .where((element) =>
+                //               (element.input_or_output == "INPUT" &&
+                //                   element.cell == cell &&
+                //                   element.condition != null))[i].) {
+                productcontroller.products[productIndex].excel_cell_customer!
+                    .where((element) => (element.input_or_output == "INPUT" &&
+                        element.cell == cell &&
+                        element.condition != null))
+                    .toList()[i]
+                    .selected = false;
               }
 
               productcontroller.products[productIndex].excel_cell_customer!
@@ -419,13 +452,13 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                   .first
                   .selected = true;
 
-              productcontroller.products[productIndex].excel_cell_customer!
-                  .where((element) => (element.input_or_output == "INPUT" &&
-                      element.condition != null &&
-                      element.cell == cell &&
-                      element.condition?.selected_value == value))
-                  .first
-                  .selected_value = value;
+              // productcontroller.products[productIndex].excel_cell_customer!
+              //     .where((element) => (element.input_or_output == "INPUT" &&
+              //         element.condition != null &&
+              //         element.cell == cell &&
+              //         element.condition?.selected_value == value))
+              //     .first
+              //     .selected_value = value;
             }
           }
           update();
