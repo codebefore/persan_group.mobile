@@ -66,23 +66,28 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          iconTheme:
-              IconThemeData(color: Theme.of(context).colorScheme.background),
-        ),
-        body: BaseWidget(
-          isDark: true,
-          noNeedPadding: true,
-          body: GetBuilder<ProductController>(builder: (productcontroller) {
-            return Flex(
-              direction: Axis.vertical,
-              children: [start(productcontroller)],
-            );
-          }),
-        ));
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            iconTheme:
+                IconThemeData(color: Theme.of(context).colorScheme.background),
+          ),
+          body: BaseWidget(
+            isDark: true,
+            noNeedPadding: true,
+            body: GetBuilder<ProductController>(builder: (productcontroller) {
+              return Flex(
+                direction: Axis.vertical,
+                children: [start(productcontroller)],
+              );
+            }),
+          )),
+    );
   }
 
   Container start(ProductController productcontroller) => Container(
