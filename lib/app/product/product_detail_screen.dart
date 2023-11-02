@@ -335,6 +335,12 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
   BaseInput widthArea(productIndex, String cell) => BaseInput(
         // focusNode: widthFocus,
+        initialValue: productcontroller
+                .products[productIndex].excel_cell_customer
+                ?.firstWhere((element) => element.cell == cell)
+                .selected_value_int
+                ?.toString() ??
+            "",
         isInScrollView: true,
         decoration: InputDecoration(
           border:
@@ -362,6 +368,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                 .selected_value_int = double.parse(value);
           }
         },
+
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
   BaseDropDown dropdown(int productIndex, {String? cell}) => BaseDropDown(
