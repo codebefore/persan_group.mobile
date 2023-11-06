@@ -5,6 +5,7 @@ class Urls {
   static String profile = '$baseUrl/customer/';
   static String register = '$baseUrl/customer/';
   static String products = '$baseUrl/product/';
+  static String categories = '$baseUrl/category/';
   static String createoffer = '$baseUrl/offer/';
 }
 

@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
+import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({super.key});
   @override
-  State<ProductScreen> createState() => _CategoryScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<ProductScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   final productContoller = Get.find<ProductController>();
   final authContoller = Get.find<AuthController>();
+  final loaderContoller = Get.find<LoaderController>();
 
   String title = Get.arguments['0'];
   String brandName = Get.arguments['1'];
 
   @override
   void initState() {
-    // productFilter();
     super.initState();
   }
 
@@ -67,18 +68,25 @@ class _CategoryScreenState extends State<ProductScreen> {
                 decoration: BoxDecoration(
                     borderRadius: ThemeParameters.borderRadius,
                     color: Theme.of(context).colorScheme.background),
-                child: productContoller.products.isNotEmpty
+                child: productContoller.categories.isNotEmpty
                     ? ListView.builder(
                         padding: const EdgeInsets.only(
                             left: 10, right: 10, bottom: 100),
-                        itemCount: productContoller.products.length,
+                        itemCount: productContoller.categories.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                              onTap: () => {
-                                    Get.toNamed(Routes.productdetail,
-                                        arguments:
-                                            productContoller.products[index].id)
-                                  },
+                              onTap: () {
+                                if (productContoller
+                                        .categories[index].products !=
+                                    null) {
+                                  var sortedproduts = productContoller
+                                      .sortProduct(productContoller
+                                          .categories[index].products!);
+                                  productContoller.setProducts(sortedproduts);
+                                  Get.toNamed(Routes.product,
+                                      arguments: {'0': title, '1': brandName});
+                                }
+                              },
                               child: productItem(index, context));
                         })
                     : Container())
@@ -96,12 +104,11 @@ class _CategoryScreenState extends State<ProductScreen> {
         height: screenHeight * .25,
         decoration: BoxDecoration(
             borderRadius: ThemeParameters.borderRadius,
-            image: productContoller.products[index].images?.first.image != null
+            image: productContoller.categories[index].image != null
                 ? DecorationImage(
                     fit: BoxFit.cover,
                     image: NetworkImage(
-                        productContoller.products[index].images?.first.image ??
-                            ""),
+                        productContoller.categories[index].image ?? ""),
                   )
                 : null),
         child: Column(
@@ -117,7 +124,7 @@ class _CategoryScreenState extends State<ProductScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    productContoller.products[index].name ?? "",
+                    productContoller.categories[index].name ?? "",
                     style: TextStyle(
                         shadows: const [
                           Shadow(

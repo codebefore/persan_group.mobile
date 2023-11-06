@@ -5,6 +5,7 @@ import 'package:persangroup_mobile/app/auth/signup/signup_screen_last.dart';
 import 'package:persangroup_mobile/app/auth/signup/signup_screen_more.dart';
 import 'package:persangroup_mobile/app/auth/start/start.screen.dart';
 import 'package:persangroup_mobile/app/home/home_screen.dart';
+import 'package:persangroup_mobile/app/product/category_screen.dart';
 import 'package:persangroup_mobile/app/product/product_detail_screen.dart';
 import 'package:persangroup_mobile/app/product/product_screen.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
@@ -23,6 +24,10 @@ final List<GetPage> getPages = [
   GetPage(
     name: Routes.product,
     page: () => const ProductScreen(),
+  ),
+  GetPage(
+    name: Routes.category,
+    page: () => const CategoryScreen(),
   ),
   GetPage(name: Routes.productdetail, page: () => const ProductDetailScreen()),
 ];

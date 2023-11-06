@@ -128,9 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
       GestureDetector(
         onTap: () async {
           loadercontroller.setStatus(Status.loading);
-          await productcontroller.fetchProducts();
+          await productcontroller.fetchCategories();
           loadercontroller.setStatus(Status.initial);
-          await Get.toNamed(Routes.product,
+          await Get.toNamed(Routes.category,
               arguments: {'0': title, '1': brandName});
         },
         child: Card(

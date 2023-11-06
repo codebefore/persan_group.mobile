@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persangroup_mobile/app/product/category_model.dart';
 import 'package:persangroup_mobile/app/product/create_offer_request_model.dart';
 import 'package:persangroup_mobile/app/product/offer_response_model.dart';
 import 'package:persangroup_mobile/app/product/product_excel_model.dart';
@@ -23,7 +24,13 @@ class ProductController extends GetxController {
   List<ProductModel> get products => _products;
   void setProducts(List<ProductModel> products) {
     _products.value = products;
-    // products.toString();
+  }
+
+  //categories get set
+  final _categories = <CategoryModel>[].obs;
+  List<CategoryModel> get categories => _categories;
+  void setCategories(List<CategoryModel> categories) {
+    _categories.value = categories;
   }
 
   void setProductsV2(List<ProductModel> updatedproducts) {
@@ -137,6 +144,113 @@ class ProductController extends GetxController {
     return false;
   }
 
+  List<ProductModel> sortProduct(List<ProductModel> productlist) {
+    List<ProductModel> sortedproducts = List.empty(growable: true);
+    for (var i = 0; i < productlist.length; i++) {
+      ProductModel product = ProductModel(
+          id: productlist[i].id,
+          name: productlist[i].name,
+          brand: productlist[i].brand,
+          excel_cell_customer: List.empty(growable: true),
+          images: productlist[i].images);
+      sortedproducts.add(product);
+    }
+
+    for (var i = 0; i < productlist.length; i++) {
+      if (productlist[i].excel_cell_customer != null &&
+          productlist[i].excel_cell_customer!.isNotEmpty &&
+          productlist[i]
+              .excel_cell_customer!
+              .where((element) =>
+                  element.input_or_output == "INPUT" &&
+                  element.condition == null)
+              .isNotEmpty) {
+        List<ProductExcelModel> excels = List.empty(growable: true);
+        for (var e = 0;
+            e <
+                productlist[i]
+                    .excel_cell_customer!
+                    .where((element) =>
+                        element.input_or_output == "INPUT" &&
+                        element.condition == null)
+                    .length;
+            e++) {
+          excels.add(productlist[i]
+              .excel_cell_customer!
+              .where((element) =>
+                  element.input_or_output == "INPUT" &&
+                  element.condition == null)
+              .toList()[e]);
+        }
+        if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+          sortedproducts[i].excel_cell_customer?.addAll(excels);
+        } else {
+          sortedproducts[i].excel_cell_customer = excels;
+        }
+      }
+    }
+    for (var i = 0; i < productlist.length; i++) {
+      if (productlist[i].excel_cell_customer != null &&
+          productlist[i].excel_cell_customer!.isNotEmpty &&
+          productlist[i]
+              .excel_cell_customer!
+              .where((element) => element.input_or_output == "OUTPUT")
+              .isNotEmpty) {
+        List<ProductExcelModel> excels = List.empty(growable: true);
+        for (var e = 0;
+            e <
+                productlist[i]
+                    .excel_cell_customer!
+                    .where((element) => element.input_or_output == "OUTPUT")
+                    .length;
+            e++) {
+          excels.add(productlist[i]
+              .excel_cell_customer!
+              .where((element) => element.input_or_output == "OUTPUT")
+              .toList()[e]);
+        }
+        if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+          sortedproducts[i].excel_cell_customer?.addAll(excels);
+        } else {
+          sortedproducts[i].excel_cell_customer = excels;
+        }
+      }
+    }
+    for (var i = 0; i < productlist.length; i++) {
+      var currentexcels = productlist[i].excel_cell_customer;
+      if (currentexcels!.isNotEmpty &&
+          currentexcels
+              .where((element) =>
+                  element.input_or_output == "INPUT" &&
+                  element.condition != null)
+              .isNotEmpty) {
+        List<ProductExcelModel> excels = List.empty(growable: true);
+        for (var e = 0;
+            e <
+                productlist[i]
+                    .excel_cell_customer!
+                    .where((element) =>
+                        element.input_or_output == "INPUT" &&
+                        element.condition != null)
+                    .length;
+            e++) {
+          excels.add(productlist[i]
+              .excel_cell_customer!
+              .where((element) =>
+                  element.input_or_output == "INPUT" &&
+                  element.condition != null)
+              .toList()[e]);
+        }
+        if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
+          sortedproducts[i].excel_cell_customer?.addAll(excels);
+        } else {
+          sortedproducts[i].excel_cell_customer = excels;
+        }
+      }
+    }
+    return sortedproducts;
+  }
+
   Future<bool> fetchProducts() async {
     BaseResponse response = await _dioClient.get(Urls.products);
     if (response.success == true) {
@@ -147,109 +261,9 @@ class ProductController extends GetxController {
       for (var i = 0; i < productlist.length; i++) {
         products.add(ProductModel.fromMap(productlist[i]));
       }
-      List<ProductModel> sortedproducts = List.empty(growable: true);
-      for (var i = 0; i < products.length; i++) {
-        ProductModel product = ProductModel(
-            id: products[i].id,
-            name: products[i].name,
-            brand: products[i].brand,
-            excel_cell_customer: List.empty(growable: true),
-            images: products[i].images);
-        sortedproducts.add(product);
-      }
 
-      for (var i = 0; i < products.length; i++) {
-        if (products[i].excel_cell_customer != null &&
-            products[i].excel_cell_customer!.isNotEmpty &&
-            products[i]
-                .excel_cell_customer!
-                .where((element) =>
-                    element.input_or_output == "INPUT" &&
-                    element.condition == null)
-                .isNotEmpty) {
-          List<ProductExcelModel> excels = List.empty(growable: true);
-          for (var e = 0;
-              e <
-                  products[i]
-                      .excel_cell_customer!
-                      .where((element) =>
-                          element.input_or_output == "INPUT" &&
-                          element.condition == null)
-                      .length;
-              e++) {
-            excels.add(products[i]
-                .excel_cell_customer!
-                .where((element) =>
-                    element.input_or_output == "INPUT" &&
-                    element.condition == null)
-                .toList()[e]);
-          }
-          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
-            sortedproducts[i].excel_cell_customer?.addAll(excels);
-          } else {
-            sortedproducts[i].excel_cell_customer = excels;
-          }
-        }
-      }
-      for (var i = 0; i < products.length; i++) {
-        if (products[i].excel_cell_customer != null &&
-            products[i].excel_cell_customer!.isNotEmpty &&
-            products[i]
-                .excel_cell_customer!
-                .where((element) => element.input_or_output == "OUTPUT")
-                .isNotEmpty) {
-          List<ProductExcelModel> excels = List.empty(growable: true);
-          for (var e = 0;
-              e <
-                  products[i]
-                      .excel_cell_customer!
-                      .where((element) => element.input_or_output == "OUTPUT")
-                      .length;
-              e++) {
-            excels.add(products[i]
-                .excel_cell_customer!
-                .where((element) => element.input_or_output == "OUTPUT")
-                .toList()[e]);
-          }
-          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
-            sortedproducts[i].excel_cell_customer?.addAll(excels);
-          } else {
-            sortedproducts[i].excel_cell_customer = excels;
-          }
-        }
-      }
-      for (var i = 0; i < products.length; i++) {
-        var currentexcels = products[i].excel_cell_customer;
-        if (currentexcels!.isNotEmpty &&
-            currentexcels
-                .where((element) =>
-                    element.input_or_output == "INPUT" &&
-                    element.condition != null)
-                .isNotEmpty) {
-          List<ProductExcelModel> excels = List.empty(growable: true);
-          for (var e = 0;
-              e <
-                  products[i]
-                      .excel_cell_customer!
-                      .where((element) =>
-                          element.input_or_output == "INPUT" &&
-                          element.condition != null)
-                      .length;
-              e++) {
-            excels.add(products[i]
-                .excel_cell_customer!
-                .where((element) =>
-                    element.input_or_output == "INPUT" &&
-                    element.condition != null)
-                .toList()[e]);
-          }
-          if (sortedproducts[i].excel_cell_customer!.isNotEmpty) {
-            sortedproducts[i].excel_cell_customer?.addAll(excels);
-          } else {
-            sortedproducts[i].excel_cell_customer = excels;
-          }
-        }
-      }
+      List<ProductModel> sortedproducts = List.empty(growable: true);
+      sortedproducts = sortProduct(products);
 
       setProducts(sortedproducts);
     } else {
@@ -261,6 +275,29 @@ class ProductController extends GetxController {
           colorText: Colors.red);
     }
     // setStatus(Status.initial);
+    return false;
+  }
+
+  Future<bool> fetchCategories() async {
+    BaseResponse response = await _dioClient.get(Urls.categories);
+    if (response.success == true) {
+      List<dynamic> categorylist = response.data;
+
+      List<CategoryModel> categorys = List.empty(growable: true);
+
+      for (var i = 0; i < categorylist.length; i++) {
+        categorys.add(CategoryModel.fromMap(categorylist[i]));
+      }
+      setCategories(categorys);
+      return true;
+    } else {
+      Get.snackbar("Error", response.message!.tr,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 10),
+          icon: const Icon(Icons.error, color: Colors.red),
+          overlayColor: Colors.black,
+          colorText: Colors.red);
+    }
     return false;
   }
 }
