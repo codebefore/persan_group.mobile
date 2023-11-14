@@ -354,7 +354,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           prefixIcon: Icon(Icons.calculate,
               size: iconSize, color: Theme.of(context).primaryColor),
         ),
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.next,
         textFormatters: const [],
         onEditingComplete: () {
