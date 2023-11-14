@@ -8,6 +8,8 @@ import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
+import '../../core/component/base_text.dart';
+
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
   @override
@@ -62,6 +64,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
               height: screenHeight * .1,
             ),
             logo,
+            BaseText(
+              title,
+              textColor: Colors.white,
+            ),
             Container(
                 height: screenHeight * .7,
                 width: screenWidth * .95,
@@ -77,14 +83,45 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           return GestureDetector(
                               onTap: () {
                                 if (productContoller
-                                        .categories[index].products !=
-                                    null) {
-                                  var sortedproduts = productContoller
-                                      .sortProduct(productContoller
-                                          .categories[index].products!);
-                                  productContoller.setProducts(sortedproduts);
-                                  Get.toNamed(Routes.product,
-                                      arguments: {'0': title, '1': brandName});
+                                            .categories[index].children !=
+                                        null &&
+                                    productContoller.categories[index].children!
+                                        .isNotEmpty) {
+                                  productContoller.setCategories(
+                                      productContoller
+                                          .categories[index].children!);
+                                  Get.offAndToNamed(Routes.category,
+                                      arguments: {
+                                        '0': productContoller
+                                            .categories[index].name,
+                                        '1': productContoller
+                                            .categories[index].brand
+                                      });
+                                } else if (productContoller
+                                            .categories[index].products !=
+                                        null &&
+                                    productContoller.categories[index].products!
+                                        .isNotEmpty) {
+                                  if (productContoller
+                                          .categories[index].products?.length ==
+                                      1) {
+                                    productContoller.setProducts(
+                                        productContoller
+                                            .categories[index].products!);
+                                    Get.toNamed(Routes.productdetail,
+                                        arguments: productContoller
+                                            .categories[index].products?[0].id);
+                                  } else {
+                                    var sortedproduts = productContoller
+                                        .sortProduct(productContoller
+                                            .categories[index].products!);
+                                    productContoller.setProducts(sortedproduts);
+                                    Get.toNamed(Routes.product, arguments: {
+                                      '0': productContoller
+                                          .categories[index].name,
+                                      '1': brandName
+                                    });
+                                  }
                                 }
                               },
                               child: productItem(index, context));

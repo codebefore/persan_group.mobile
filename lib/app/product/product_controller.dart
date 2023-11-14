@@ -278,7 +278,7 @@ class ProductController extends GetxController {
     return false;
   }
 
-  Future<bool> fetchCategories() async {
+  Future<bool> fetchCategories(String brand) async {
     BaseResponse response = await _dioClient.get(Urls.categories);
     if (response.success == true) {
       List<dynamic> categorylist = response.data;
@@ -288,7 +288,8 @@ class ProductController extends GetxController {
       for (var i = 0; i < categorylist.length; i++) {
         categorys.add(CategoryModel.fromMap(categorylist[i]));
       }
-      setCategories(categorys);
+      setCategories(
+          categorys.where((element) => element.brand == brand).toList());
       return true;
     } else {
       Get.snackbar("Error", response.message!.tr,

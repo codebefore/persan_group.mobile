@@ -7,6 +7,8 @@ import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/constant/theme_options.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
 
+import '../../core/component/base_text.dart';
+
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
   @override
@@ -61,6 +63,10 @@ class _CategoryScreenState extends State<ProductScreen> {
               height: screenHeight * .1,
             ),
             logo,
+            BaseText(
+              title,
+              textColor: Colors.white,
+            ),
             Container(
                 height: screenHeight * .7,
                 width: screenWidth * .95,
