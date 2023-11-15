@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('lib/assets/images/start_background.png'),
+            image: AssetImage('lib/assets/images/start_background.jpg'),
           ),
         ),
         child: Column(
@@ -63,9 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  productBox('lib/assets/images/shadowsystems.jpeg',
+                  productBox('lib/assets/images/shadowsystems.jpg',
                       'shading_systems'.tr, "PERSAN"),
-                  productBox('lib/assets/images/categories/titan.png',
+                  productBox('lib/assets/images/gioglass.jpg',
                       'giosan_systems'.tr, "GIOSAN")
                 ],
               ),
@@ -81,9 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           BaseButton(
-            width: screenWidth * .35,
-            // height: screenHeight * .05,
-            prefixIcon: const Icon(Icons.adobe),
+            width: screenWidth * .40,
+            assetImage: const AssetImage('lib/assets/images/icon.png'),
             text: "persan_catalog".tr,
             style: const TextStyle(fontSize: 12),
             textColor: Colors.black,
@@ -91,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
             bgColor: Colors.white,
           ),
           BaseButton(
-            width: screenWidth * .35,
+            width: screenWidth * .40,
             style: const TextStyle(fontSize: 12),
-            prefixIcon: const Icon(Icons.adobe),
+            assetImage: const AssetImage('lib/assets/images/icon.png'),
             textColor: Colors.black,
             text: "giosan_catalog".tr,
             onTap: () => {Get.to(const PdfViewerScreen())},

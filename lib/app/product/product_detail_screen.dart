@@ -96,7 +96,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('lib/assets/images/start_background.png'),
+            image: AssetImage('lib/assets/images/start_background.jpg'),
           ),
         ),
         child: Column(

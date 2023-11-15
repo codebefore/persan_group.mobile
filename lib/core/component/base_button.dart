@@ -19,6 +19,7 @@ class BaseButton extends StatelessWidget {
     this.border,
     this.prefixIcon,
     this.suffixIcon,
+    this.assetImage,
   }) : super(key: key);
   final Color? bgColor;
   final Color? textColor;
@@ -31,6 +32,8 @@ class BaseButton extends StatelessWidget {
   final TextStyle? style;
   final Icon? prefixIcon;
   final Icon? suffixIcon;
+  final AssetImage? assetImage;
+
   @override
   Widget build(BuildContext context) {
     TextStyle currentTextStyles = themeSubTitleMedium(context);
@@ -57,7 +60,7 @@ class BaseButton extends StatelessWidget {
           height: height ?? buttonHeight,
           decoration: BoxDecoration(
               borderRadius: ThemeParameters.borderRadius, border: border),
-          child: prefixIcon == null && suffixIcon == null
+          child: prefixIcon == null && suffixIcon == null && assetImage == null
               ? BaseText(text,
                   textAlign: TextAlign.center, style: currentTextStyles)
               : Padding(
@@ -65,6 +68,8 @@ class BaseButton extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      if (assetImage != null)
+                        Image(image: assetImage!, height: 24, width: 24),
                       prefixIcon ?? Container(),
                       BaseText(text,
                           textAlign: TextAlign.center,

@@ -50,7 +50,7 @@ class _StartScreenState extends State<StartScreen> {
   BoxDecoration imageBackground() {
     return const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("lib/assets/images/start_background.png"),
+            image: AssetImage("lib/assets/images/start_background.jpg"),
             fit: BoxFit.cover));
   }
 
