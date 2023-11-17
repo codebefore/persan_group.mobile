@@ -7,7 +7,9 @@ import 'package:persangroup_mobile/app/home/html_viewer.dart';
 import 'package:persangroup_mobile/app/home/pdf_viewer.dart';
 import 'package:persangroup_mobile/app/product/product_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
+import 'package:persangroup_mobile/core/component/base_text.dart';
 import 'package:persangroup_mobile/core/component/base_widget.dart';
+import 'package:persangroup_mobile/core/component/blank.dart';
 import 'package:persangroup_mobile/core/constant/enums.dart';
 import 'package:persangroup_mobile/core/constant/size_config.dart';
 import 'package:persangroup_mobile/core/route/routes.dart';
@@ -72,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             catalogs,
             callButton,
-            logoutButton,
+            user
           ],
         ),
       );
@@ -101,19 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       );
 
-  BaseButton get logoutButton => BaseButton(
-        text: "logout".tr,
-        width: screenWidth * .5,
-        onTap: () async {
-          loadercontroller.setStatus(Status.loading);
-          await authcontoller.logout();
-          loadercontroller.setStatus(Status.initial);
-          await Get.toNamed(Routes.login);
-        },
-        bgColor: Colors.transparent,
-        textColor: Theme.of(context).colorScheme.background,
-        prefixIcon: const Icon(Icons.logout, color: Colors.white),
-      );
   BaseButton get callButton => BaseButton(
         text: "contact".tr,
         width: screenWidth * .33,
@@ -123,6 +112,111 @@ class _HomeScreenState extends State<HomeScreen> {
         textColor: Theme.of(context).colorScheme.primary,
         prefixIcon: const Icon(Icons.call, color: Colors.black),
       );
+
+  Row get user => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          BaseButton(
+            text: "delete_account".tr,
+            width: screenWidth * .40,
+            // height: screenHeight * .05,
+            onTap: () async {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                builder: (BuildContext context) {
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        BaseText(
+                          textAlign: TextAlign.center,
+                          'are_you_sure_user_delete'.tr,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        blank(),
+                        BaseText(
+                          textAlign: TextAlign.center,
+                          '${'email'.tr}: ${authcontoller.user.email}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Expanded(
+                              child: BaseButton(
+                                bgColor: Colors.red,
+                                onTap: () async {
+                                  var isSuccess =
+                                      await authcontoller.userDelete();
+
+                                  if (isSuccess == true) {
+                                    loadercontroller.setStatus(Status.loading);
+                                    await authcontoller.logout();
+                                    loadercontroller.setStatus(Status.initial);
+                                    await Get.toNamed(Routes.login);
+                                  } else {
+                                    Get.snackbar(
+                                        "Error", "checkyourcredentials".tr,
+                                        snackPosition: SnackPosition.TOP,
+                                        duration: const Duration(seconds: 5),
+                                        icon: const Icon(Icons.error,
+                                            color: Colors.red),
+                                        overlayColor: Colors.black,
+                                        colorText: Colors.red);
+                                  }
+                                },
+                                text: 'yes'.tr,
+                              ),
+                            ),
+                            const SizedBox(width: 30),
+                            Expanded(
+                              child: BaseButton(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                text: 'no'.tr,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            bgColor: Colors.white,
+            textColor: Theme.of(context).colorScheme.primary,
+            prefixIcon:
+                const Icon(Icons.person_off_rounded, color: Colors.black),
+          ),
+          BaseButton(
+            text: "logout".tr,
+            width: screenWidth * .40,
+            onTap: () async {
+              loadercontroller.setStatus(Status.loading);
+              await authcontoller.logout();
+              loadercontroller.setStatus(Status.initial);
+              await Get.toNamed(Routes.login);
+            },
+            bgColor: Colors.transparent,
+            textColor: Theme.of(context).colorScheme.background,
+            prefixIcon: const Icon(Icons.logout, color: Colors.white),
+          ),
+        ],
+      );
+
   GestureDetector productBox(String imageUrl, String title, String brandName) =>
       GestureDetector(
         onTap: () async {
@@ -175,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('lib/assets/images/logo_dark.png'),
+            image: AssetImage('lib/assets/images/persanlogo.png'),
           ),
         ),
       );

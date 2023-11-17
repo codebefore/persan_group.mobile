@@ -153,7 +153,7 @@ class _CategoryScreenState extends State<ProductScreen> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: AssetImage('lib/assets/images/logo_dark.png'),
+            image: AssetImage('lib/assets/images/persanlogo.png'),
           ),
         ),
       );

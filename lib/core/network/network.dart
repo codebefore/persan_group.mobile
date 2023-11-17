@@ -7,6 +7,7 @@ class Urls {
   static String products = '$baseUrl/product/';
   static String categories = '$baseUrl/category/';
   static String createoffer = '$baseUrl/offer/';
+  static String userdelete = '$baseUrl/user/account_delete/';
 }
 
 class NetworkSettings {

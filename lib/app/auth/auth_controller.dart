@@ -52,6 +52,14 @@ class AuthController extends GetxController {
     await storage.remove('token');
   }
 
+  Future<bool> userDelete() async {
+    BaseResponse response = await _dioClient.get(Urls.userdelete);
+    if (response.success == true) {
+      return true;
+    }
+    return false;
+  }
+
   Future<bool> login() async {
     var data = loginModel.toJson();
     BaseResponse response = await _dioClient.post(Urls.login, data: data);

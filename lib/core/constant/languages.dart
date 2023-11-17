@@ -45,7 +45,12 @@ class Languages extends Translations {
           "fabric": "Kumaş",
           "checkyourcredentials": "Bilgilerinizi kontrol ediniz",
           "price": "Fiyat",
-          "fillrequiredfields": "Lütfen boş alanları doldurunuz"
+          "fillrequiredfields": "Lütfen boş alanları doldurunuz",
+          "delete_account": "Hesabı Sil",
+          "yes": "Evet",
+          "no": "Hayır",
+          "are_you_sure_user_delete":
+              "Hesabı silmek istediğinizden emin misiniz?"
         },
         "en_US": {
           "signup": "Sign Up",
@@ -89,7 +94,12 @@ class Languages extends Translations {
           "fabric": "Fabric",
           "checkyourcredentials": "Check your credentials",
           "price": "Price",
-          "fillrequiredfields": "Fill required fields"
+          "fillrequiredfields": "Fill required fields",
+          "delete_account": "Delete Account",
+          "yes": "Yes",
+          "no": "No",
+          "are_you_sure_user_delete":
+              "Are you sure you want to delete the account?"
         },
       };
 }
