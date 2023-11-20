@@ -67,6 +67,10 @@ class AuthController extends GetxController {
       TokenModel loginResponseModel = TokenModel.fromMap(response.data);
       setToken(loginResponseModel.access ?? '');
       await storage.write("token", loginResponseModel.access);
+
+      storage.write('savedemail', loginModel.username.toString());
+      storage.write('savedpassword', loginModel.password.toString());
+
       var profilersponse = await getProfile();
       return profilersponse;
     }

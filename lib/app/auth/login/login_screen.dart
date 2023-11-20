@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:persangroup_mobile/app/auth/auth_controller.dart';
 import 'package:persangroup_mobile/app/auth/loader_controller.dart';
 import 'package:persangroup_mobile/core/component/base_button.dart';
@@ -22,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.find<AuthController>();
   final loaderController = Get.find<LoaderController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GetStorage storage = GetStorage();
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
@@ -81,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   BaseInput get emailArea => BaseInput(
+        initialValue: storage.read('savedemail') ?? "",
         focusNode: emailFocus,
         decoration: InputDecoration(
           border:
@@ -111,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   BaseInput get passwordArea => BaseInput(
+        initialValue: storage.read('savedpassword') ?? "",
         focusNode: passwordFocus,
         obsecure: obsecurePassword,
         decoration: InputDecoration(
