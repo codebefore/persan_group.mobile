@@ -362,13 +362,14 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
           // FocusScope.of(context).requestFocus(width2Focus);
         },
         onChanged: (String value) {
+          value = value.replaceAll(',', '.');
+
           if (double.parse(value) > 0) {
             productcontroller.products[productIndex].excel_cell_customer
                 ?.firstWhere((element) => element.cell == cell)
                 .selected_value_int = double.parse(value);
           }
         },
-
         validator: (value) => (value ?? '').isEmpty ? "empty_error".tr : null,
       );
   BaseDropDown dropdown(int productIndex, {String? cell}) => BaseDropDown(
