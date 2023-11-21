@@ -23,14 +23,32 @@ class _LoginScreenState extends State<LoginScreen> {
   final authController = Get.find<AuthController>();
   final loaderController = Get.find<LoaderController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   GetStorage storage = GetStorage();
   FocusNode emailFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
   bool obsecurePassword = true;
   final AuthController ac = Get.find();
+
   @override
   void initState() {
     super.initState();
+    if (storage.read('savedemail') != null &&
+        storage.read('savedemail') != "") {
+      email.text = storage.read('savedemail');
+      authController.loginModel.username = email.text;
+      authController.setLoginModel(authController.loginModel);
+    }
+
+    if (storage.read('savedpassword') != null &&
+        storage.read('savedpassword') != "") {
+      password.text = storage.read('savedpassword');
+      authController.loginModel.password = password.text;
+      authController.setLoginModel(authController.loginModel);
+    }
   }
 
   Future<void> validateAndSave() async {
@@ -83,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   BaseInput get emailArea => BaseInput(
-        initialValue: storage.read('savedemail') ?? "",
+        controller: email,
         focusNode: emailFocus,
         decoration: InputDecoration(
           border:
@@ -114,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
   BaseInput get passwordArea => BaseInput(
-        initialValue: storage.read('savedpassword') ?? "",
+        controller: password,
         focusNode: passwordFocus,
         obsecure: obsecurePassword,
         decoration: InputDecoration(
