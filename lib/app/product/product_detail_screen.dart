@@ -49,17 +49,31 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
 
     if (form?.validate() ?? false) {
       loadercontroller.setStatus(Status.loading);
-      bool success = await productcontroller.fetchCreateOffer(
-          productcontroller.products.indexWhere((element) => element.id == id));
-      loadercontroller.setStatus(Status.initial);
-      if (success != true) {
+      bool isTrue = await authcontroller.getProfile();
+      if (isTrue == true) {
+        bool success = await productcontroller.fetchCreateOffer(
+            productcontroller.products
+                .indexWhere((element) => element.id == id));
+        loadercontroller.setStatus(Status.initial);
+        if (success != true) {
+          Get.snackbar("Error", "fillrequiredfields".tr,
+              snackPosition: SnackPosition.TOP,
+              duration: const Duration(seconds: 5),
+              icon: const Icon(Icons.error, color: Colors.red),
+              overlayColor: Colors.black,
+              colorText: Colors.red);
+          loadercontroller.setStatus(Status.initial);
+        }
+      } else {
         Get.snackbar("Error", "fillrequiredfields".tr,
             snackPosition: SnackPosition.TOP,
             duration: const Duration(seconds: 5),
             icon: const Icon(Icons.error, color: Colors.red),
             overlayColor: Colors.black,
             colorText: Colors.red);
+        loadercontroller.setStatus(Status.initial);
       }
+
       // form?.reset();
     }
   }
