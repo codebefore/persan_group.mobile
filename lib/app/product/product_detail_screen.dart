@@ -125,7 +125,7 @@ class _CategoryDetailScreenState extends State<ProductDetailScreen> {
                       .firstWhere((element) => element.id == id)
                       .name ??
                   "",
-              textColor: Colors.white,
+              textColor: Colors.black,
             ),
             Container(
                 height: screenHeight * .7,

@@ -66,7 +66,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             logo,
             BaseText(
               title,
-              textColor: Colors.white,
+              textColor: Colors.black,
             ),
             Container(
                 height: screenHeight * .7,

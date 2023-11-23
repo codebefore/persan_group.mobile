@@ -204,6 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BaseButton(
             text: "logout".tr,
             width: screenWidth * .40,
+
             onTap: () async {
               loadercontroller.setStatus(Status.loading);
               await authcontoller.logout();
@@ -211,8 +212,8 @@ class _HomeScreenState extends State<HomeScreen> {
               await Get.toNamed(Routes.login);
             },
             bgColor: Colors.transparent,
-            textColor: Theme.of(context).colorScheme.background,
-            prefixIcon: const Icon(Icons.logout, color: Colors.white),
+            textColor: Colors.black,
+            prefixIcon: const Icon(Icons.logout, color: Colors.black),
           ),
         ],
       );
