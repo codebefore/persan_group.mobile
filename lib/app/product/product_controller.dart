@@ -136,10 +136,22 @@ class ProductController extends GetxController {
       double offerprice = double.parse(offerresponse.price!);
       double rate = double.parse(authcontroller.user.currency!.exchange_rate!);
       double currencyrate = offerprice / rate;
-      setPrice(currencyrate
-          .toString()
-          .substring(0, currencyrate.toString().indexOf('.') + 3));
-      return true;
+
+      String currencyRateString = currencyrate.toString();
+      int indexOfDot = currencyRateString.indexOf('.');
+
+      if (indexOfDot != -1) {
+        int endIndex = indexOfDot + 3;
+        if (endIndex <= currencyRateString.length) {
+          setPrice(currencyRateString.substring(0, endIndex));
+          return true;
+        } else {
+          setPrice(currencyRateString);
+          return true;
+        }
+      } else {
+        return false;
+      }
     }
     return false;
   }
